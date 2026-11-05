@@ -1,0 +1,5 @@
+sku,nama_produk,merek,kategori,jenis_bpjph,isi,harga,harga_promo,kuota_promo,notifikasi_bpom,cert_id,cert_status,cert_berlaku_sampai,catatan
+AY-SR-101,Ayunika Bright Serum,Ayunika,Serum wajah,D0001,30 ml,149000,129000,100,NA18241300123,,BELUM_ADA,,"Hero launch; pengajuan halal 2026-10-12, belum terbit"
+AY-BL-102,Ayunika Glow Body Lotion,Ayunika,Losion tubuh,D0001,250 ml,89000,,,NA18241300456,SERT-AY-102,AKTIF,2029-03-09,Satu-satunya SKU yang boleh diklaim halal
+AY-FW-103,Ayunika Gentle Cleanser,Ayunika,Sabun wajah,D0001,100 ml,65000,,,NA18241300789,,PENGAJUAN,,Diajukan 2026-09-15; belum ada nomor sertifikat
+AY-SC-104,Ayunika Coffee Scrub,Ayunika,Lulur tubuh,D0001,200 g,79000,,,NA18241200111,SERT-AY-104,KEDALUWARSA,2026-08-31,"Nomor ada dan tercetak di kemasan, tetapi sudah tidak berlaku"

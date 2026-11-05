@@ -1,0 +1,48 @@
+# ---- state runtime: jangan pernah dipublikasikan ----
+engine/.audit/
+engine/.cache_bpjph/
+agents/.wb/
+agents/.env
+.env
+
+# ---- catatan internal, bukan bagian submission ----
+# skill di .workbuddy-ai/skills/ TETAP ikut (itu bagian dari proyek)
+.workbuddy-ai/memory/
+
+# ---- data yang memuat data pribadi (NIK + nomor telepon) ----
+# mock, tapi formatnya nyata. Jangan pernah masuk repo publik.
+dataset/shared/contacts.csv
+dataset_halal/shared/contacts.csv
+
+# ---- materi pihak ketiga ----
+Tencent_Cloud_Hackathon_Indonesia_2026_Handbook.pdf
+# seluruh src/: ekstrak teks dari materi pihak ketiga, turunan dari PDF di atas
+research/src/
+
+# ---- aset demo video ----
+# Demo mp4 + pembangunnya (capture/build/transcript) tidak ikut repo; storyboard
+# di submission_templates/ mendokumentasikan prosesnya.
+video/
+
+# ---- dataset panitia (bukan milik kami untuk dipublikasikan) ----
+dataset/
+
+# ---- folder karantina sementara: jangan ikut repo ----
+trash/
+
+# ---- sisa build ----
+__pycache__/
+*.pyc
+submission_templates/shots/_html/
+*.log
+
+# ---- lapisan MCP ----
+# venv memuat SDK, bukan bagian repo.
+.venv/
+# kunci approval manusia. Kalau ini ikut ter-commit, gerbang approval jadi
+# formalitas: siapa pun yang bisa membaca repo bisa menyetujui konten.
+.approval_key
+# registri hash kunci per approver (JSON {"Nama": "<sha256>"}). Hash bukan
+# rahasia sebesar kunci aslinya, tetap tidak masuk repo: isinya berubah tiap
+# rotasi dan bukan bagian submission.
+.approver_keys

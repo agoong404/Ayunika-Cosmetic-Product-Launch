@@ -1,0 +1,4 @@
+cert_id,sku_tercakup,jenis,nomor,penerbit,status,terbit,berlaku_sampai,cakupan
+KL-101-DERM,AY-SR-101,DERMATOLOGICALLY_TESTED,DT-2026-0451,Lab Uji Independen (mock),AKTIF,2026-02-10,2028-02-09,"Uji iritasi 30 relawan"
+KL-103-DERM,AY-FW-103,DERMATOLOGICALLY_TESTED,DT-2025-0312,Lab Uji Independen (mock),AKTIF,2025-07-01,2027-06-30,"Uji iritasi 30 relawan"
+KL-104-ORG,AY-SC-104,USDA_ORGANIC,USDA-ORG-2023-7781,USDA-accredited certifier (mock),KEDALUWARSA,2023-06-01,2026-05-31,"Biji kopi & formulasi"

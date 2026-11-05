@@ -1,0 +1,72 @@
+// Diagram Arsitektur — Lolos · Challenge C (The Creator Agent)
+// Versi final: diagram/architecture_challenge_c.png (2960×2600) + .svg
+// File ini adalah sumber Mermaid yang setara — untuk yang butuh teks, bukan gambar.
+// Render: https://mermaid.live → paste → Export PNG (skala 2x)
+
+%%{init: {'theme':'neutral', 'flowchart': {'curve':'linear'}}}%%
+flowchart TB
+    subgraph SRC["📚 Sumber fakta & aturan (dibaca, bukan dipercaya begitu saja)"]
+        S1["BRF-101<br/>Brief<br/><i>Sasaran, platform, pesan kunci</i>"]
+        S2["PS-101..104<br/>Lembar produk<br/><i>Satu-satunya sumber fakta</i>"]
+        S3["R-01..R-21<br/>Rulebook<br/><i>Dasar penolakan, per nomor</i>"]
+        S4["tone guide<br/>Nada merek<br/><i>Hangat, jujur, tanpa janji</i>"]
+        S5["3 platform<br/>Spesifikasi<br/><i>Durasi, karakter, struktur</i>"]
+    end
+
+    S1 --> P
+    S2 --> P
+    S4 --> P
+    S5 --> P
+
+    P["<b>1. PLANNER</b><br/>Brief → rencana per platform<br/>sudut · struktur · fakta mana yang dipakai<br/><i>Tidak menulis kalimat — hanya kerangka</i>"]
+
+    P --> W
+
+    W["<b>2. WRITER</b><br/>Menulis draf dari kerangka + fakta lembar produk<br/>Memperbaiki draf yang ditolak Reviewer<br/><i>Tidak menambah fakta di luar lembar produk</i>"]
+
+    W -->|"draf v1"| R
+
+    R["<b>3. REVIEWER — dua lapis</b><br/><b>Lapis 1 (kode):</b> R-03 klaim halal vs registri · R-06 harga/angka/kuota<br/>frasa terlarang · disclaimer · emoji · batas platform<br/><b>Lapis 2 (model):</b> R-04 klaim tak terverifikasi · R-07 superlatif di luar daftar<br/>R-05 testimoni · R-10 nada · R-12 kompetitor<br/><i>Setiap temuan wajib mengutip teks yang ada di draf</i>"]
+
+    S3 -.->|"mengikat langsung"| R
+
+    R -->|"✗ TOLAK (R-xx)<br/>iterasi 1/3 → 2/3"| W
+
+    R -->|"✓ LOLOS"| A
+
+    R -->|"iterasi 3 masih gagal"| E["<b>Eskalasi ke manusia</b><br/>Sisa masalah + riwayat versi<br/><i>Tidak ada yang terbit</i>"]
+
+    A["<b>4. PERSETUJUAN MANUSIA</b><br/>Konten final + ringkasan verifikasi Reviewer<br/>token plan_id sekali pakai"]
+
+    A -->|"disetujui"| PUB["<b>5. PUBLIKASI</b><br/>TikTok · Instagram · Marketplace"]
+
+    A -->|"ditolak / diubah"| W
+
+    subgraph LOG["🧾 Audit log — append-only, hash chain"]
+        L1["plan → draf → tolakan (+aturan) → revisi → persetujuan → publikasi"]
+        L2["Setiap entri menyimpan hash entri sebelumnya.<br/>Mengubah satu baris memutus rantai dan terdeteksi."]
+    end
+
+    P -.-> L1
+    W -.-> L1
+    R -.-> L1
+    A -.-> L1
+
+    subgraph GUARD["🔒 Yang tidak bisa dilewati"]
+        G1["Tidak ada publikasi tanpa plan APPROVED<br/><i>dikunci di eksekusi, bukan di prompt</i>"]
+        G2["Writer tidak menerima rulebook<br/><i>penulis bukan pengawas dirinya sendiri</i>"]
+        G3["Temuan model tanpa kutipan dibuang<br/><i>anti-halusinasi</i>"]
+        G4["Maksimal 3 iterasi, lalu eskalasi<br/><i>tidak berputar tanpa akhir</i>"]
+    end
+
+    classDef src fill:#f8fafc,stroke:#cbd5e1,color:#0f172a
+    classDef agent fill:#ffffff,stroke:#94a3b8,color:#0f172a
+    classDef gate fill:#eff6ff,stroke:#60a5fa,color:#0f172a
+    classDef stop fill:#fef2f2,stroke:#f87171,color:#0f172a
+    classDef log fill:#f0fdf4,stroke:#4ade80,color:#0f172a
+
+    class S1,S2,S3,S4,S5 src
+    class P,W,R agent
+    class A,PUB gate
+    class E stop
+    class L1,L2 log

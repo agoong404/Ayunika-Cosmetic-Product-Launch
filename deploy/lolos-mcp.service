@@ -1,0 +1,43 @@
+[Unit]
+Description=Lolos MCP server (Streamable HTTP)
+After=network.target
+
+[Service]
+Type=simple
+User=lolos
+Group=lolos
+WorkingDirectory=/home/lolos/app
+
+# Ganti nilai di bawah SEBELUM menjalankan service. Jangan pernah commit
+# nilai aslinya ke repo.
+Environment="MCP_TOKEN=REPLACE_WITH_64_HEX"
+
+# Kunci approval TIDAK lewat env. Satu kunci per manusia; server hanya menyimpan
+# SHA-256-nya. Buat kunci + hash-nya:
+#   python3 -m mcp_server.gen_approver_keys Nama1 Nama2
+# lalu simpan JSON {"Nama": "<sha256>"} di /home/lolos/app/.approver_keys
+# (gitignored — jangan pernah masuk repo, jangan pernah dikommit).
+#
+# Jalur legacy masih bisa: MCP_APPROVAL_KEY + MCP_APPROVAL_KEY_OWNER, tetapi
+# hanya untuk satu approver.
+
+# Wajib untuk domain publik. Tanpa ini setiap permintaan dibalas 421.
+Environment="MCP_ALLOWED_HOSTS=mcp.contoh.com"
+
+Environment="MCP_HOST=127.0.0.1"
+Environment="MCP_PORT=8000"
+Environment="MCP_FORWARDED_ALLOW_IPS=127.0.0.1"
+
+ExecStart=/home/lolos/app/.venv/bin/python -m mcp_server
+Restart=always
+RestartSec=3
+
+# Pengerasan dasar: proses hanya perlu menulis ke folder audit.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/home/lolos/app/engine/.audit
+
+[Install]
+WantedBy=multi-user.target

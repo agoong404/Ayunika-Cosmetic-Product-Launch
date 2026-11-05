@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "lolos": {
+      "type": "stdio",
+      "command": "C:/.Hackathon Project/.venv/Scripts/python.exe",
+      "args": ["-m", "mcp_server.stdio"],
+      "cwd": "C:/.Hackathon Project",
+      "env": {
+        "PYTHONPATH": "C:/.Hackathon Project",
+        "PYTHONIOENCODING": "utf-8"
+      },
+      "timeout": 30000
+    }
+  }
+}

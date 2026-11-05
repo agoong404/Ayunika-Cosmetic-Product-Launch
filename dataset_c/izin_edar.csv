@@ -1,0 +1,5 @@
+sku,jenis,nomor,kategori_izin,pemilik,status,terbit,berlaku_sampai,catatan
+AY-SR-101,NOTIFIKASI_KOSMETIK,NA18241300123,D0001,PT Ayunika Beauty Nusantara,AKTIF,2024-03-12,2027-03-11,"Kosmetik memakai nomor notifikasi, bukan izin edar; istilah 'izin edar' dipakai internal"
+AY-BL-102,NOTIFIKASI_KOSMETIK,NA18241300456,D0001,PT Ayunika Beauty Nusantara,AKTIF,2025-05-21,2028-05-20,
+AY-FW-103,NOTIFIKASI_KOSMETIK,NA18241300789,D0001,PT Ayunika Beauty Nusantara,AKTIF,2025-09-16,2028-09-15,
+AY-SC-104,NOTIFIKASI_KOSMETIK,NA18241200111,D0001,PT Ayunika Beauty Nusantara,KEDALUWARSA,2022-12-01,2025-11-30,"Nomor masih tercetak di kemasan, tetapi masa berlaku sudah habis"

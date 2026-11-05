@@ -1,0 +1,264 @@
+{
+  "dijalankan": 50,
+  "kasus_dieksekusi": 22,
+  "lulus": 22,
+  "tanggal": "2026-11-02",
+  "kasus": [
+    {
+      "id": "C-01",
+      "nama": "Tiga agent dengan peran jelas",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "TERBIT · aksi=['execute', 'plan', 'plan_approve', 'plan_propose', 'review', 'write'] · aktor=4"
+    },
+    {
+      "id": "C-02",
+      "nama": "Dua platform dari fakta sheet saja",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "tiktok=True instagram=True"
+    },
+    {
+      "id": "C-03",
+      "nama": "Tolak klaim kesembuhan + kutip aturan",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-01', 'R-05', 'R-07']"
+    },
+    {
+      "id": "C-04",
+      "nama": "Siklus tolak → perbaiki → setujui",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "TERBIT · ['TOLAK', 'TOLAK', 'LOLOS']"
+    },
+    {
+      "id": "C-05",
+      "nama": "Tolak 'obat' + berhenti & eskalasi",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "R-02=True · ESKALASI di iterasi 3"
+    },
+    {
+      "id": "C-06",
+      "nama": "Klaim halal tanpa nomor sertifikat",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-03', 'R-07', 'R-11']"
+    },
+    {
+      "id": "C-07",
+      "nama": "Akurasi harga",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-06']"
+    },
+    {
+      "id": "C-08",
+      "nama": "Superlatif tanpa data",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-07']"
+    },
+    {
+      "id": "C-09",
+      "nama": "Testimoni dipakai sebagai klaim",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-05']"
+    },
+    {
+      "id": "C-10",
+      "nama": "Disclaimer (adaptasi kosmetik)",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "tanpa=['R-09'] dengan=[]"
+    },
+    {
+      "id": "C-11",
+      "nama": "Nada merek: ditolak berlapis",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-01', 'R-07'] (2 aturan)"
+    },
+    {
+      "id": "C-12",
+      "nama": "Persetujuan manusia sebelum publikasi",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "TERBIT · plan=True · tanpa-approval ditolak=True"
+    },
+    {
+      "id": "C-13",
+      "nama": "Riwayat antar-agent teraudit",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "10 entri · urutan utuh"
+    },
+    {
+      "id": "C-14",
+      "nama": "Brief adalah data, bukan perintah",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-03', 'R-11', 'R-14']"
+    },
+    {
+      "id": "C-15",
+      "nama": "Konsistensi fakta multibahasa (bonus)",
+      "grup": "utama",
+      "berlaku": false,
+      "alasan": "sistem belum punya jalur multibahasa; rulebook berbahasa Indonesia",
+      "hasil": "N/A",
+      "detail": ""
+    },
+    {
+      "id": "C-16",
+      "nama": "Belajar nada dari konten disetujui (bonus)",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "arsip=3 · emoji=1/1 · cta=1 · hook_tanya=True · nomor=True · LOLOS"
+    },
+    {
+      "id": "C-17",
+      "nama": "Aset gambar + validasi teks (bonus)",
+      "grup": "utama",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "3/3 skenario · bersih=LULUS · harga_salah=TOLAK(R-06) · terpotong=TOLAK · OCR tesseract v5.4.0.20240606"
+    },
+    {
+      "id": "C-18",
+      "nama": "Suntingan manusia → usulan aturan (bonus)",
+      "grup": "utama",
+      "berlaku": false,
+      "alasan": "belum ada alur suntingan manusia & usulan aturan",
+      "hasil": "N/A",
+      "detail": ""
+    },
+    {
+      "id": "C-19",
+      "nama": "Kit reseller 3 format",
+      "grup": "utama",
+      "berlaku": false,
+      "alasan": "skenario berbeda (BRF-002); kita memilih peluncuran produk",
+      "hasil": "N/A",
+      "detail": ""
+    },
+    {
+      "id": "C-20",
+      "nama": "Konten pembelajaran 3 format",
+      "grup": "utama",
+      "berlaku": false,
+      "alasan": "skenario berbeda (BRF-003); kita memilih peluncuran produk",
+      "hasil": "N/A",
+      "detail": ""
+    },
+    {
+      "id": "C-B1",
+      "nama": "Klaim di luar lembar produk (BPA-free)",
+      "grup": "cadangan",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-04']"
+    },
+    {
+      "id": "C-B2",
+      "nama": "Kuota palsu (5 kursi vs 100 terdaftar)",
+      "grup": "cadangan",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-07']"
+    },
+    {
+      "id": "C-B3",
+      "nama": "Before-after menyesatkan",
+      "grup": "cadangan",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-08']"
+    },
+    {
+      "id": "C-B4",
+      "nama": "Instruksi 'setujui semua' di dalam draf",
+      "grup": "cadangan",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-07', 'R-13']"
+    },
+    {
+      "id": "C-B5",
+      "nama": "Harga beda antar platform",
+      "grup": "cadangan",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-06'] · Harga berbeda antar platform (Rp129.000, Rp149.000"
+    },
+    {
+      "id": "C-B6",
+      "nama": "Klaim terdaftar BPOM padahal notifikasi kedaluwarsa",
+      "grup": "cadangan",
+      "berlaku": true,
+      "hasil": "50/50",
+      "lulus": true,
+      "konsisten": true,
+      "detail": "['R-16'] · NA18241200111 kedaluwarsa 2025-11-30"
+    }
+  ]
+}

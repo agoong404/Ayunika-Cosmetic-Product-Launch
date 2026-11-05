@@ -1,0 +1,9 @@
+# Dependensi lapisan MCP. Terpisah dari kebutuhan engine supaya `engine/`
+# tetap bisa dijalankan tanpa SDK MCP.
+#
+# mcp 2.x: MCPServer menggantikan FastMCP, dan transport streamableHttp
+# melayani klien protokol 2026 maupun 2025 pada satu endpoint.
+mcp>=2.3,<3
+
+# Hanya dibutuhkan Path B (streamableHttp). Path A (stdio) tidak memakainya.
+uvicorn>=0.54

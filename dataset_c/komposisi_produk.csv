@@ -1,0 +1,37 @@
+sku,urutan,bahan_inci,fungsi,kadar_persen
+AY-SR-101,1,Aqua,Pelarut,
+AY-SR-101,2,Niacinamide,Bahan aktif,5
+AY-SR-101,3,Ascorbic Acid,Bahan aktif,10
+AY-SR-101,4,Sodium Hyaluronate,Bahan aktif,1
+AY-SR-101,5,Rosa Damascena Flower Water,Pelarut,
+AY-SR-101,6,Glycerin,Humektan,
+AY-SR-101,7,Phenoxyethanol,Pengawet,1.0
+AY-SR-101,8,Xanthan Gum,Pengental,
+AY-SR-101,9,Disodium EDTA,Pengkelat,
+AY-SR-101,10,Citric Acid,Pengatur pH,
+AY-BL-102,1,Aqua,Pelarut,
+AY-BL-102,2,Glycerin,Humektan,8
+AY-BL-102,3,Ceramide NP,Bahan aktif,2
+AY-BL-102,4,Butyrospermum Parkii (Shea) Butter,Emolien,5
+AY-BL-102,5,Cetearyl Alcohol,Emolien,
+AY-BL-102,6,Paraffinum Liquidum,Emolien,
+AY-BL-102,7,Methylparaben,Pengawet,0.2
+AY-BL-102,8,Propylparaben,Pengawet,0.1
+AY-BL-102,9,Fragrance,Pewangi,
+AY-BL-102,10,Tocopherol,Antioksidan,
+AY-FW-103,1,Aqua,Pelarut,
+AY-FW-103,2,Sodium Cocoyl Glycinate,Surfaktan,12
+AY-FW-103,3,Glycerin,Humektan,
+AY-FW-103,4,Panthenol,Pelembap,2
+AY-FW-103,5,Allantoin,Pelembut,0.5
+AY-FW-103,6,Sodium Benzoate,Pengawet,0.5
+AY-FW-103,7,Potassium Sorbate,Pengawet,0.3
+AY-FW-103,8,Citric Acid,Pengatur pH,
+AY-SC-104,1,Coffea Arabica Seed Powder,Eksfolian,15
+AY-SC-104,2,Arenga Saccharifera (Gula Aren),Eksfolian,10
+AY-SC-104,3,Cocos Nucifera Oil,Emolien,
+AY-SC-104,4,Aqua,Pelarut,
+AY-SC-104,5,Glycerin,Humektan,
+AY-SC-104,6,Phenoxyethanol,Pengawet,0.8
+AY-SC-104,7,Tocopherol,Antioksidan,
+AY-SC-104,8,Fragrance,Pewangi,

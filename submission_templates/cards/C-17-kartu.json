@@ -1,0 +1,264 @@
+{
+  "ukuran": [
+    1080,
+    1350
+  ],
+  "skala": 1,
+  "sha1": "369a1dd13582",
+  "blok": {
+    "merek": {
+      "x": 80,
+      "y": 70,
+      "w": 920,
+      "h": 60,
+      "fs": 46,
+      "butuh_h": 55,
+      "meluber": false,
+      "teks": "AYUNIKA",
+      "jenis": "kata"
+    },
+    "nama": {
+      "x": 80,
+      "y": 150,
+      "w": 920,
+      "h": 130,
+      "fs": 96,
+      "butuh_h": 115,
+      "meluber": false,
+      "teks": "BRIGHT SERUM",
+      "jenis": "kata"
+    },
+    "aktif": {
+      "x": 80,
+      "y": 300,
+      "w": 920,
+      "h": 60,
+      "fs": 40,
+      "butuh_h": 48,
+      "meluber": false,
+      "teks": "Niacinamide 5% + Vitamin C 10%",
+      "jenis": "angka"
+    },
+    "harga_label": {
+      "x": 100,
+      "y": 468,
+      "w": 860,
+      "h": 32,
+      "fs": 26,
+      "butuh_h": 31,
+      "meluber": false,
+      "teks": "HARGA RESMI",
+      "jenis": "kata"
+    },
+    "harga": {
+      "x": 100,
+      "y": 505,
+      "w": 860,
+      "h": 100,
+      "fs": 84,
+      "butuh_h": 100,
+      "meluber": false,
+      "teks": "Rp149.000",
+      "jenis": "harga"
+    },
+    "isi": {
+      "x": 80,
+      "y": 655,
+      "w": 920,
+      "h": 60,
+      "fs": 40,
+      "butuh_h": 48,
+      "meluber": false,
+      "teks": "30 ml",
+      "jenis": "isi"
+    },
+    "bpom": {
+      "x": 80,
+      "y": 740,
+      "w": 920,
+      "h": 60,
+      "fs": 40,
+      "butuh_h": 48,
+      "meluber": false,
+      "teks": "NA18241300123",
+      "jenis": "bpom"
+    },
+    "peringatan": {
+      "x": 80,
+      "y": 1120,
+      "w": 920,
+      "h": 90,
+      "fs": 34,
+      "butuh_h": 40,
+      "meluber": false,
+      "teks": "Hasil dapat berbeda pada setiap orang.",
+      "jenis": "kata"
+    },
+    "produsen": {
+      "x": 80,
+      "y": 1240,
+      "w": 920,
+      "h": 50,
+      "fs": 32,
+      "butuh_h": 38,
+      "meluber": false,
+      "teks": "PT Ayunika Beauty Nusantara",
+      "jenis": "kata"
+    }
+  },
+  "manifest": {
+    "id": "C-17",
+    "sku": "AY-SR-101",
+    "ukuran": [
+      1080,
+      1350
+    ],
+    "blok": [
+      {
+        "kunci": "merek",
+        "teks": "AYUNIKA",
+        "jenis": "kata",
+        "kotak": [
+          80,
+          70,
+          920,
+          60
+        ],
+        "font": 46,
+        "tebal": 700,
+        "_fs": 46,
+        "_isi": "AYUNIKA",
+        "_butuh": 55
+      },
+      {
+        "kunci": "nama",
+        "teks": "BRIGHT SERUM",
+        "jenis": "kata",
+        "kotak": [
+          80,
+          150,
+          920,
+          130
+        ],
+        "font": 96,
+        "tebal": 800,
+        "_fs": 96,
+        "_isi": "BRIGHT SERUM",
+        "_butuh": 115
+      },
+      {
+        "kunci": "aktif",
+        "teks": "Niacinamide 5% + Vitamin C 10%",
+        "jenis": "angka",
+        "kotak": [
+          80,
+          300,
+          920,
+          60
+        ],
+        "font": 40,
+        "tebal": 400,
+        "_fs": 40,
+        "_isi": "Niacinamide 5% + Vitamin C 10%",
+        "_butuh": 48
+      },
+      {
+        "kunci": "harga_label",
+        "teks": "HARGA RESMI",
+        "jenis": "kata",
+        "kotak": [
+          100,
+          468,
+          860,
+          32
+        ],
+        "font": 26,
+        "tebal": 600,
+        "_fs": 26,
+        "_isi": "HARGA RESMI",
+        "_butuh": 31
+      },
+      {
+        "kunci": "harga",
+        "teks": "Rp149.000",
+        "jenis": "harga",
+        "kotak": [
+          100,
+          505,
+          860,
+          100
+        ],
+        "font": 88,
+        "tebal": 800,
+        "_fs": 84,
+        "_isi": "Rp149.000",
+        "_butuh": 100
+      },
+      {
+        "kunci": "isi",
+        "teks": "30 ml",
+        "jenis": "isi",
+        "kotak": [
+          80,
+          655,
+          920,
+          60
+        ],
+        "font": 40,
+        "tebal": 400,
+        "_fs": 40,
+        "_isi": "30 ml",
+        "_butuh": 48
+      },
+      {
+        "kunci": "bpom",
+        "teks": "NA18241300123",
+        "jenis": "bpom",
+        "kotak": [
+          80,
+          740,
+          920,
+          60
+        ],
+        "font": 40,
+        "tebal": 400,
+        "mono": true,
+        "_fs": 40,
+        "_isi": "NA18241300123",
+        "_butuh": 48
+      },
+      {
+        "kunci": "peringatan",
+        "teks": "Hasil dapat berbeda pada setiap orang.",
+        "jenis": "kata",
+        "kotak": [
+          80,
+          1120,
+          920,
+          90
+        ],
+        "font": 34,
+        "tebal": 400,
+        "_fs": 34,
+        "_isi": "Hasil dapat berbeda pada setiap orang.",
+        "_butuh": 40
+      },
+      {
+        "kunci": "produsen",
+        "teks": "PT Ayunika Beauty Nusantara",
+        "jenis": "kata",
+        "kotak": [
+          80,
+          1240,
+          920,
+          50
+        ],
+        "font": 32,
+        "tebal": 400,
+        "_fs": 32,
+        "_isi": "PT Ayunika Beauty Nusantara",
+        "_butuh": 38
+      }
+    ]
+  }
+}

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="432" viewBox="0 0 760 432" font-family="Segoe UI, Inter, system-ui, sans-serif">
+<defs><filter id="sh" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="1.5" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.07"/></filter></defs>
+<rect width="760" height="432" fill="#ffffff"/>
+<rect x="0" y="0" width="10" height="432" fill="#4338ca"/>
+<text x="52" y="96" font-size="58" fill="#0f172a" font-weight="700" text-anchor="start" letter-spacing="2">LOLOS</text>
+<text x="52" y="130" font-size="16.5" fill="#64748b" font-weight="400" text-anchor="start">Reviewer konten peluncuran kosmetik: tolak, perbaiki, setujui.</text>
+<rect x="52" y="176" width="132" height="46" rx="10" fill="#e0e7ff" stroke="#4338ca" stroke-width="1.3" filter="url(#sh)"/>
+<circle cx="72" cy="199.0" r="10" fill="#4338ca" opacity="0.9"/>
+<text x="72" y="203.0" font-size="11.5" fill="#ffffff" font-weight="700" text-anchor="middle">1</text>
+<text x="90" y="203.5" font-size="13" fill="#0f172a" font-weight="600">Planner</text>
+<rect x="240" y="176" width="132" height="46" rx="10" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.3" filter="url(#sh)"/>
+<circle cx="260" cy="199.0" r="10" fill="#1d4ed8" opacity="0.9"/>
+<text x="260" y="203.0" font-size="11.5" fill="#ffffff" font-weight="700" text-anchor="middle">2</text>
+<text x="278" y="203.5" font-size="13" fill="#0f172a" font-weight="600">Writer</text>
+<rect x="428" y="176" width="132" height="46" rx="10" fill="#fef3c7" stroke="#b45309" stroke-width="1.3" filter="url(#sh)"/>
+<circle cx="448" cy="199.0" r="10" fill="#b45309" opacity="0.9"/>
+<text x="448" y="203.0" font-size="11.5" fill="#ffffff" font-weight="700" text-anchor="middle">3</text>
+<text x="466" y="203.5" font-size="13" fill="#0f172a" font-weight="600">Reviewer</text>
+<line x1="188" y1="199.0" x2="236" y2="199.0" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#ar)"/>
+<line x1="376" y1="199.0" x2="424" y2="199.0" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#ar)"/>
+<path d="M 494.0 222 V 248 H 306.0 V 226" fill="none" stroke="#d97706" stroke-width="1.8" stroke-dasharray="6 4" marker-end="url(#aa)"/>
+<text x="400.0" y="242" font-size="10.5" fill="#b45309" font-weight="600" text-anchor="middle">TOLAK (R-xx) · maks 3 iterasi</text>
+<defs>
+  <marker id="ar" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+    <path d="M0.5 0.5 L9.5 5 L0.5 9.5 z" fill="#94a3b8"/></marker>
+  <marker id="aa" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+    <path d="M0.5 0.5 L9.5 5 L0.5 9.5 z" fill="#d97706"/></marker>
+</defs>
+<rect x="52" y="286" width="656" height="66" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.2"/>
+<rect x="76" y="302" width="163" height="34" rx="9" fill="#ffffff" stroke="#15803d" stroke-opacity="0.35" stroke-width="1.2"/>
+<circle cx="89" cy="319" r="4.5" fill="#15803d" opacity="0.85"/>
+<text x="100" y="323" font-size="11" fill="#334155" font-weight="600" text-anchor="start">20 kasus × 50 ulangan</text>
+<rect x="250.79999999999998" y="302" width="156" height="34" rx="9" fill="#ffffff" stroke="#1d4ed8" stroke-opacity="0.35" stroke-width="1.2"/>
+<circle cx="263.79999999999995" cy="319" r="4.5" fill="#1d4ed8" opacity="0.85"/>
+<text x="274.79999999999995" y="323" font-size="11" fill="#334155" font-weight="600" text-anchor="start">21 aturan R-01..R-21</text>
+<rect x="418.79999999999995" y="302" width="129" height="34" rx="9" fill="#ffffff" stroke="#7c3aed" stroke-opacity="0.35" stroke-width="1.2"/>
+<circle cx="431.79999999999995" cy="319" r="4.5" fill="#7c3aed" opacity="0.85"/>
+<text x="442.79999999999995" y="323" font-size="11" fill="#334155" font-weight="600" text-anchor="start">audit hash-chain</text>
+<rect x="559.5999999999999" y="302" width="129" height="34" rx="9" fill="#ffffff" stroke="#4338ca" stroke-opacity="0.35" stroke-width="1.2"/>
+<circle cx="572.5999999999999" cy="319" r="4.5" fill="#4338ca" opacity="0.85"/>
+<text x="583.5999999999999" y="323" font-size="11" fill="#334155" font-weight="600" text-anchor="start">approval manusia</text>
+<text x="52" y="392" font-size="11.5" fill="#64748b" font-weight="400" text-anchor="start">Challenge C — The Creator Agent · Tencent Cloud Hackathon Indonesia 2026</text>
+<text x="708" y="392" font-size="11.5" fill="#4338ca" font-weight="600" text-anchor="end">bodycare &amp; beautycare</text>
+</svg>

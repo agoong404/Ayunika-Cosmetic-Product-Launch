@@ -1,0 +1,26 @@
+{
+  "catatan": "Contoh konten yang PERNAH disetujui. Dipakai Writer untuk belajar nada; bukan sumber fakta. Semua klaim di sini sudah lolos Reviewer.",
+  "posts": [
+    {
+      "id": "AP-001",
+      "platform": "instagram",
+      "produk": "AY-BL-102",
+      "teks": "Kulit kering setelah seharian di ruang ber-AC? Glow Body Lotion mengandung ceramide NP dan shea butter, melembapkan hingga 24 jam. Teksturnya ringan dan cepat meresap, jadi nggak lengket walau langsung pakai baju. Bersertifikat halal ID32110084875141025. Hasil dapat berbeda pada setiap orang. 🤍",
+      "alasan_lolos": "Fakta dari PS-102, nomor sertifikat valid, ada disclaimer, 1 emoji"
+    },
+    {
+      "id": "AP-002",
+      "platform": "tiktok",
+      "produk": "AY-FW-103",
+      "teks": "Sabun wajah yang nggak bikin kering — pH 5,5 dengan amino acid surfactant dan panthenol. Cocok dipakai pagi dan malam. Cukup satu pump, busanya lembut.",
+      "alasan_lolos": "Tanpa klaim halal (belum terbit), tanpa janji hasil, 0 emoji"
+    },
+    {
+      "id": "AP-003",
+      "platform": "marketplace",
+      "produk": "AY-SC-104",
+      "teks": "Ayunika Coffee Scrub 200 g — lulur kopi robusta dan gula aren. Membantu mengangkat sel kulit mati. Notifikasi BPOM NA18241200111.",
+      "alasan_lolos": "Fakta sesuai PS-104, nomor BPOM dicantumkan, tanpa klaim halal"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+bahan,nama_inci,batas_persen,jenis_batas,dasar
+Phenoxyethanol,Phenoxyethanol,1.0,maksimum,"PerBPOM 23/2019 Lampiran (selaras EU Annex V)"
+Methylparaben,Methylparaben,0.4,maksimum,"PerBPOM 23/2019 Lampiran (selaras EU Annex V)"
+Propylparaben,Propylparaben,0.14,maksimum,"PerBPOM 23/2019 Lampiran (selaras EU Annex V)"
+Paraben total,"Methylparaben; Propylparaben; Ethylparaben; Butylparaben",0.8,total,"PerBPOM 23/2019 Lampiran (jumlah paraben sebagai asam)"
+Sodium benzoate,Sodium benzoate,0.5,maksimum (sebagai asam),"PerBPOM 23/2019 Lampiran (selaras EU Annex V)"
+Potassium sorbate,Potassium sorbate,0.6,maksimum (sebagai asam),"PerBPOM 23/2019 Lampiran (selaras EU Annex V)"
+Chlorphenesin,Chlorphenesin,0.3,maksimum,"PerBPOM 23/2019 Lampiran (selaras EU Annex V)"
+DMDM hydantoin,DMDM Hydantoin,0.6,maksimum,"PerBPOM 23/2019 Lampiran (selaras EU Annex V)"
