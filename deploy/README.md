@@ -1,5 +1,8 @@
 # Deploy — Path B (server publik)
 
+> **Paling cepat:** [`RAILWAY.md`](RAILWAY.md) — deploy dari GitHub tanpa VPS,
+> nginx, atau certbot. Berkas di folder ini dipakai kalau memilih VPS/Docker.
+
 Path A (`stdio`) hanya bekerja bila proses berjalan di mesin yang sama dengan
 WorkBuddy. Untuk "repo ini jadi situs", server harus punya URL HTTPS publik.
 
