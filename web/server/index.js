@@ -246,6 +246,10 @@ async function layaniStatis(res, pathname) {
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
   try {
+    // Tanpa token, tanpa sentuh MCP: dipakai healthcheck Railway.
+    if (url.pathname === "/health") {
+      return kirim(res, 200, { status: "ok", service: "lolos-web" });
+    }
     if (url.pathname.startsWith("/api/")) {
       return await tanganiApi(req, res, url);
     }
