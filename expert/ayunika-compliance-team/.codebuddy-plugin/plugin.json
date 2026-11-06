@@ -42,9 +42,18 @@
   },
   "plugin": "ayunika-compliance-team",
   "tags": [
-    { "en": "Multi-Platform Content", "zh": "多平台内容" },
-    { "en": "Rule Compliance", "zh": "规则合规" },
-    { "en": "Human Approval", "zh": "人工审批" }
+    {
+      "en": "Multi-Platform Content",
+      "zh": "多平台内容"
+    },
+    {
+      "en": "Rule Compliance",
+      "zh": "规则合规"
+    },
+    {
+      "en": "Human Approval",
+      "zh": "人工审批"
+    }
   ],
   "quickPrompts": [
     {
@@ -63,29 +72,53 @@
   "members": [
     {
       "id": "ayunika-team-lead",
-      "displayName": { "en": "Rani", "zh": "拉妮" },
-      "profession": { "en": "Compliance Lead", "zh": "合规组长" },
+      "displayName": {
+        "en": "Rani (Ayunika team lead)",
+        "zh": "拉妮（Ayunika 合规组长）"
+      },
+      "profession": {
+        "en": "Compliance Lead",
+        "zh": "合规组长"
+      },
       "avatar": "avatars/ayunika-team-lead.png",
       "role": "lead"
     },
     {
       "id": "ayunika-planner",
-      "displayName": { "en": "Bima", "zh": "比玛" },
-      "profession": { "en": "Content Planner", "zh": "内容规划师" },
+      "displayName": {
+        "en": "Bima (Ayunika content planner)",
+        "zh": "比玛（Ayunika 内容规划师）"
+      },
+      "profession": {
+        "en": "Content Planner",
+        "zh": "内容规划师"
+      },
       "avatar": "avatars/ayunika-planner.png",
       "role": "member"
     },
     {
       "id": "ayunika-writer",
-      "displayName": { "en": "Citra", "zh": "琪特拉" },
-      "profession": { "en": "Draft Writer", "zh": "文案撰写员" },
+      "displayName": {
+        "en": "Citra (Ayunika draft writer)",
+        "zh": "琪特拉（Ayunika 文案撰写员）"
+      },
+      "profession": {
+        "en": "Draft Writer",
+        "zh": "文案撰写员"
+      },
       "avatar": "avatars/ayunika-writer.png",
       "role": "member"
     },
     {
       "id": "ayunika-reviewer",
-      "displayName": { "en": "Dimas", "zh": "迪马斯" },
-      "profession": { "en": "Claim Reviewer", "zh": "宣称审查员" },
+      "displayName": {
+        "en": "Dimas (Ayunika claim reviewer)",
+        "zh": "迪马斯（Ayunika 宣称审查员）"
+      },
+      "profession": {
+        "en": "Claim Reviewer",
+        "zh": "宣称审查员"
+      },
       "avatar": "avatars/ayunika-reviewer.png",
       "role": "member"
     }

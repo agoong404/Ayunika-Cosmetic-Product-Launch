@@ -35,12 +35,13 @@ ROOT = Path(__file__).resolve().parent.parent
 PAKET = ROOT / "expert" / "ayunika-compliance-team"
 SUMBER_AVATAR = PAKET / "avatar-source.jpg"
 
-# Label dan warna aksen tiap anggota, untuk avatar.
+# Nama pendek, label peran, warna aksen, dan ikon tiap anggota.
 ANGGOTA = [
-    ("ayunika-team-lead", "R", "LEAD", "#D4AF37"),
-    ("ayunika-planner", "B", "PLAN", "#5DCAA5"),
-    ("ayunika-writer", "C", "WRITE", "#85B7EB"),
-    ("ayunika-reviewer", "D", "REVIEW", "#F09595"),
+    # id,                   nama,   peran,          aksen,    ikon
+    ("ayunika-team-lead",  "Rani",  "TEAM LEAD",    "#D4AF37", "star"),
+    ("ayunika-planner",    "Bima",  "CONTENT PLAN", "#2BB3A3", "clipboard"),
+    ("ayunika-writer",     "Citra", "DRAFT WRITE",  "#4A90D9", "pencil"),
+    ("ayunika-reviewer",   "Dimas", "CLAIM REVIEW", "#E05A5A", "shield"),
 ]
 
 
@@ -48,10 +49,99 @@ def rgb(hexa: str) -> tuple[int, int, int]:
     return tuple(int(hexa[i:i + 2], 16) for i in (1, 3, 5))
 
 
+def mix_hex(c1: tuple, c2: tuple, t: float) -> tuple[int, int, int]:
+    return tuple(int(c1[i] + (c2[i] - c1[i]) * t) for i in range(3))
+
+
+def gradient(w: int, h: int, top, bottom) -> "Image.Image":
+    """Gradien vertikal; top/bottom boleh string hex atau tuple RGB."""
+    from PIL import Image, ImageDraw
+    tc = top if isinstance(top, tuple) else rgb(top)
+    bc = bottom if isinstance(bottom, tuple) else rgb(bottom)
+    img = Image.new("RGB", (w, h))
+    for y in range(h):
+        ImageDraw.Draw(img).line([(0, y), (w, y)], fill=mix_hex(tc, bc, y / (h - 1)))
+    return img
+
+
+def star_points(cx: float, cy: float, r: float, n: int = 5) -> list[tuple[float, float]]:
+    import math
+    pts = []
+    for i in range(n * 2):
+        ang = -math.pi / 2 + i * math.pi / n
+        rad = r if i % 2 == 0 else r * 0.42
+        pts.append((cx + rad * math.cos(ang), cy + rad * math.sin(ang)))
+    return pts
+
+
+def draw_icon(d: "ImageDraw.ImageDraw", kind: str, cx: int, cy: int, col: tuple):
+    """Gambar ikon putih di dalam lencana beraksen col."""
+    w = 6
+    if kind == "star":
+        d.polygon(star_points(cx, cy, 20), fill=col)
+    elif kind == "clipboard":
+        d.rounded_rectangle((cx - 18, cy - 16, cx + 18, cy + 18), radius=5, outline=col, width=w)
+        d.rectangle((cx - 8, cy - 24, cx + 8, cy - 12), fill=col)
+        for yy in (-4, 4, 12):
+            d.line((cx - 11, cy + yy, cx + 11, cy + yy), fill=col, width=3)
+    elif kind == "pencil":
+        d.line((cx - 16, cy + 14, cx + 12, cy - 14), fill=col, width=w)
+        d.polygon([(cx + 12, cy - 14), (cx + 6, cy - 18), (cx + 16, cy - 8)], fill=col)
+        d.line((cx - 18, cy + 16, cx - 12, cy + 10), fill=col, width=w)
+    elif kind == "shield":
+        d.polygon([(cx, cy - 18), (cx + 16, cy - 10), (cx + 16, cy + 6),
+                   (cx, cy + 18), (cx - 16, cy + 6), (cx - 16, cy - 10)],
+                  outline=col, width=w)
+        d.line((cx - 7, cy + 1, cx - 1, cy + 8), fill=col, width=w, joint="curve")
+        d.line((cx - 1, cy + 8, cx + 9, cy - 5), fill=col, width=w, joint="curve")
+
+
+def make_member_avatar(base: "Image.Image", nama: str, peran: str,
+                       aksen: str, ikon: str) -> "Image.Image":
+    """Satu avatar 512×512: potret lingkar + gradien + lencana ikon + label."""
+    from PIL import Image, ImageDraw, ImageFont
+
+    S = 512
+    ac = rgb(aksen)
+    top_c = mix_hex(rgb("#0E2A47"), ac, 0.20)
+    bg = gradient(S, S, top_c, "#06121F").convert("RGBA")
+
+    # potret lingkar di tengah
+    d_amt = 300
+    cx, cy = 256, 232
+    m = Image.new("L", (d_amt, d_amt), 0)
+    ImageDraw.Draw(m).ellipse((0, 0, d_amt - 1, d_amt - 1), fill=255)
+    por = Image.new("RGBA", (d_amt, d_amt))
+    por.paste(base.resize((d_amt, d_amt), Image.LANCZOS), (0, 0))
+    por.putalpha(m)
+    bg.paste(por, (cx - d_amt // 2, cy - d_amt // 2), por)
+
+    d = ImageDraw.Draw(bg, "RGBA")
+    d.ellipse((cx - d_amt // 2, cy - d_amt // 2, cx + d_amt // 2, cy + d_amt // 2),
+              outline=ac + (255,), width=7)
+
+    # lencana ikon di atas
+    bx, by, br = 256, 58, 34
+    d.ellipse((bx - br, by - br, bx + br, by + br), fill=ac + (255,))
+    draw_icon(d, ikon, bx, by, (255, 255, 255))
+
+    # pita nama di bawah
+    d.rectangle((0, 408, S, S), fill=(6, 16, 28, 230))
+    d.rectangle((0, 408, S, 416), fill=ac + (255,))
+    try:
+        f_nama = ImageFont.truetype("C:/Windows/Fonts/arialbd.ttf", 46)
+        f_peran = ImageFont.truetype("C:/Windows/Fonts/arialbd.ttf", 24)
+    except OSError:
+        f_nama = f_peran = ImageFont.load_default()
+    d.text((256, 452), nama, font=f_nama, fill=(240, 246, 252, 255), anchor="mm")
+    d.text((256, 488), peran, font=f_peran, fill=ac + (255,), anchor="mm")
+    return bg.convert("RGB")
+
+
 # ------------------------------------------------------------------ avatar
 def generate_avatars() -> list[Path]:
     """Buat team.png + satu avatar per anggota dari potret sumber."""
-    from PIL import Image, ImageDraw, ImageFont
+    from PIL import Image, ImageDraw
 
     AV = PAKET / "avatars"
     AV.mkdir(parents=True, exist_ok=True)
@@ -65,29 +155,18 @@ def generate_avatars() -> list[Path]:
         return p
 
     hasil = []
-    # Kartu tim: potret penuh dengan bingkai.
-    team = Image.new("RGB", (512, 512), "#0C447C")
-    kutip = base.resize((256, 256), Image.LANCZOS)
-    for x, y in ((0, 0), (256, 0), (0, 256), (256, 256)):
-        team.paste(kutip, (x, y))
+    buatan = []
+    for aid, nama, peran, aksen, ikon in ANGGOTA:
+        img = make_member_avatar(base, nama, peran, aksen, ikon)
+        buatan.append(img)
+        hasil.append(simpan(img, f"{aid}.png"))
+
+    # Kartu tim: 2×2 dari keempat avatar anggota (beraksen beda).
+    team = Image.new("RGB", (512, 512), "#06121F")
+    for i, img in enumerate(buatan):
+        team.paste(img.resize((256, 256), Image.LANCZOS), ((i % 2) * 256, (i // 2) * 256))
     ImageDraw.Draw(team).rectangle((0, 0, 511, 511), outline="#B5D4F4", width=4)
     hasil.append(simpan(team, "team.png"))
-
-    try:
-        f_besar = ImageFont.truetype("C:/Windows/Fonts/arialbd.ttf", 54)
-        f_kecil = ImageFont.truetype("C:/Windows/Fonts/arialbd.ttf", 34)
-    except OSError:
-        f_besar = f_kecil = ImageFont.load_default()
-
-    for nama, huruf, label, aksen in ANGGOTA:
-        im = base.resize((512, 512), Image.LANCZOS)
-        dd = ImageDraw.Draw(im, "RGBA")
-        dd.rectangle((0, 400, 512, 512), fill=(8, 26, 46, 225))
-        dd.rectangle((0, 400, 512, 406), fill=rgb(aksen) + (255,))
-        dd.ellipse((216, 316, 296, 396), fill=rgb(aksen) + (255,))
-        dd.text((256, 356), huruf, font=f_besar, fill=(12, 32, 52, 255), anchor="mm")
-        dd.text((256, 452), label, font=f_kecil, fill=(230, 240, 250, 255), anchor="mm")
-        hasil.append(simpan(im, f"{nama}.png"))
     return hasil
 
 
