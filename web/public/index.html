@@ -73,6 +73,36 @@
     <div id="hasil"></div>
   </section>
 
+  <section class="panel">
+    <h2>Bukti penolakan — gerbang sebelum terbit</h2>
+    <p class="lead">
+      Inilah intinya: <strong>setiap draf ditolak dulu kalau melanggar aturan,
+      sebelum sempat jadi kasus yang disetujui</strong>. Tempel draf Anda — atau
+      pakai contoh pelanggaran di bawah — lalu lihat aturan mana yang menyebabkan
+      penolakan, lengkap dengan kutipan persis dan perbaikannya.
+    </p>
+    <div class="controls">
+      <label>SKU
+        <select id="sku-review"></select>
+      </label>
+      <label>Platform
+        <select id="platform-review">
+          <option value="tiktok">tiktok</option>
+          <option value="instagram">instagram</option>
+          <option value="marketplace">marketplace</option>
+        </select>
+      </label>
+    </div>
+    <textarea id="review-input" rows="4" maxlength="5000"
+      placeholder="Tempel draf di sini…"></textarea>
+    <div class="baris" style="margin-top:12px">
+      <button id="tombol-review" type="button">Periksa draf</button>
+      <button id="tombol-contoh" type="button" class="ghost">Muat contoh pelanggaran</button>
+    </div>
+    <p id="pesan-review" class="pesan" role="status"></p>
+    <div id="hasil-review"></div>
+  </section>
+
   <section class="panel muted-panel">
     <h2>Kenapa ada gerbang approval</h2>
     <p>

@@ -22,6 +22,23 @@ Karena BFF memegang `MCP_TOKEN` tapi bukan kunci approver, kebocoran token
 transport tidak sama dengan kebobolan gerbang: `approve_publication` tetap
 menolak tanpa kunci manusia.
 
+## Tool yang dijangkau pengunjung
+
+Enam tool (semua read-only kecuali `request_approval` yang hanya mengajukan):
+
+| Tool | Dipakai oleh |
+|---|---|
+| `list_products` | dropdown SKU |
+| `get_rulebook` | teks aturan di tiap temuan |
+| `run_cycle` | console review (Planner → Writer → Reviewer) |
+| `review_draft` | **Bukti penolakan** — pengunjung tempel draf bebas, langsung dapat TOLAK/LOLOS beserta kutipan & perbaikan |
+| `request_approval` | ajukan draf yang lolos ke gerbang approval |
+| `audit_tail` | cek status plan (PROPOSED/APPROVED/REJECTED) |
+
+`review_draft` sengaja diekspos supaya penolakan terlihat di situs, bukan hanya
+di balik sesi WorkBuddy. Ia read-only (lapis deterministik, tanpa LLM) dan tidak
+menulis rantai audit — jadi tidak menambah entri approval palsu.
+
 ## Jalankan lokal
 
 Tanpa dependensi — tidak perlu `npm install`.
@@ -76,8 +93,11 @@ biaya per pesan, tidak ada permukaan prompt injection.
 **BFF** — Railway, service baru dari repo yang sama:
 
 - Root directory: `web`
+- Build: Dockerfile (`web/Dockerfile`)
 - Start command: `node server/index.js`
 - Variables: `MCP_URL`, `MCP_TOKEN` (biarkan `PORT` disuntik Railway)
+- Custom domain: set `ayunika-care.web.id` sebagai domain layanan, lalu arahkan
+  DNS (CNAME) ke host Railway yang diberikan.
 
 **Frontend** — disajikan BFF sendiri (folder `public/`). Kalau ingin memisah ke
 Cloudflare Pages, ubah `fetch("/api/…")` menjadi URL BFF dan tambahkan CORS.

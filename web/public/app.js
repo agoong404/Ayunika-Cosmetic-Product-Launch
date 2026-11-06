@@ -44,13 +44,19 @@ function tambahPesan(siapa, teks) {
 async function muatProduk() {
   const data = await api("/api/products");
   const daftar = data.produk || [];
-  el("#sku").innerHTML = daftar
+  const opsi = daftar
     .map(
       (p) =>
         `<option value="${esc(p.sku)}">${esc(p.sku)} · ${esc(p.nama)} · ${esc(p.isi)}</option>`,
     )
     .join("");
+  el("#sku").innerHTML = opsi;
+  el("#sku-review").innerHTML = opsi;
 }
+
+const CONTOH_PELANGGARAN =
+  "Serum terbaik di Indonesia! 100% halal bersertifikat, bekas jerawat hilang " +
+  "dalam 3 hari. Hasil terlihat dalam 7 hari. Buruan beli sebelum habis!";
 
 async function muatSudut() {
   const data = await api("/api/sudut");
@@ -134,6 +140,53 @@ async function renderHasil(data) {
     <div id="panel-plan"></div>`;
 
   if (lolos) el("#tombol-usul").addEventListener("click", ajukan);
+}
+
+async function renderReview(data) {
+  const temuan = data.temuan || [];
+  const ids = [...new Set(temuan.map((t) => t.rule_id))];
+  const peta = await ambilAturan(ids);
+  el("#hasil-review").innerHTML = `
+    <div class="hasil-head">
+      ${chip(data.status)}
+      <span class="trail">${temuan.length} temuan</span>
+    </div>
+    ${renderTemuan(temuan, peta)}
+    ${
+      data.status === "TOLAK"
+        ? `<p class="note" style="margin-top:12px">${esc(data.catatan || "")}</p>`
+        : `<p class="note" style="margin-top:12px">Tidak ditemukan pelanggaran pada lapis deterministik. Draf boleh diajukan ke gerbang approval — penolakan di atas adalah syarat sebelum kasus disetujui.</p>`
+    }`;
+}
+
+function pesanReview(teks, salah = false) {
+  const p = el("#pesan-review");
+  p.textContent = teks || "";
+  p.classList.toggle("error", salah);
+}
+
+async function periksaDraf() {
+  const tombol = el("#tombol-review");
+  const konten = el("#review-input").value;
+  tombol.disabled = true;
+  pesanReview("Memeriksa draf…");
+  try {
+    const data = await api("/api/review", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        sku: el("#sku-review").value,
+        platform: el("#platform-review").value,
+        content: konten,
+      }),
+    });
+    await renderReview(data);
+    pesanReview("");
+  } catch (e) {
+    pesanReview(e.message, true);
+  } finally {
+    tombol.disabled = false;
+  }
 }
 
 function renderPlan(data) {
@@ -281,6 +334,12 @@ el("#form-chat").addEventListener("submit", (ev) => {
   const teks = input.value;
   input.value = "";
   kirimPilihan(teks);
+});
+
+el("#tombol-review").addEventListener("click", periksaDraf);
+el("#tombol-contoh").addEventListener("click", () => {
+  el("#review-input").value = CONTOH_PELANGGARAN;
+  pesanReview("Contoh pelanggaran dimuat. Klik 'Periksa draf' untuk melihat penolakannya.");
 });
 
 muatProduk().catch((e) => pesan(`Gagal memuat produk: ${e.message}`, true));

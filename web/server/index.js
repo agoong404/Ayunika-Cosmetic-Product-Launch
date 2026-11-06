@@ -3,10 +3,12 @@
 // Tiga aturan yang dipegang berkas ini:
 //
 //  1. MCP_TOKEN hanya hidup di sini. Browser tidak pernah melihatnya.
-//  2. Hanya LIMA tool yang boleh dijangkau pengunjung: list_products, get_rulebook,
-//     run_cycle, request_approval, audit_tail. `approve_publication` sengaja
-//     TIDAK ada di berkas ini — persetujuan hanya dari sesi WorkBuddy pemilik,
-//     dengan kunci approver yang tidak pernah menyentuh server ini.
+//  2. Tool yang boleh dijangkau pengunjung: list_products, get_rulebook,
+//     run_cycle, review_draft, request_approval, audit_tail. `approve_publication`
+//     sengaja TIDAK ada di berkas ini — persetujuan hanya dari sesi WorkBuddy
+//     pemilik, dengan kunci approver yang tidak pernah menyentuh server ini.
+//     `review_draft` read-only (lapis deterministik, tanpa LLM) jadi aman
+//     diekspos: menunjukkan penolakan sebelum draf jadi kasus yang disetujui.
 //  3. Batas per IP di memori. Cukup untuk satu proses demo; hilang saat restart.
 import http from "node:http";
 import { readFile } from "node:fs/promises";
@@ -38,6 +40,7 @@ const MIME = {
 
 const BATAS = {
   run: { maks: 5, jendela: 60 * 60 * 1000 },
+  review: { maks: 15, jendela: 60 * 60 * 1000 },
   propose: { maks: 10, jendela: 60 * 60 * 1000 },
 };
 const jejak = new Map();
@@ -218,6 +221,33 @@ async function tanganiApi(req, res, url) {
       waktu: setuju?.ts ?? null,
       jumlah_entri: entri.length,
     });
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/review") {
+    // Periksa draf bebas pengunjung terhadap aturan (lapis deterministik).
+    // Read-only: tidak menulis rantai audit, tidak pernah menyetujui apa pun.
+    const body = await bacaJson(req);
+    if (!cekSku(body.sku) || !cekPlatform(body.platform)) {
+      return kirim(res, 400, { error: "sku atau platform tidak sah" });
+    }
+    if (typeof body.content !== "string" || !body.content.trim()) {
+      return kirim(res, 400, { error: "konten kosong" });
+    }
+    if (body.content.length > 5000) {
+      return kirim(res, 400, { error: "konten melebihi 5000 karakter" });
+    }
+    const jatah = boleh(ip, "review");
+    if (!jatah.ok) {
+      return kirim(res, 429, {
+        error: `Batas pemeriksaan tercapai. Coba lagi dalam ${jatah.detik} detik.`,
+      });
+    }
+    const data = await klien.panggilTool("review_draft", {
+      draft: body.content,
+      sku: body.sku,
+      platform: body.platform,
+    });
+    return kirim(res, 200, { ...data, status: data.verdict, sisa_jatah: jatah.sisa });
   }
 
   return kirim(res, 404, { error: "tidak ada" });
