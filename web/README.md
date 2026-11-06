@@ -53,6 +53,25 @@ node server/index.js
 
 Buka `http://localhost:8080`.
 
+## Tim Ahli di halaman
+
+Panel "Tim Ahli — empat agen" di-parse dari paket expert
+`expert/ayunika-compliance-team/` (bukan di-hardcode). Skrip
+`scripts/build-team.js` membaca `plugin.json` + `agents/*.md`, lalu menulis
+`public/team.json` dan menyalin avatar ke `public/avatars/`. Frontend memanggil
+`/team.json` dan merender kartu (nama, peran, bio, alat MCP per agen).
+
+Karena Dockerfile web membangun dari konteks `web/` saja, hasil parse
+(`public/team.json` + `public/avatars/*.png`) sudah di-commit dan disajikan
+statis. Jika paket expert berubah, jalankan:
+
+```bash
+npm run build:team
+```
+
+Lalu commit hasilnya. Avatar tim (`team.png`, ikon biru perisai + ceklis) dan
+potret tiap anggota diambil langsung dari paket expert.
+
 ## Batas yang perlu diketahui
 
 | Hal | Nilai |

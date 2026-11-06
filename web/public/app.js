@@ -342,5 +342,42 @@ el("#tombol-contoh").addEventListener("click", () => {
   pesanReview("Contoh pelanggaran dimuat. Klik 'Periksa draf' untuk melihat penolakannya.");
 });
 
+// Tampilkan tim ahli (di-parse dari paket expert ke public/team.json).
+async function muatTim() {
+  try {
+    const res = await fetch("/team.json");
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.team) {
+      const head = el("#tim-ahli-head");
+      const ringkas = el("#tim-ahli-ringkas");
+      if (head) head.textContent = `${data.team.name} — empat agen`;
+      if (ringkas) ringkas.textContent = data.team.summary;
+    }
+    const grid = el("#kartu-tim");
+    if (!grid || !Array.isArray(data.members)) return;
+    grid.innerHTML = "";
+    for (const m of data.members) {
+      const card = document.createElement("div");
+      card.className = "kartu" + (m.role === "lead" ? " lead" : "");
+      const alat = (m.tools || [])
+        .map((t) => `<code>${esc(t)}</code>`)
+        .join(" ");
+      card.innerHTML = `
+        <img src="${esc(m.avatar)}" alt="${esc(m.name)}" loading="lazy">
+        ${m.role === "lead" ? '<span class="lencana">Lead</span>' : ""}
+        <div class="nama">${esc(m.name)}</div>
+        <div class="peran">${esc(m.profession)}</div>
+        <p class="bio">${esc(m.bio || m.summary)}</p>
+        <div class="alat">${alat}</div>
+      `;
+      grid.appendChild(card);
+    }
+  } catch (e) {
+    /* biarkan section kosong jika team.json tidak ada */
+  }
+}
+
 muatProduk().catch((e) => pesan(`Gagal memuat produk: ${e.message}`, true));
 muatSudut().catch(() => pesan("Gagal memuat pilihan sudut.", true));
+muatTim().catch(() => {});

@@ -315,6 +315,56 @@ footer {
   font-size: 13px;
 }
 
+.kartu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.kartu {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kartu.lead { border-color: var(--text); }
+
+.kartu img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+}
+
+.kartu .lencana {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--text);
+  color: #fff;
+}
+
+.kartu .nama { font-weight: 500; font-size: 15px; }
+.kartu .peran { font-size: 12px; color: var(--muted); }
+.kartu .bio { font-size: 13px; margin: 0; }
+.kartu .alat { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.kartu .alat code {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 1px 5px;
+  margin: 0 3px 3px 0;
+  display: inline-block;
+}
+
 @media (max-width: 560px) {
   h1 { font-size: 24px; }
   .hero { padding-top: 28px; }
