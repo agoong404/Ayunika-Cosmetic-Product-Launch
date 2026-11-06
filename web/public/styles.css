@@ -114,17 +114,41 @@ label {
   flex: 1 1 180px;
 }
 
-select, button, textarea {
+select, button, textarea, input {
   font: inherit;
   color: inherit;
 }
 
-select {
+select, input[type="text"] {
   padding: 9px 10px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
   font-size: 14px;
+}
+
+input[type="text"] { width: 100%; }
+
+h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+#panel-tanya {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.jawaban {
+  margin: 0;
+  padding: 12px 14px;
+  background: var(--bg);
+  border-left: 3px solid var(--line);
+  border-radius: 0 8px 8px 0;
+  font-size: 14px;
+  white-space: pre-wrap;
 }
 
 button {

@@ -43,6 +43,18 @@ async function muatProduk() {
     .join("");
 }
 
+let penjelasSiap = false;
+
+async function muatKonfigurasi() {
+  try {
+    const data = await api("/api/config");
+    penjelasSiap = Boolean(data.penjelas);
+  } catch {
+    penjelasSiap = false;
+  }
+  if (!penjelasSiap) el("#panel-tanya").hidden = true;
+}
+
 function chip(verdict) {
   const kelas = verdict === "LOLOS" ? "ok" : verdict === "TOLAK" ? "no" : "wait";
   return `<span class="chip ${kelas}">${esc(verdict)}</span>`;
@@ -89,6 +101,13 @@ function renderHasil(data) {
     <div id="panel-plan"></div>`;
 
   if (lolos) el("#tombol-usul").addEventListener("click", ajukan);
+
+  const jawaban = el("#jawaban");
+  if (jawaban) {
+    jawaban.hidden = true;
+    jawaban.textContent = "";
+  }
+  el("#panel-tanya").hidden = !penjelasSiap;
 }
 
 function renderPlan(data) {
@@ -185,6 +204,7 @@ el("#form-review").addEventListener("submit", async (ev) => {
       body: JSON.stringify({
         sku: el("#sku").value,
         platform: el("#platform").value,
+        angle: el("#angle").value,
       }),
     });
     hasil = data;
@@ -201,4 +221,34 @@ el("#form-review").addEventListener("submit", async (ev) => {
   }
 });
 
+el("#form-tanya").addEventListener("submit", async (ev) => {
+  ev.preventDefault();
+  const tombol = el("#tombol-tanya");
+  const kotak = el("#jawaban");
+  const riwayat = hasil?.riwayat || [];
+  const akhir = riwayat[riwayat.length - 1] || {};
+
+  tombol.disabled = true;
+  kotak.hidden = false;
+  kotak.textContent = "Menjelaskan…";
+  try {
+    const data = await api("/api/explain", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        question: el("#tanya").value,
+        verdict: hasil?.status || "",
+        sku: el("#sku").value,
+        temuan: akhir.temuan || [],
+      }),
+    });
+    kotak.textContent = data.jawaban;
+  } catch (e) {
+    kotak.textContent = e.message;
+  } finally {
+    tombol.disabled = false;
+  }
+});
+
 muatProduk().catch((e) => pesan(`Gagal memuat produk: ${e.message}`, true));
+muatKonfigurasi();

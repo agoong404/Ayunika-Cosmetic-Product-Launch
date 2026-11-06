@@ -102,13 +102,15 @@ def review_draft(draft: str, sku: str, platform: str,
 
 
 @mcp.tool()
-def run_cycle(sku: str, platform: str, brief: str | None = None) -> dict:
+def run_cycle(sku: str, platform: str, brief: str | None = None,
+              angle: str | None = None) -> dict:
     """Jalankan Planner → Writer → Reviewer, maksimal tiga iterasi.
 
-    Berhenti di LOLOS, PERLU_DATA, atau ESKALASI. Tidak pernah menerbitkan konten
-    dan tidak pernah menyetujui apa pun.
+    `angle` mengganti sudut cerita sebelum menulis: sudut berbeda menghasilkan draf
+    berbeda, dinilai aturan yang sama. Berhenti di LOLOS, PERLU_DATA, atau ESKALASI.
+    Tidak pernah menerbitkan konten dan tidak pernah menyetujui apa pun.
     """
-    return tools.run_cycle(sku, platform, brief)
+    return tools.run_cycle(sku, platform, brief, angle)
 
 
 # --------------------------------------------------------------------------- audit

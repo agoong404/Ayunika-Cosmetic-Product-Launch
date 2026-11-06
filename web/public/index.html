@@ -50,11 +50,36 @@
           <option value="marketplace">marketplace</option>
         </select>
       </label>
+      <label>Sudut cerita
+        <select id="angle">
+          <option value="">bawaan</option>
+          <option value="Jelaskan bahan aktif dan kadarnya">bahan aktif</option>
+          <option value="Tekankan tekstur ringan dan cepat meresap">tekstur ringan</option>
+          <option value="Ditujukan untuk kulit kusam">kulit kusam</option>
+          <option value="Sebutkan promo peluncuran dan kuotanya">promo peluncuran</option>
+        </select>
+      </label>
       <button type="submit" id="tombol-review">Jalankan review</button>
     </form>
 
     <p id="pesan" class="pesan" role="status"></p>
     <div id="hasil"></div>
+
+    <div id="panel-tanya" hidden>
+      <h3>Tanya kenapa?</h3>
+      <p class="note">
+        Penjelasan dihasilkan model dari temuan di atas. Ia tidak menulis konten,
+        tidak mengubah verdict, dan tidak bisa menyetujui apa pun.
+      </p>
+      <form id="form-tanya" class="controls">
+        <label>Pertanyaan
+          <input id="tanya" type="text" maxlength="500"
+                 placeholder="Kenapa harga promo ditolak?" required>
+        </label>
+        <button type="submit" class="ghost" id="tombol-tanya">Tanya</button>
+      </form>
+      <p id="jawaban" class="jawaban" hidden></p>
+    </div>
   </section>
 
   <section class="panel muted-panel">

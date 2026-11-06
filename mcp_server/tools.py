@@ -447,15 +447,19 @@ def review_draft(draft: str, sku: str, platform: str,
 
 
 # --------------------------------------------------------------------------- 8. siklus
-def run_cycle(sku: str, platform: str, brief: str | None = None) -> dict:
+def run_cycle(sku: str, platform: str, brief: str | None = None,
+              angle: str | None = None) -> dict:
     """
     Planner → Writer → Reviewer, maksimal tiga iterasi.
+
+    `angle` mengganti sudut cerita sebelum menulis — dipakai situs publik untuk
+    "sesuaikan jawaban" tanpa LLM: sudut berbeda, draf berbeda, aturan sama.
 
     Sengaja TIDAK memanggil `ContentPipeline.run()`: fungsi itu menyetujui sendiri
     dengan approver hardcoded `EMP-014`. Lewat jaringan, itu persetujuan diri.
     Siklus ini berhenti di LOLOS dan menyerahkan approval ke manusia.
     """
-    rencana = plan_content(sku, platform, brief)
+    rencana = plan_content(sku, platform, brief, angle)
     if not rencana.get("ok"):
         return rencana
     plan = rencana["plan"]
