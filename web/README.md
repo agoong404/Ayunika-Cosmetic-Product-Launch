@@ -51,17 +51,25 @@ Enam aturan lapis-2 sengaja tidak dijalankan di sini: `run_cycle` memanggil
 Kalau nanti ingin lengkap, tambahkan satu panggilan model di BFF lalu kirim
 hasilnya sebagai `findings` — seam-nya sudah ada di kontrak MCP.
 
-## Dua cara menjelaskan, satu tanpa model
+## Masukan: pilihan, bukan teks bebas
 
-| Cara | Butuh LLM | Sifat |
-|---|---|---|
-| Teks aturan inline per temuan | **Tidak** | Deterministik: `get_rulebook` mengembalikan teks R-xx, lapis, dan dasar aturannya |
-| Panel "Tanya kenapa?" | Ya (`LLM_*`) | Model hanya menjelaskan; tidak menulis konten, tidak mengubah verdict |
+Pengunjung memilih sudut cerita dari empat tombol. Tidak ada pemrosesan bahasa
+sama sekali — daftar `SUDUT_PILIHAN` di BFF adalah satu-satunya masukan yang sah,
+dan `/api/run` memvalidasi `angle` terhadap daftar itu juga (bukan hanya UI).
 
-Jadi "kenapa ini ditolak" sudah terjawab tanpa model sama sekali — setiap
-temuan menampilkan teks aturan yang dilanggar, kutipan persis, dan perbaikannya.
-Panel tanya adalah lapisan tambahan untuk pertanyaan bebas, dan ia mati dengan
-rapi kalau `LLM_*` kosong.
+Teks bebas tetap boleh dikirim, tetapi **ditolak** dengan pesan yang jelas:
+
+> Maaf, hanya empat pilihan itu yang bisa dipakai. Silakan pilih salah satu
+> tombol di atas.
+
+Sengaja tidak ada tebakan kata kunci. Menebak membuat pengunjung mengira sistem
+memahami permintaan bebas, padahal tidak — lebih jujur menolak.
+
+"Kenapa ini ditolak" tetap terjawab tanpa model: setiap temuan menampilkan teks
+aturan aslinya lewat `get_rulebook`, kutipan persis, dan perbaikannya.
+
+Tidak ada LLM di mana pun dalam berkas ini. Tidak ada kunci model, tidak ada
+biaya per pesan, tidak ada permukaan prompt injection.
 
 ## Deploy
 

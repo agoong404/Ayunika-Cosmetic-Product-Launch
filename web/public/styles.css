@@ -135,21 +135,46 @@ h3 {
   margin: 0 0 8px;
 }
 
-#panel-tanya {
-  margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
+.chat {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 14px;
+  background: var(--bg);
 }
 
-.jawaban {
-  margin: 0;
-  padding: 12px 14px;
-  background: var(--bg);
-  border-left: 3px solid var(--line);
-  border-radius: 0 8px 8px 0;
-  font-size: 14px;
+.chat-log {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+
+.msg {
+  font-size: 13px;
+  padding: 8px 11px;
+  border-radius: 10px;
+  max-width: 85%;
   white-space: pre-wrap;
 }
+
+.msg.bot {
+  background: #fff;
+  border: 1px solid var(--line);
+  align-self: flex-start;
+}
+
+.msg.user {
+  background: var(--text);
+  color: #fff;
+  align-self: flex-end;
+}
+
+.chat-input { display: flex; gap: 8px; }
+.chat-input input { flex: 1 1 auto; }
+.chat-input button { flex: 0 0 auto; }
 
 button {
   padding: 10px 16px;

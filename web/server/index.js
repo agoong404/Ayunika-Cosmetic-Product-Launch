@@ -19,12 +19,6 @@ const PORT = Number(process.env.PORT || 8080);
 const MCP_URL = (process.env.MCP_URL || "").trim();
 const MCP_TOKEN = (process.env.MCP_TOKEN || "").trim();
 
-// Penjelas (opsi C). Kosong = fitur chat disembunyikan, bukan error.
-const LLM_BASE_URL = (process.env.LLM_BASE_URL || "").trim().replace(/\/+$/, "");
-const LLM_API_KEY = (process.env.LLM_API_KEY || "").trim();
-const LLM_MODEL = (process.env.LLM_MODEL || "").trim();
-const PENJELAS_SIAP = Boolean(LLM_BASE_URL && LLM_API_KEY && LLM_MODEL);
-
 if (!MCP_URL || !MCP_TOKEN) {
   console.error("MCP_URL dan MCP_TOKEN wajib diisi. Lihat web/.env.example.");
   process.exit(2);
@@ -45,7 +39,6 @@ const MIME = {
 const BATAS = {
   run: { maks: 5, jendela: 60 * 60 * 1000 },
   propose: { maks: 10, jendela: 60 * 60 * 1000 },
-  explain: { maks: 20, jendela: 60 * 60 * 1000 },
 };
 const jejak = new Map();
 
@@ -100,98 +93,33 @@ const PLATFORM = new Set(["tiktok", "instagram", "marketplace"]);
 const SKU_RE = /^AY-[A-Z]{2}-\d{3}$/;
 const PLAN_RE = /^PLAN-[0-9A-F]{8}$/;
 
-// --------------------------------------------------------------------------- urai sudut (tanpa LLM)
-// Pengunjung mengetik bebas, tapi pemetaannya deterministik: kata kunci ->
-// sudut cerita. Tidak ada model, jadi tidak ada salah paham yang mengarang.
-// Kalau tidak ada kata kunci yang cocok, jawabannya jujur "tidak dikenali".
-const SUDUT = [
-  {
-    kunci: ["promo", "harga", "diskon", "murah", "129", "peluncuran", "kuota"],
-    angle: "Sebutkan promo peluncuran dan kuotanya",
-  },
-  {
-    kunci: ["tekstur", "ringan", "lengket", "meresap", "nyaman", "wangi"],
-    angle: "Tekankan tekstur ringan dan cepat meresap",
-  },
-  {
-    kunci: ["kusam", "kasar", "belang", "cerah", "glowing", "kering"],
-    angle: "Ditujukan untuk kulit kusam",
-  },
-  {
-    kunci: ["bahan", "niacinamide", "vitamin", "kandungan", "aktif", "formula"],
-    angle: "Jelaskan bahan aktif dan kadarnya",
-  },
+// --------------------------------------------------------------------------- pilihan sudut (tanpa LLM)
+// Satu-satunya masukan yang sah. Pengunjung memilih dari daftar ini; teks bebas
+// ditolak dengan pesan yang jelas, bukan ditebak-tebak. Daftar ini juga yang
+// memvalidasi /api/run, jadi bukan hanya UI yang menahannya.
+const SUDUT_PILIHAN = [
+  { label: "bahan aktif", angle: "Jelaskan bahan aktif dan kadarnya" },
+  { label: "tekstur ringan", angle: "Tekankan tekstur ringan dan cepat meresap" },
+  { label: "kulit kusam", angle: "Ditujukan untuk kulit kusam" },
+  { label: "promo peluncuran", angle: "Sebutkan promo peluncuran dan kuotanya" },
 ];
 
-function uraiSudut(teks) {
-  const t = teks.toLowerCase();
-  for (const s of SUDUT) {
-    const kena = s.kunci.find((k) => t.includes(k));
-    if (kena) return { cocok: true, angle: s.angle, kata_kunci: kena };
+const PESAN_TOLAK =
+  "Maaf, hanya empat pilihan itu yang bisa dipakai. " +
+  "Silakan pilih salah satu tombol di atas.";
+
+function pilihSudut(teks) {
+  const t = String(teks || "").trim().toLowerCase();
+  for (const s of SUDUT_PILIHAN) {
+    if (t === s.angle.toLowerCase() || t === s.label.toLowerCase()) {
+      return { cocok: true, angle: s.angle, pesan: "" };
+    }
   }
-  return { cocok: false, angle: "", kata_kunci: "" };
+  return { cocok: false, angle: "", pesan: PESAN_TOLAK };
 }
 
 const cekSku = (v) => typeof v === "string" && SKU_RE.test(v);
 const cekPlatform = (v) => typeof v === "string" && PLATFORM.has(v);
-
-// --------------------------------------------------------------------------- penjelas (opsi C)
-// Model di sini HANYA menjelaskan keputusan mesin aturan. Ia tidak menulis
-// konten, tidak punya tool, dan tidak pernah melihat kunci approval. Kalau ia
-// mengarang fakta, verdict tidak berubah — verdict milik kode, bukan model.
-const SISTEM_PENJELAS = `Kamu menjelaskan keputusan mesin aturan klaim kosmetik kepada pengunjung situs.
-
-Aturan yang mengikat:
-- Kamu BUKAN penulis konten. Jangan menulis caption, naskah, atau kalimat marketing.
-- Jangan mengarang fakta: harga, nomor BPOM, kadar bahan, status halal, sertifikat.
-- Jawab HANYA dari data temuan yang diberikan. Bila tidak ada di sana, katakan tidak tersedia.
-- Bahasa Indonesia, maksimal 120 kata, tanpa emoji, tanpa menyebut dirimu sebagai AI.
-
-Tugasmu: menjelaskan mengapa verdict itu keluar dan apa yang harus diperbaiki.`;
-
-function rapikanTemuan(daftar) {
-  return (Array.isArray(daftar) ? daftar : []).slice(0, 20).map((t) => ({
-    rule_id: String(t.rule_id ?? "").slice(0, 12),
-    span: String(t.span ?? "").slice(0, 300),
-    reason: String(t.reason ?? "").slice(0, 300),
-    fix: String(t.fix ?? "").slice(0, 300),
-  }));
-}
-
-async function tanyaPenjelas({ pertanyaan, verdict, sku, temuan }) {
-  const kendali = new AbortController();
-  const jam = setTimeout(() => kendali.abort(), 25_000);
-  try {
-    const res = await fetch(`${LLM_BASE_URL}/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${LLM_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: LLM_MODEL,
-        temperature: 0.2,
-        max_tokens: 400,
-        messages: [
-          { role: "system", content: SISTEM_PENJELAS },
-          {
-            role: "user",
-            content: JSON.stringify({ pertanyaan, sku, verdict, temuan }),
-          },
-        ],
-      }),
-      signal: kendali.signal,
-    });
-    const teks = await res.text();
-    if (!res.ok) throw new Error(`LLM ${res.status}: ${teks.slice(0, 160)}`);
-    const data = JSON.parse(teks);
-    const jawab = data?.choices?.[0]?.message?.content;
-    if (!jawab) throw new Error("balasan model kosong");
-    return String(jawab).trim();
-  } finally {
-    clearTimeout(jam);
-  }
-}
 
 async function tanganiApi(req, res, url) {
   const ip = ipDari(req);
@@ -200,14 +128,18 @@ async function tanganiApi(req, res, url) {
     return kirim(res, 200, await klien.panggilTool("list_products", {}));
   }
 
-  if (req.method === "POST" && url.pathname === "/api/parse") {
+  if (req.method === "GET" && url.pathname === "/api/sudut") {
+    return kirim(res, 200, { pilihan: SUDUT_PILIHAN });
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/pilih") {
     const body = await bacaJson(req);
-    const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
-    if (!prompt) return kirim(res, 400, { error: "prompt kosong" });
-    if (prompt.length > 200) {
-      return kirim(res, 400, { error: "prompt melebihi 200 karakter" });
+    const pilihan = typeof body.pilihan === "string" ? body.pilihan.trim() : "";
+    if (!pilihan) return kirim(res, 400, { error: "pilihan kosong" });
+    if (pilihan.length > 200) {
+      return kirim(res, 400, { error: "pilihan melebihi 200 karakter" });
     }
-    return kirim(res, 200, { ...uraiSudut(prompt), prompt });
+    return kirim(res, 200, { ...pilihSudut(pilihan), pilihan });
   }
 
   if (req.method === "POST" && url.pathname === "/api/rulebook") {
@@ -221,17 +153,22 @@ async function tanganiApi(req, res, url) {
   }
 
   if (req.method === "POST" && url.pathname === "/api/run") {
+    // Validasi dulu, baru potong jatah: permintaan yang ditolak tidak boleh
+    // menghabiskan kuota pengunjung.
+    const body = await bacaJson(req);
+    if (!cekSku(body.sku) || !cekPlatform(body.platform)) {
+      return kirim(res, 400, { error: "sku atau platform tidak sah" });
+    }
+    const angle = typeof body.angle === "string" ? body.angle.trim() : "";
+    if (angle && !SUDUT_PILIHAN.some((s) => s.angle === angle)) {
+      return kirim(res, 400, { error: PESAN_TOLAK });
+    }
     const jatah = boleh(ip, "run");
     if (!jatah.ok) {
       return kirim(res, 429, {
         error: `Batas review tercapai. Coba lagi dalam ${jatah.detik} detik.`,
       });
     }
-    const body = await bacaJson(req);
-    if (!cekSku(body.sku) || !cekPlatform(body.platform)) {
-      return kirim(res, 400, { error: "sku atau platform tidak sah" });
-    }
-    const angle = typeof body.angle === "string" ? body.angle.trim().slice(0, 120) : "";
     const data = await klien.panggilTool("run_cycle", {
       sku: body.sku,
       platform: body.platform,
@@ -241,12 +178,6 @@ async function tanganiApi(req, res, url) {
   }
 
   if (req.method === "POST" && url.pathname === "/api/propose") {
-    const jatah = boleh(ip, "propose");
-    if (!jatah.ok) {
-      return kirim(res, 429, {
-        error: `Batas pengajuan tercapai. Coba lagi dalam ${jatah.detik} detik.`,
-      });
-    }
     const body = await bacaJson(req);
     if (!cekSku(body.sku) || !cekPlatform(body.platform)) {
       return kirim(res, 400, { error: "sku atau platform tidak sah" });
@@ -256,6 +187,12 @@ async function tanganiApi(req, res, url) {
     }
     if (body.content.length > 5000) {
       return kirim(res, 400, { error: "konten melebihi 5000 karakter" });
+    }
+    const jatah = boleh(ip, "propose");
+    if (!jatah.ok) {
+      return kirim(res, 429, {
+        error: `Batas pengajuan tercapai. Coba lagi dalam ${jatah.detik} detik.`,
+      });
     }
     const data = await klien.panggilTool("request_approval", {
       sku: body.sku,
@@ -281,37 +218,6 @@ async function tanganiApi(req, res, url) {
       waktu: setuju?.ts ?? null,
       jumlah_entri: entri.length,
     });
-  }
-
-  if (req.method === "GET" && url.pathname === "/api/config") {
-    return kirim(res, 200, { penjelas: PENJELAS_SIAP });
-  }
-
-  if (req.method === "POST" && url.pathname === "/api/explain") {
-    if (!PENJELAS_SIAP) {
-      return kirim(res, 501, {
-        error: "penjelas belum dikonfigurasi: isi LLM_BASE_URL, LLM_API_KEY, LLM_MODEL",
-      });
-    }
-    const jatah = boleh(ip, "explain");
-    if (!jatah.ok) {
-      return kirim(res, 429, {
-        error: `Batas tanya tercapai. Coba lagi dalam ${jatah.detik} detik.`,
-      });
-    }
-    const body = await bacaJson(req);
-    const pertanyaan = typeof body.question === "string" ? body.question.trim() : "";
-    if (!pertanyaan) return kirim(res, 400, { error: "pertanyaan kosong" });
-    if (pertanyaan.length > 500) {
-      return kirim(res, 400, { error: "pertanyaan melebihi 500 karakter" });
-    }
-    const jawaban = await tanyaPenjelas({
-      pertanyaan,
-      verdict: String(body.verdict ?? "").slice(0, 20),
-      sku: cekSku(body.sku) ? body.sku : "",
-      temuan: body.temuan,
-    });
-    return kirim(res, 200, { jawaban, sisa_jatah: jatah.sisa });
   }
 
   return kirim(res, 404, { error: "tidak ada" });

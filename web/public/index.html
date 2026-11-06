@@ -44,9 +44,9 @@
   <section class="panel">
     <h2>Console review</h2>
 
-    <form id="form-review" class="controls">
+    <div class="controls">
       <label>SKU
-        <select id="sku" required></select>
+        <select id="sku"></select>
       </label>
       <label>Platform
         <select id="platform">
@@ -55,39 +55,22 @@
           <option value="marketplace">marketplace</option>
         </select>
       </label>
-      <label>Sudut cerita
-        <input id="prompt" type="text" maxlength="200"
-               placeholder="mis. tekankan teksturnya yang ringan">
-      </label>
-      <button type="submit" id="tombol-review">Jalankan review</button>
-    </form>
+    </div>
 
-    <div class="saran" id="saran">
-      <span class="saran-label">atau pilih:</span>
-      <button type="button" class="chip-btn" data-prompt="Jelaskan bahan aktif dan kadarnya">bahan aktif</button>
-      <button type="button" class="chip-btn" data-prompt="Tekankan tekstur ringan dan cepat meresap">tekstur ringan</button>
-      <button type="button" class="chip-btn" data-prompt="Ditujukan untuk kulit kusam">kulit kusam</button>
-      <button type="button" class="chip-btn" data-prompt="Sebutkan promo peluncuran dan kuotanya">promo peluncuran</button>
+    <div class="chat">
+      <div class="chat-log" id="chat-log">
+        <div class="msg bot">Mau fokus ke mana? Pilih salah satu — hanya empat ini yang bisa dipakai.</div>
+      </div>
+      <div class="saran" id="saran"></div>
+      <form id="form-chat" class="chat-input">
+        <input id="chat-input" type="text" maxlength="200"
+               placeholder="atau tulis sendiri — akan ditolak bila bukan pilihan">
+        <button type="submit" class="ghost" id="tombol-kirim">Kirim</button>
+      </form>
     </div>
 
     <p id="pesan" class="pesan" role="status"></p>
     <div id="hasil"></div>
-
-    <div id="panel-tanya" hidden>
-      <h3>Tanya kenapa?</h3>
-      <p class="note">
-        Penjelasan dihasilkan model dari temuan di atas. Ia tidak menulis konten,
-        tidak mengubah verdict, dan tidak bisa menyetujui apa pun.
-      </p>
-      <form id="form-tanya" class="controls">
-        <label>Pertanyaan
-          <input id="tanya" type="text" maxlength="500"
-                 placeholder="Kenapa harga promo ditolak?" required>
-        </label>
-        <button type="submit" class="ghost" id="tombol-tanya">Tanya</button>
-      </form>
-      <p id="jawaban" class="jawaban" hidden></p>
-    </div>
   </section>
 
   <section class="panel muted-panel">

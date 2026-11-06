@@ -32,6 +32,15 @@ async function api(jalur, opsi = {}) {
   return data;
 }
 
+function tambahPesan(siapa, teks) {
+  const log = el("#chat-log");
+  const div = document.createElement("div");
+  div.className = `msg ${siapa}`;
+  div.textContent = teks;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+}
+
 async function muatProduk() {
   const data = await api("/api/products");
   const daftar = data.produk || [];
@@ -43,16 +52,15 @@ async function muatProduk() {
     .join("");
 }
 
-let penjelasSiap = false;
-
-async function muatKonfigurasi() {
-  try {
-    const data = await api("/api/config");
-    penjelasSiap = Boolean(data.penjelas);
-  } catch {
-    penjelasSiap = false;
-  }
-  if (!penjelasSiap) el("#panel-tanya").hidden = true;
+async function muatSudut() {
+  const data = await api("/api/sudut");
+  const daftar = data.pilihan || [];
+  el("#saran").innerHTML = daftar
+    .map(
+      (s) =>
+        `<button type="button" class="chip-btn" data-label="${esc(s.label)}">${esc(s.label)}</button>`,
+    )
+    .join("");
 }
 
 function chip(verdict) {
@@ -126,13 +134,6 @@ async function renderHasil(data) {
     <div id="panel-plan"></div>`;
 
   if (lolos) el("#tombol-usul").addEventListener("click", ajukan);
-
-  const jawaban = el("#jawaban");
-  if (jawaban) {
-    jawaban.hidden = true;
-    jawaban.textContent = "";
-  }
-  el("#panel-tanya").hidden = !penjelasSiap;
 }
 
 function renderPlan(data) {
@@ -213,44 +214,14 @@ async function ajukan() {
   }
 }
 
-el("#saran").addEventListener("click", (ev) => {
-  const tombol = ev.target.closest(".chip-btn");
-  if (!tombol) return;
-  el("#prompt").value = tombol.dataset.prompt || "";
-  el("#prompt").focus();
-});
-
-el("#form-review").addEventListener("submit", async (ev) => {
-  ev.preventDefault();
+async function jalankan(angle) {
   clearInterval(timerPoll);
   clearInterval(timerHitung);
   planId = null;
 
-  const tombol = el("#tombol-review");
+  const tombol = el("#tombol-kirim");
   tombol.disabled = true;
   pesan("Menjalankan Planner → Writer → Reviewer…");
-
-  // Pemetaan sudut tanpa model: kata kunci -> sudut. Kalau tidak cocok,
-  // katakan apa adanya dan pakai sudut bawaan.
-  let angle = "";
-  let catatanSudut = "";
-  const prompt = el("#prompt").value.trim();
-  if (prompt) {
-    try {
-      const p = await api("/api/parse", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ prompt }),
-      });
-      angle = p.angle || "";
-      catatanSudut = p.cocok
-        ? `Sudut dikenali dari "${p.kata_kunci}".`
-        : "Sudut tidak dikenali — memakai sudut bawaan.";
-    } catch {
-      catatanSudut = "Gagal membaca sudut — memakai bawaan.";
-    }
-  }
-
   try {
     const data = await api("/api/run", {
       method: "POST",
@@ -263,43 +234,54 @@ el("#form-review").addEventListener("submit", async (ev) => {
     });
     hasil = data;
     await renderHasil(data);
-    const sisa = data.sisa_jatah !== undefined ? ` Sisa jatah: ${data.sisa_jatah}.` : "";
-    pesan(`${catatanSudut}${sisa}`.trim() || "Selesai.");
+    pesan(
+      data.sisa_jatah !== undefined
+        ? `Selesai. Sisa jatah review Anda: ${data.sisa_jatah}.`
+        : "Selesai.",
+    );
   } catch (e) {
     pesan(e.message, true);
   } finally {
     tombol.disabled = false;
   }
-});
+}
 
-el("#form-tanya").addEventListener("submit", async (ev) => {
-  ev.preventDefault();
-  const tombol = el("#tombol-tanya");
-  const kotak = el("#jawaban");
-  const riwayat = hasil?.riwayat || [];
-  const akhir = riwayat[riwayat.length - 1] || {};
-
-  tombol.disabled = true;
-  kotak.hidden = false;
-  kotak.textContent = "Menjelaskan…";
+// Pilihan adalah satu-satunya masukan yang sah. Teks bebas tetap dikirim ke
+// server untuk dinilai, lalu ditolak dengan pesan — bukan ditebak.
+async function kirimPilihan(teks) {
+  const bersih = String(teks || "").trim();
+  if (!bersih) return;
+  tambahPesan("user", bersih);
   try {
-    const data = await api("/api/explain", {
+    const p = await api("/api/pilih", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        question: el("#tanya").value,
-        verdict: hasil?.status || "",
-        sku: el("#sku").value,
-        temuan: akhir.temuan || [],
-      }),
+      body: JSON.stringify({ pilihan: bersih }),
     });
-    kotak.textContent = data.jawaban;
+    if (!p.cocok) {
+      tambahPesan("bot", p.pesan);
+      return;
+    }
+    tambahPesan("bot", `Baik — sudut: ${p.angle}. Menjalankan review…`);
+    await jalankan(p.angle);
   } catch (e) {
-    kotak.textContent = e.message;
-  } finally {
-    tombol.disabled = false;
+    tambahPesan("bot", `Gagal: ${e.message}`);
   }
+}
+
+el("#saran").addEventListener("click", (ev) => {
+  const tombol = ev.target.closest(".chip-btn");
+  if (!tombol) return;
+  kirimPilihan(tombol.dataset.label);
+});
+
+el("#form-chat").addEventListener("submit", (ev) => {
+  ev.preventDefault();
+  const input = el("#chat-input");
+  const teks = input.value;
+  input.value = "";
+  kirimPilihan(teks);
 });
 
 muatProduk().catch((e) => pesan(`Gagal memuat produk: ${e.message}`, true));
-muatKonfigurasi();
+muatSudut().catch(() => pesan("Gagal memuat pilihan sudut.", true));
