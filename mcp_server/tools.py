@@ -1,5 +1,5 @@
 """
-tools.py — dua belas fungsi biasa di atas `engine/` dan `agents/`.
+tools.py — sembilan belas fungsi biasa di atas `engine/` dan `agents/`.
 
 Aturan yang dipegang berkas ini:
 
@@ -613,3 +613,156 @@ def approve_publication(plan_id: str, approval_key: str, note: str = "") -> dict
         "approver": plan["approver"],
         "catatan": "APPROVED. Tidak ada tool publikasi di server ini; rantai berhenti di sini.",
     }
+
+
+# ===========================================================================
+# 13–19. Tiga kapabilitas bonus: C-17 (aset), C-15 (multibahasa), C-18 (usulan aturan)
+# ===========================================================================
+def _ketersediaan_aset() -> tuple[bool, str]:
+    """Chrome + Tesseract wajib ada. Di host tanpa keduanya, gagal tertutup."""
+    from asset_builder import CHROME
+    from validate_asset import ocr_tersedia
+    if not Path(CHROME).exists():
+        return False, f"Chrome headless tidak ada: {CHROME}"
+    ada, info = ocr_tersedia()
+    if not ada:
+        return False, f"OCR tidak tersedia: {info}"
+    return True, info
+
+
+def build_asset_card(sku: str = "AY-SR-101", overrides: dict | None = None) -> dict:
+    """Render kartu produk 1080x1350 ke PNG dan kembalikan sidecar-nya (C-17).
+
+    `overrides` mengganti teks blok untuk satu panggilan, mis. {"harga": "Rp139.000"}
+    untuk menguji kartu yang salah harga. Tidak menulis ke berkas submission.
+    """
+    if sku != "AY-SR-101":
+        return _gagal("manifest_tidak_tersedia",
+                      "Manifest kartu baru ada untuk AY-SR-101 (PS-101). "
+                      "Jangan mengarang kartu untuk SKU lain.")
+    ada, info = _ketersediaan_aset()
+    if not ada:
+        return _gagal("aset_tidak_tersedia", info)
+    try:
+        from asset_builder import muat_manifest, render
+        import tempfile
+        m = muat_manifest()
+        out = Path(tempfile.gettempdir()) / "lolos_assets" / f"kartu-{sku}.png"
+        sc = render(m, out, ubah=overrides or {})
+        return {"ok": True, "sku": sku, "berkas": str(out),
+                "ukuran": sc["ukuran"], "sidik": sc["sha1"],
+                "blok": {k: {"teks": v["teks"], "meluber": v["meluber"]}
+                         for k, v in sc["blok"].items()},
+                "catatan": "Ini FILE DESAIN, belum tentu benar. Jalankan validate_asset_card "
+                           "untuk membaca ulang PNG lewat OCR."}
+    except Exception as e:
+        return _gagal("render_gagal", str(e)[:300])
+
+
+def validate_asset_card(sku: str = "AY-SR-101", overrides: dict | None = None,
+                        potong: dict | None = None) -> dict:
+    """Render lalu baca ulang teks di PNG lewat OCR, lalu nilai (C-17).
+
+    Tiga sinyal independen: geometri/luber, deret angka, dan recall kata;
+    teks hasil OCR juga dinilai Reviewer R-01..R-21. Status LULUS / TOLAK.
+    """
+    if sku != "AY-SR-101":
+        return _gagal("manifest_tidak_tersedia",
+                      "Manifest kartu baru ada untuk AY-SR-101 (PS-101).")
+    ada, info = _ketersediaan_aset()
+    if not ada:
+        return _gagal("aset_tidak_tersedia", info)
+    try:
+        from asset_builder import muat_manifest
+        from validate_asset import validasi
+        h = validasi(muat_manifest(), ubah=overrides or {}, potong=potong or {})
+        return {"ok": True, "sku": sku, "status": h.status,
+                "lulus": h.ok, "ringkas": h.ringkas,
+                "teks_ocr": h.teks_ocr[:1500],
+                "temuan": [{"kunci": t.kunci, "jenis": t.jenis, "pesan": t.pesan}
+                           for t in h.temuan],
+                "detik": h.detik,
+                "catatan": "Yang dinilai adalah PROOF (PNG hasil render), bukan file desainnya."}
+    except Exception as e:
+        return _gagal("validasi_gagal", str(e)[:300])
+
+
+def get_localized_facts(sku: str) -> dict:
+    """Ambil kamus fakta kanonik ID/EN/ZH untuk satu SKU (C-15).
+
+    Kamus ini ditulis manusia, bukan terjemahan model. Angka, kadar, isi, dan
+    nomor BPOM identik di tiga bahasa supaya penyimpangan bisa dideteksi.
+    """
+    try:
+        import multilingual as ml
+        hasil = {}
+        for b in ml.BAHASA:
+            hasil[b] = ml.versi_kanonik(sku, b)
+        if any(not v.get("ok") for v in hasil.values()):
+            first = next(v for v in hasil.values() if not v.get("ok"))
+            return {"ok": False, "error": first["error"], "pesan": first["pesan"]}
+        return {"ok": True, "sku": sku, "bahasa": list(ml.BAHASA),
+                "versi": {b: hasil[b]["teks"] for b in ml.BAHASA},
+                "kode_fakta": hasil["id"]["kode_fakta"],
+                "catatan": "Tiga versi dari SATU kamus fakta. Ini bukan terjemahan bebas model."}
+    except Exception as e:
+        return _gagal("fakta_gagal", str(e)[:300])
+
+
+def check_factual_consistency(sku: str, versions: dict) -> dict:
+    """Periksa konsistensi fakta lintas versi ID/EN/ZH (C-15).
+
+    `versions` = {"id": "...", "en": "...", "zh": "..."}. Memeriksa kecocokan
+    kode fakta, token angka/registri, klaim terlarang per bahasa, dan disclaimer.
+    """
+    if not isinstance(versions, dict):
+        return _gagal("versi_tidak_sah", "versions harus objek {id, en, zh}")
+    try:
+        import multilingual as ml
+        return ml.cek_konsistensi(sku, versions)
+    except Exception as e:
+        return _gagal("konsistensi_gagal", str(e)[:300])
+
+
+def propose_rule_from_edit(sku: str, original: str, edited: str,
+                           jenis: str = "frasa_dilarang", alasan: str = "") -> dict:
+    """Ubah suntingan manusia menjadi USULAN aturan berstatus PROPOSED (C-18).
+
+    jenis: frasa_dilarang | klaim_wajib | batas_platform | klarifikasi.
+    Tidak ada aturan yang aktif. Persetujuan butuh kunci approver manusia.
+    """
+    if len(original) > MAX_DRAFT or len(edited) > MAX_DRAFT:
+        return _gagal("teks_terlalu_panjang", f"maks {MAX_DRAFT} karakter")
+    try:
+        import rule_proposals as rp
+        with _LOCK:
+            return rp.buat_usulan(sku, original, edited, jenis, alasan, ACTOR)
+    except Exception as e:
+        return _gagal("usulan_gagal", str(e)[:300])
+
+
+def approve_rule_proposal(proposal_id: str, approval_key: str,
+                          note: str = "") -> dict:
+    """Setujui usulan aturan dengan kunci approver manusia (C-18).
+
+    Status jadi APPROVED, tetapi tetap TIDAK mengubah RULEBOOK. Penggabungan ke
+    `rulebook_claims.md` adalah tinjauan kode oleh manusia, bukan aksi otomatis.
+    """
+    try:
+        import rule_proposals as rp
+        with _LOCK:
+            return rp.setujui(proposal_id, approval_key, note)
+    except Exception as e:
+        return _gagal("persetujuan_gagal", str(e)[:300])
+
+
+def list_rule_proposals(status: str | None = None) -> dict:
+    """Daftar usulan aturan, opsional difilter status (C-18)."""
+    try:
+        import rule_proposals as rp
+        rows = rp.daftar(status)
+        return {"ok": True, "jumlah": len(rows), "usulan": rows,
+                "status_sah": list(rp.STATUS),
+                "catatan": "APPROVED belum berarti aktif; tidak ada auto-apply ke rulebook."}
+    except Exception as e:
+        return _gagal("daftar_gagal", str(e)[:300])

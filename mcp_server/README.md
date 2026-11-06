@@ -9,7 +9,7 @@ WorkBuddy  ──stdio──▶  mcp_server/stdio.py
            ──https──▶  mcp_server/http.py  ──▶  AuthMiddleware ──▶ /mcp
                             │
                             ▼
-                       mcp_server/server.py    12 tool, tanpa logika
+                       mcp_server/server.py    19 tool, tanpa logika
                             │
                             ▼
                        mcp_server/tools.py     fungsi biasa, tanpa impor mcp

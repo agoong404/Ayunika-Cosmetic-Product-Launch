@@ -147,3 +147,80 @@ def approve_publication(plan_id: str, approval_key: str, note: str = "") -> dict
     Tool ini tidak menerbitkan apa pun; status akhirnya APPROVED.
     """
     return tools.approve_publication(plan_id, approval_key, note)
+
+
+# ------------------------------------------------------- aset gambar (C-17)
+@mcp.tool()
+def build_asset_card(sku: str = "AY-SR-101", overrides: dict | None = None) -> dict:
+    """Render kartu produk 1080x1350 ke PNG (C-17). Hasilnya FILE DESAIN, belum terverifikasi.
+
+    `overrides` mengganti teks blok, mis. {"harga": "Rp139.000"} untuk menguji
+    kartu bersalah harga. Butuh Chrome headless; gagal tertutup bila tidak ada.
+    Selalu lanjutkan ke validate_asset_card sebelum menyatakan kartu benar.
+    """
+    return tools.build_asset_card(sku, overrides)
+
+
+@mcp.tool()
+def validate_asset_card(sku: str = "AY-SR-101", overrides: dict | None = None,
+                        potong: dict | None = None) -> dict:
+    """Baca ulang teks di PNG lewat OCR lalu nilai kartu (C-17): LULUS atau TOLAK.
+
+    Yang diperiksa adalah PROOF gambar, bukan file desainnya. Turunan harga,
+    kadar, isi, dan BPOM diverifikasi terhadap manifest; teks OCR juga dinilai
+    Reviewer R-01..R-21. Butuh Tesseract; gagal tertutup bila tidak tersedia.
+    """
+    return tools.validate_asset_card(sku, overrides, potong)
+
+
+# --------------------------------------------------- multibahasa (C-15)
+@mcp.tool()
+def get_localized_facts(sku: str) -> dict:
+    """Tiga versi fakta ID/EN/Mandarin dari SATU kamus kanonik (C-15).
+
+    Angka, kadar, isi, dan nomor BPOM sengaja identik di tiga bahasa. Ini
+    kamus fakta terstruktur, bukan terjemahan model bebas; kualitas terjemahan
+    tetap butuh tinjauan manusia.
+    """
+    return tools.get_localized_facts(sku)
+
+
+@mcp.tool()
+def check_factual_consistency(sku: str, versions: dict) -> dict:
+    """Periksa konsistensi fakta lintas versi ID/EN/Mandarin (C-15).
+
+    `versions` = {"id": "...", "en": "...", "zh": "..."}. Mengembalikan
+    KONSISTEN / TIDAK_KONSISTEN beserta temuan per bahasa: fakta hilang,
+    angka asing, klaim terlarang, disclaimer hilang, atau ketidaksejajaran.
+    """
+    return tools.check_factual_consistency(sku, versions)
+
+
+# --------------------------------------------- usulan aturan (C-18)
+@mcp.tool()
+def propose_rule_from_edit(sku: str, original: str, edited: str,
+                           jenis: str = "frasa_dilarang", alasan: str = "") -> dict:
+    """Ubah suntingan manusia menjadi USULAN aturan berstatus PROPOSED (C-18).
+
+    jenis: frasa_dilarang | klaim_wajib | batas_platform | klarifikasi.
+    Tidak ada aturan yang langsung aktif. Menyetujui butuh kunci approver
+    manusia, dan APPROVED pun tetap tidak mengubah RULEBOOK secara otomatis.
+    """
+    return tools.propose_rule_from_edit(sku, original, edited, jenis, alasan)
+
+
+@mcp.tool()
+def approve_rule_proposal(proposal_id: str, approval_key: str,
+                          note: str = "") -> dict:
+    """Setujui usulan aturan dengan kunci approver manusia (C-18).
+
+    Nama approver diturunkan dari kunci, bukan diklaim. Status jadi APPROVED,
+    tetapi penggabungan ke `rulebook_claims.md` tetap tinjauan kode manusia.
+    """
+    return tools.approve_rule_proposal(proposal_id, approval_key, note)
+
+
+@mcp.tool()
+def list_rule_proposals(status: str | None = None) -> dict:
+    """Daftar usulan aturan, opsional difilter status (C-18)."""
+    return tools.list_rule_proposals(status)
