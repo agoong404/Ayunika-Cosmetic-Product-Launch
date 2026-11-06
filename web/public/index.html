@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lolos — periksa konten peluncuran sebelum terbit</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <span class="brand">Lolos</span>
+    <span class="tag">reviewer konten peluncuran kosmetik</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <h1>Periksa konten peluncuran sebelum terbit.</h1>
+    <p class="lead">
+      Setiap draf dinilai terhadap aturan klaim kosmetik BPOM dan jaminan halal.
+      Yang melanggar ditolak dengan nomor aturan, kutipan persis dari draf, dan
+      perbaikan yang konkret — bukan sekadar "kurang sesuai".
+    </p>
+    <div class="verdicts">
+      <span class="chip ok">LOLOS</span>
+      <span class="chip no">TOLAK</span>
+      <span class="chip wait">PERLU_DATA</span>
+    </div>
+    <p class="note">
+      15 dari 21 aturan diperiksa deterministik di server ini. Enam aturan yang
+      butuh penilaian bahasa — nada, klaim tak terverifikasi, testimoni,
+      before-after, penyebutan kompetitor — dijalankan di alur WorkBuddy.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2>Console review</h2>
+
+    <form id="form-review" class="controls">
+      <label>SKU
+        <select id="sku" required></select>
+      </label>
+      <label>Platform
+        <select id="platform">
+          <option value="tiktok">tiktok</option>
+          <option value="instagram">instagram</option>
+          <option value="marketplace">marketplace</option>
+        </select>
+      </label>
+      <button type="submit" id="tombol-review">Jalankan review</button>
+    </form>
+
+    <p id="pesan" class="pesan" role="status"></p>
+    <div id="hasil"></div>
+  </section>
+
+  <section class="panel muted-panel">
+    <h2>Kenapa ada gerbang approval</h2>
+    <p>
+      Sistem ini tidak pernah menerbitkan apa pun. Setelah sebuah draf lolos, ia
+      hanya bisa diajukan — dan persetujuan dilakukan manusia dengan kunci
+      approver di luar situs ini. Situs ini tidak memegang kunci tersebut, jadi
+      tidak ada tombol di sini yang bisa menyetujui konten.
+    </p>
+    <p class="note">
+      Setiap penolakan dan persetujuan tercatat di rantai hash yang tidak bisa
+      diubah diam-diam.
+    </p>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <span>Lolos · Challenge C · Tencent Cloud Hackathon Indonesia 2026</span>
+</footer>
+
+<script src="/app.js" type="module"></script>
+</body>
+</html>

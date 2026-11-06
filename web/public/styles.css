@@ -1,0 +1,238 @@
+:root {
+  --bg: #f7f7f4;
+  --panel: #ffffff;
+  --line: #e4e3dd;
+  --text: #1c1c19;
+  --muted: #6b6a63;
+  --ok-bg: #e1f5ee;
+  --ok-fg: #0f6e56;
+  --no-bg: #fcebeb;
+  --no-fg: #a32d2d;
+  --wait-bg: #faeeda;
+  --wait-fg: #854f0b;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.wrap {
+  width: min(900px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.topbar {
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+  padding: 14px 0;
+}
+
+.topbar .wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-weight: 500;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.tag, .note {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hero { padding: 44px 0 28px; }
+
+h1 {
+  font-size: 30px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+}
+
+h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 16px;
+}
+
+.lead { margin: 0 0 18px; max-width: 62ch; }
+
+.verdicts { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+
+.chip {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.chip.ok { background: var(--ok-bg); color: var(--ok-fg); }
+.chip.no { background: var(--no-bg); color: var(--no-fg); }
+.chip.wait { background: var(--wait-bg); color: var(--wait-fg); }
+
+.note { margin: 0; max-width: 68ch; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-bottom: 20px;
+}
+
+.muted-panel p { margin: 0 0 10px; max-width: 68ch; }
+
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  flex: 1 1 180px;
+}
+
+select, button, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+select {
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+}
+
+button {
+  padding: 10px 16px;
+  border: 1px solid var(--text);
+  border-radius: 8px;
+  background: var(--text);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+button:hover { opacity: 0.88; }
+button:disabled { opacity: 0.45; cursor: default; }
+
+button.ghost {
+  background: #fff;
+  color: var(--text);
+  border-color: var(--line);
+}
+
+.pesan { min-height: 20px; margin: 0 0 14px; font-size: 13px; color: var(--muted); }
+.pesan.error { color: var(--no-fg); }
+
+.hasil-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.trail { font-size: 13px; color: var(--muted); }
+
+.temuan {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.temuan-head {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.rule {
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px 7px;
+}
+
+.layer { font-size: 12px; color: var(--muted); }
+
+blockquote {
+  margin: 0 0 8px;
+  padding: 8px 12px;
+  border-left: 3px solid var(--line);
+  color: var(--text);
+  font-size: 14px;
+  background: var(--bg);
+  border-radius: 0 6px 6px 0;
+}
+
+.temuan p { margin: 0 0 6px; font-size: 14px; }
+.temuan .fix { color: var(--ok-fg); font-size: 13px; }
+
+.konten {
+  margin-top: 14px;
+  padding: 12px;
+  background: var(--bg);
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: pre-wrap;
+}
+
+.plan {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.plan code {
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 13px;
+  background: var(--bg);
+  padding: 2px 6px;
+  border-radius: 5px;
+}
+
+.plan .baris { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+
+footer {
+  padding: 28px 0 40px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 560px) {
+  h1 { font-size: 24px; }
+  .hero { padding-top: 28px; }
+}

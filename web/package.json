@@ -1,0 +1,13 @@
+{
+  "name": "lolos-web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Situs publik Lolos: console review + usul approval. Tanpa dependensi.",
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

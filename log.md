@@ -843,6 +843,62 @@ Everything else tracked is referenced by code, tests, or submission docs — inc
 
 ---
 
+## Turn 23 — 2026-11-06
+
+### User
+Deployed to Railway, asked to verify, then asked to scaffold a public site.
+
+### Assistant
+
+**Deploy verified against the live URL** (`ayunika-cosmetic-product-launch-production.up.railway.app`):
+
+| Check | Result |
+|---|---|
+| `/health` | 200 · `{"status":"ok","service":"lolos-mcp"}` |
+| `/mcp` without token | 401 · `www-authenticate: Bearer realm="lolos"` |
+| `POST /mcp` + token | 200 · 12 tools |
+| `approve_publication` schema | `{plan_id, approval_key, note}` — no `approver`, so the deployed build is the key-per-approver commit |
+| Audit write path | `request_approval` → `PLAN-8DB04F36` written |
+| Chain integrity | `{"utuh": true, "jumlah_entri": 1}` |
+
+The audit write is the one that mattered: it proves the Railway volume is writable through `deploy/entrypoint.sh`. That was the only change I could not test locally (Docker daemon was not running), so it was verified on the real deployment instead.
+
+**`invalid_token` was not a bug.** `AuthMiddleware` guards every path except `/health`, so visiting the bare domain or `/mcp` in a browser always returns `{"error":"invalid_token"}`. Fail-closed working as designed.
+
+**Two mistakes of mine, caught by testing rather than review:**
+1. `web/server/index.js` built the static path as `"." + rel`, so `/` resolved to `.index.html` and 404'd. Fixed to only prefix the dot for paths that start with `/`.
+2. A leftover `"TOKAK"` branch in the frontend `chip()` helper.
+
+**Git identity switched** to `agoong404 <134856484+agoong404@users.noreply.github.com>` (noreply form), repo-local only; the stale `github.com` credential was erased from Windows Credential Manager first, otherwise the push would have silently used the old account.
+
+---
+
+## Turn 24 — 2026-11-06
+
+### User
+Asked whether a public website could run the MCP, then chose a no-LLM version where the owner stays the approval gate.
+
+### Assistant
+
+Added `web/` — public site, zero dependencies (Node 22, no `npm install`):
+
+| Berkas | Isi |
+|---|---|
+| `web/server/index.js` | BFF: holds `MCP_TOKEN`, four endpoints, per-IP limits, static serving |
+| `web/server/mcp.js` | Minimal MCP client: one JSON-RPC POST, parses JSON or SSE |
+| `web/public/` | Vanilla landing + console (no framework) |
+| `web/README.md` | Run, deploy, and the four traps |
+
+**Architectural decision:** the site can only `list_products`, `run_cycle`, `request_approval`, `audit_tail`. `approve_publication` is not in the BFF at all — not blocked, simply absent. Approval stays in the owner's WorkBuddy session, so the public site structurally cannot approve. The BFF holding `MCP_TOKEN` is therefore not the same as holding the gate: the token cannot substitute for the approver key.
+
+**Honest boundary, stated on the page:** `run_cycle` calls `review_draft` without `findings`, so the public site evaluates only the deterministic layer — 15 of 21 rules. The six language-judgment rules are documented as running in the WorkBuddy flow. The `findings` parameter is the existing seam if a model is added later.
+
+**Verified locally against the live MCP:** products 200; `/` + CSS + JS 200; `run_cycle` → LOLOS with content; `request_approval` → `PLAN-101AC737`; `/api/status` → `PROPOSED`, 3 audit entries; bad SKU → 400; sixth run in an hour → 429.
+
+**Not built, deliberately:** no LLM (no bill, no prompt-injection surface, deterministic demo), no auth (rate limits only — fine for a demo, not for a product), and no approval button anywhere on the page.
+
+---
+
 ## Decisions
 
 | Date | Decision | Why |
