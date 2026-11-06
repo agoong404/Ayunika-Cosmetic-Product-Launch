@@ -14,9 +14,9 @@ Browser  →  BFF (Node, token di sini)  →  MCP di Railway
 1. `MCP_TOKEN` tidak boleh ada di browser. Di frontend, token = publik.
 2. MCP adalah JSON-RPC di atas streamable HTTP (SSE) — canggung dari halaman,
    sepele dari server.
-3. Hanya empat tool yang dijangkau pengunjung: `list_products`, `run_cycle`,
-   `request_approval`, `audit_tail`. `approve_publication` **tidak ada** di
-   berkas BFF — bukan sekadar diblokir, memang tidak ditulis.
+3. Hanya lima tool yang dijangkau pengunjung: `list_products`, `get_rulebook`,
+   `run_cycle`, `request_approval`, `audit_tail`. `approve_publication` **tidak
+   ada** di berkas BFF — bukan sekadar diblokir, memang tidak ditulis.
 
 Karena BFF memegang `MCP_TOKEN` tapi bukan kunci approver, kebocoran token
 transport tidak sama dengan kebobolan gerbang: `approve_publication` tetap
@@ -50,6 +50,18 @@ Enam aturan lapis-2 sengaja tidak dijalankan di sini: `run_cycle` memanggil
 `review_draft` tanpa `findings`, jadi server hanya menilai lapis deterministik.
 Kalau nanti ingin lengkap, tambahkan satu panggilan model di BFF lalu kirim
 hasilnya sebagai `findings` — seam-nya sudah ada di kontrak MCP.
+
+## Dua cara menjelaskan, satu tanpa model
+
+| Cara | Butuh LLM | Sifat |
+|---|---|---|
+| Teks aturan inline per temuan | **Tidak** | Deterministik: `get_rulebook` mengembalikan teks R-xx, lapis, dan dasar aturannya |
+| Panel "Tanya kenapa?" | Ya (`LLM_*`) | Model hanya menjelaskan; tidak menulis konten, tidak mengubah verdict |
+
+Jadi "kenapa ini ditolak" sudah terjawab tanpa model sama sekali — setiap
+temuan menampilkan teks aturan yang dilanggar, kutipan persis, dan perbaikannya.
+Panel tanya adalah lapisan tambahan untuk pertanyaan bebas, dan ia mati dengan
+rapi kalau `LLM_*` kosong.
 
 ## Deploy
 

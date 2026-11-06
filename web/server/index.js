@@ -3,7 +3,7 @@
 // Tiga aturan yang dipegang berkas ini:
 //
 //  1. MCP_TOKEN hanya hidup di sini. Browser tidak pernah melihatnya.
-//  2. Hanya EMPAT tool yang boleh dijangkau pengunjung: list_products,
+//  2. Hanya LIMA tool yang boleh dijangkau pengunjung: list_products, get_rulebook,
 //     run_cycle, request_approval, audit_tail. `approve_publication` sengaja
 //     TIDAK ada di berkas ini — persetujuan hanya dari sesi WorkBuddy pemilik,
 //     dengan kunci approver yang tidak pernah menyentuh server ini.
@@ -166,6 +166,16 @@ async function tanganiApi(req, res, url) {
 
   if (req.method === "GET" && url.pathname === "/api/products") {
     return kirim(res, 200, await klien.panggilTool("list_products", {}));
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/rulebook") {
+    const body = await bacaJson(req);
+    const ids = Array.isArray(body.ids) ? body.ids : [];
+    const bersih = ids
+      .filter((v) => typeof v === "string" && /^R-\d{2}$/.test(v))
+      .slice(0, 21);
+    if (!bersih.length) return kirim(res, 400, { error: "ids kosong atau tidak sah" });
+    return kirim(res, 200, await klien.panggilTool("get_rulebook", { rule_ids: bersih }));
   }
 
   if (req.method === "POST" && url.pathname === "/api/run") {

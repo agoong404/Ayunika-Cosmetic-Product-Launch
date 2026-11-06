@@ -211,6 +211,17 @@ button.ghost {
 
 .layer { font-size: 12px; color: var(--muted); }
 
+.aturan {
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: var(--muted);
+  background: var(--bg);
+  border-radius: 6px;
+}
+
+.aturan strong { color: var(--text); font-weight: 500; }
+
 blockquote {
   margin: 0 0 8px;
   padding: 8px 12px;

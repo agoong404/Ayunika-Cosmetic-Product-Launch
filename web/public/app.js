@@ -60,36 +60,61 @@ function chip(verdict) {
   return `<span class="chip ${kelas}">${esc(verdict)}</span>`;
 }
 
-function renderTemuan(daftar) {
+async function ambilAturan(ids) {
+  const peta = new Map();
+  if (!ids.length) return peta;
+  try {
+    const data = await api("/api/rulebook", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ids }),
+    });
+    for (const a of data.aturan || []) peta.set(a.rule_id, a);
+  } catch {
+    // tanpa teks aturan pun temuan tetap tampil
+  }
+  return peta;
+}
+
+function renderTemuan(daftar, peta) {
   if (!daftar.length) return "";
   return daftar
-    .map(
-      (t) => `
+    .map((t) => {
+      const aturan = peta.get(t.rule_id);
+      const teksAturan = aturan
+        ? `<p class="aturan"><strong>${esc(t.rule_id)}</strong> — ${esc(aturan.teks)}</p>`
+        : "";
+      return `
       <div class="temuan">
         <div class="temuan-head">
           <span class="rule">${esc(t.rule_id)}</span>
           <span class="layer">lapis ${esc(t.layer)}</span>
         </div>
+        ${teksAturan}
         <blockquote>${esc(t.span)}</blockquote>
         <p>${esc(t.reason)}</p>
         <p class="fix">Perbaiki: ${esc(t.fix)}</p>
-      </div>`,
-    )
+      </div>`;
+    })
     .join("");
 }
 
-function renderHasil(data) {
+async function renderHasil(data) {
   const riwayat = data.riwayat || [];
   const akhir = riwayat[riwayat.length - 1] || {};
+  const temuan = akhir.temuan || [];
   const jejak = riwayat.map((r) => `v${r.iterasi} ${r.jumlah_temuan} temuan`).join(" → ");
   const lolos = data.status === "LOLOS";
+
+  const ids = [...new Set(temuan.map((t) => t.rule_id))];
+  const peta = await ambilAturan(ids);
 
   el("#hasil").innerHTML = `
     <div class="hasil-head">
       ${chip(data.status)}
       <span class="trail">${esc(jejak)}</span>
     </div>
-    ${renderTemuan(akhir.temuan || [])}
+    ${renderTemuan(temuan, peta)}
     ${
       lolos
         ? `<div class="konten">${esc(data.konten_final)}</div>
@@ -208,7 +233,7 @@ el("#form-review").addEventListener("submit", async (ev) => {
       }),
     });
     hasil = data;
-    renderHasil(data);
+    await renderHasil(data);
     pesan(
       data.sisa_jatah !== undefined
         ? `Selesai. Sisa jatah review Anda: ${data.sisa_jatah}.`
