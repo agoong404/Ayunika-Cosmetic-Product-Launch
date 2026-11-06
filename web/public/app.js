@@ -213,6 +213,13 @@ async function ajukan() {
   }
 }
 
+el("#saran").addEventListener("click", (ev) => {
+  const tombol = ev.target.closest(".chip-btn");
+  if (!tombol) return;
+  el("#prompt").value = tombol.dataset.prompt || "";
+  el("#prompt").focus();
+});
+
 el("#form-review").addEventListener("submit", async (ev) => {
   ev.preventDefault();
   clearInterval(timerPoll);
@@ -222,6 +229,28 @@ el("#form-review").addEventListener("submit", async (ev) => {
   const tombol = el("#tombol-review");
   tombol.disabled = true;
   pesan("Menjalankan Planner → Writer → Reviewer…");
+
+  // Pemetaan sudut tanpa model: kata kunci -> sudut. Kalau tidak cocok,
+  // katakan apa adanya dan pakai sudut bawaan.
+  let angle = "";
+  let catatanSudut = "";
+  const prompt = el("#prompt").value.trim();
+  if (prompt) {
+    try {
+      const p = await api("/api/parse", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ prompt }),
+      });
+      angle = p.angle || "";
+      catatanSudut = p.cocok
+        ? `Sudut dikenali dari "${p.kata_kunci}".`
+        : "Sudut tidak dikenali — memakai sudut bawaan.";
+    } catch {
+      catatanSudut = "Gagal membaca sudut — memakai bawaan.";
+    }
+  }
+
   try {
     const data = await api("/api/run", {
       method: "POST",
@@ -229,16 +258,13 @@ el("#form-review").addEventListener("submit", async (ev) => {
       body: JSON.stringify({
         sku: el("#sku").value,
         platform: el("#platform").value,
-        angle: el("#angle").value,
+        angle,
       }),
     });
     hasil = data;
     await renderHasil(data);
-    pesan(
-      data.sisa_jatah !== undefined
-        ? `Selesai. Sisa jatah review Anda: ${data.sisa_jatah}.`
-        : "Selesai.",
-    );
+    const sisa = data.sisa_jatah !== undefined ? ` Sisa jatah: ${data.sisa_jatah}.` : "";
+    pesan(`${catatanSudut}${sisa}`.trim() || "Selesai.");
   } catch (e) {
     pesan(e.message, true);
   } finally {

@@ -100,6 +100,38 @@ const PLATFORM = new Set(["tiktok", "instagram", "marketplace"]);
 const SKU_RE = /^AY-[A-Z]{2}-\d{3}$/;
 const PLAN_RE = /^PLAN-[0-9A-F]{8}$/;
 
+// --------------------------------------------------------------------------- urai sudut (tanpa LLM)
+// Pengunjung mengetik bebas, tapi pemetaannya deterministik: kata kunci ->
+// sudut cerita. Tidak ada model, jadi tidak ada salah paham yang mengarang.
+// Kalau tidak ada kata kunci yang cocok, jawabannya jujur "tidak dikenali".
+const SUDUT = [
+  {
+    kunci: ["promo", "harga", "diskon", "murah", "129", "peluncuran", "kuota"],
+    angle: "Sebutkan promo peluncuran dan kuotanya",
+  },
+  {
+    kunci: ["tekstur", "ringan", "lengket", "meresap", "nyaman", "wangi"],
+    angle: "Tekankan tekstur ringan dan cepat meresap",
+  },
+  {
+    kunci: ["kusam", "kasar", "belang", "cerah", "glowing", "kering"],
+    angle: "Ditujukan untuk kulit kusam",
+  },
+  {
+    kunci: ["bahan", "niacinamide", "vitamin", "kandungan", "aktif", "formula"],
+    angle: "Jelaskan bahan aktif dan kadarnya",
+  },
+];
+
+function uraiSudut(teks) {
+  const t = teks.toLowerCase();
+  for (const s of SUDUT) {
+    const kena = s.kunci.find((k) => t.includes(k));
+    if (kena) return { cocok: true, angle: s.angle, kata_kunci: kena };
+  }
+  return { cocok: false, angle: "", kata_kunci: "" };
+}
+
 const cekSku = (v) => typeof v === "string" && SKU_RE.test(v);
 const cekPlatform = (v) => typeof v === "string" && PLATFORM.has(v);
 
@@ -166,6 +198,16 @@ async function tanganiApi(req, res, url) {
 
   if (req.method === "GET" && url.pathname === "/api/products") {
     return kirim(res, 200, await klien.panggilTool("list_products", {}));
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/parse") {
+    const body = await bacaJson(req);
+    const prompt = typeof body.prompt === "string" ? body.prompt.trim() : "";
+    if (!prompt) return kirim(res, 400, { error: "prompt kosong" });
+    if (prompt.length > 200) {
+      return kirim(res, 400, { error: "prompt melebihi 200 karakter" });
+    }
+    return kirim(res, 200, { ...uraiSudut(prompt), prompt });
   }
 
   if (req.method === "POST" && url.pathname === "/api/rulebook") {

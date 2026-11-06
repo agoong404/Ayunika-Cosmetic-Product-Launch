@@ -56,16 +56,19 @@
         </select>
       </label>
       <label>Sudut cerita
-        <select id="angle">
-          <option value="">bawaan</option>
-          <option value="Jelaskan bahan aktif dan kadarnya">bahan aktif</option>
-          <option value="Tekankan tekstur ringan dan cepat meresap">tekstur ringan</option>
-          <option value="Ditujukan untuk kulit kusam">kulit kusam</option>
-          <option value="Sebutkan promo peluncuran dan kuotanya">promo peluncuran</option>
-        </select>
+        <input id="prompt" type="text" maxlength="200"
+               placeholder="mis. tekankan teksturnya yang ringan">
       </label>
       <button type="submit" id="tombol-review">Jalankan review</button>
     </form>
+
+    <div class="saran" id="saran">
+      <span class="saran-label">atau pilih:</span>
+      <button type="button" class="chip-btn" data-prompt="Jelaskan bahan aktif dan kadarnya">bahan aktif</button>
+      <button type="button" class="chip-btn" data-prompt="Tekankan tekstur ringan dan cepat meresap">tekstur ringan</button>
+      <button type="button" class="chip-btn" data-prompt="Ditujukan untuk kulit kusam">kulit kusam</button>
+      <button type="button" class="chip-btn" data-prompt="Sebutkan promo peluncuran dan kuotanya">promo peluncuran</button>
+    </div>
 
     <p id="pesan" class="pesan" role="status"></p>
     <div id="hasil"></div>
