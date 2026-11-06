@@ -1,6 +1,7 @@
 # Matriks Keputusan — Pilih Challenge (isi hari ini, 27 Okt)
 
-> Deadline submission **1 November 2026**. Kunci pilihan malam ini agar punya 4 hari penuh untuk build.
+> Deadline submission saat keputusan ini diambil: **1 November 2026** (kemudian diundur ke
+> **7 November 2026**). Kunci pilihan malam ini agar punya 4 hari penuh untuk build.
 
 ## Perbandingan Singkat
 
@@ -54,6 +55,8 @@ Yang dibuang: dasbor pemantauan sertifikat dan copilot CS (konsep Challenge A).
 Yang dipakai ulang: `governance.py` (audit hash-chain, gerbang approval), logika
 pemeriksaan klaim, dan seluruh pemahaman domain halal.
 
-**Konsekuensi yang diterima:** 5 dari 25 kasus resmi menjadi N/A karena kita memilih
-satu skenario (C-19 kit reseller, C-20 konten pembelajaran). Itu ditulis terbuka di
-`02_test_results.md`, bukan disembunyikan.
+**Konsekuensi yang diterima:** 4 dari 26 kasus (20 resmi + 6 cadangan) berstatus N/A
+karena kita memilih satu skenario: C-15 multibahasa, C-18 suntingan manusia,
+C-19 kit reseller, C-20 konten pembelajaran. Itu ditulis terbuka di
+`02_test_results.md`, bukan disembunyikan. (Angka di paragraf ini diperbarui 6 Nov;
+keputusan memilih Challenge C tidak berubah.)

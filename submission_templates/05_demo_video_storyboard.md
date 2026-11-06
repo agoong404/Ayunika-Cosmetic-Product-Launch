@@ -1,12 +1,16 @@
-# Storyboard Video Demo — Lolos (6:30)
+# Storyboard Video Demo — Lolos (7:02)
 
 > **Wajib ada:** gambaran proyek, kemampuan inti, refleksi build + tooling, dan minimal
 > satu adegan agent **menolak / minta klarifikasi / menunggu approval**.
 > Rekam 1080p, layar penuh, kursor besar, zoom 125–150%.
 >
-> **Sudah ada potongan jadi:** `video/Lolos_Demo.mp4` — 7:02, 1920×1080, 30 scene,
+> **Sudah ada potongan jadi:** `video/Lolos_Demo.mp4` — **7:02**, 1920×1080, **30 scene**,
 > dibangun dari keluaran nyata (`video/capture.py` → `video/build.py`). **Tanpa narasi
-> suara**; caption terbakar. Timecode di bawah bisa dipakai untuk merekam voice-over.
+> suara**; caption terbakar.
+>
+> **Catatan timecode:** tabel di bawah adalah rencana potongan 6:30. Potongan final 7:02
+> punya 30 scene, termasuk dua scene tambahan untuk C-17 (kartu produk + OCR). Untuk
+> voice-over, pakai timecode aktual dari `video/build.py`, bukan tabel ini.
 
 ## Struktur Menit-per-Menit
 

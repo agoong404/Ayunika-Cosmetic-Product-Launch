@@ -70,6 +70,13 @@ listing marketplace wajib mencantumkan nomor BPOM.
   Ini yang membuat model tidak bisa mengarang pelanggaran.
 - **Keputusan desain 3 — gerbang approval di level eksekusi**, bukan instruksi prompt.
   Token `plan_id` sekali pakai; pemohon tidak boleh menyetujui aksinya sendiri.
+- **Lapis distribusi — satu mesin, tiga permukaan.** `mcp_server/` mengekspos 19 tool
+  stateless di atas `engine/` yang sama (transport stdio untuk WorkBuddy, HTTPS untuk
+  klien jarak jauh); `web/` adalah BFF + frontend yang hanya menjangkau 5 tool dan
+  sengaja **tidak memiliki** `approve_publication`; tiga skill WorkBuddy membawa batas
+  peran ke percakapan. Tidak ada aturan yang ditulis ulang di lapisan mana pun —
+  `engine/reviewer.py` tetap satu-satunya penilai. Server MCP live di Railway dengan
+  token transport terpisah dari kunci approver manusia.
 
 ### 3c. Bagaimana prompt design menggerakkan perilaku
 
@@ -85,13 +92,14 @@ listing marketplace wajib mencantumkan nomor BPOM.
 
 | Metrik | Sebelum | Sesudah | Sumber angka |
 |---|---|---|---|
-| Waktu memeriksa 1 draf | ±5–10 menit (manual, bergantung ingatan) | **< 1 detik** untuk lapis kode | 1100 eksekusi dalam 64 detik (termasuk OCR) |
+| Waktu memeriksa 1 draf | ±5–10 menit (manual, bergantung ingatan) | **< 1 detik** untuk lapis kode | 1100 eksekusi ≈ 60 detik, termasuk OCR C-17 (`docs/OFFICIAL_CASES_RUN.md`) |
 | Aturan yang diperiksa konsisten | 3–5 yang diingat | **21 aturan** (R-01..R-21) + batas 3 platform | `dataset_c/rulebook_claims.md` |
 | Klaim bermasalah yang tertangkap | ditemukan tidak sengaja | **8 temuan** pada draf agensi v1, 0 pada v2 | siklus uji WorkBuddy |
 | Konsistensi hasil | berbeda antar orang | **1100 eksekusi, 0 penyimpangan** | 22 kasus × 50 ulangan |
 | Jejak audit | tidak ada | rantai hash; tiap tolakan & persetujuan tercatat | `engine/governance.py` |
 
 **Batas yang kami akui:** lapis model belum diuji dengan provider sungguhan — yang
-terbukti baru jalurnya, bukan kualitas penilaiannya. Dan 5 dari 25 kasus resmi berstatus
-N/A karena kami memilih satu skenario. Keduanya ditulis terbuka di `02_test_results.md`,
-bukan disembunyikan.
+terbukti baru jalurnya, bukan kualitas penilaiannya. Dan 4 dari 26 kasus (20 resmi +
+6 cadangan) berstatus N/A karena kami memilih satu skenario. Keduanya ditulis terbuka di
+`02_test_results.md`, bukan disembunyikan. Situs `web/` belum dideploy; yang live baru
+MCP service.

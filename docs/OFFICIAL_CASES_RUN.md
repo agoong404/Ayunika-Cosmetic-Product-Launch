@@ -1,6 +1,6 @@
 # Hasil 20 Kasus Resmi + 6 Cadangan — Challenge C
 
-Dijalankan: 50 ulangan per kasus · 22 kasus dieksekusi · 1100 eksekusi · 77.4 detik
+Dijalankan: 50 ulangan per kasus · 22 kasus dieksekusi · 1100 eksekusi · 63.9 detik
 
 | ID | Kasus | Hasil | Konsisten | Catatan |
 |---|---|---|---|---|

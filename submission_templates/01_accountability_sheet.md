@@ -1,7 +1,7 @@
 # Accountability Sheet — Ayunika Content Reviewer
 
 > **Challenge C — The Creator Agent** · Skenario: peluncuran produk (bodycare/beautycare)
-> Tim 3 agent: Planner · Writer · **Reviewer** · Tanggal: 31 Okt 2026
+> Tim 3 agent: Planner · Writer · **Reviewer** · Diperbarui: 6 Nov 2026
 >
 > Setiap klaim di bawah punya bukti yang bisa dijalankan: `engine/run_reviewer_tests.py`
 > (**73/73 lulus**), `engine/pipeline.py` (siklus penuh), `engine/audit_kemasan.py`,
@@ -85,9 +85,17 @@ plan → draf → tolakan → revisi → persetujuan dapat diaudit ulang baris p
 - **Planner & Writer kini ada di `agents/`** dengan dua mode (model / deterministik). Mode
   deterministik sengaja konservatif — ia menyalin klaim yang diizinkan, jadi hampir selalu
   lolos di iterasi pertama. Nilai sesungguhnya baru muncul saat mode model dipakai.
-- **62 asersi uji di sini fokus ke Reviewer.** Dataset resmi Challenge C punya 20 kasus untuk
-  sistem penuh — keduanya perlu direkonsiliasi agar tidak ada dua angka "20/20" berbeda arti.
+- **73 asersi mekanisme** (`run_reviewer_tests.py`, fokus ke Reviewer), **88/88** pada
+  `mcp_server.run_tests`, dan **22 kasus dieksekusi** dalam harness resmi (26 total, 4 N/A).
+  Ketiganya ukuran berbeda — jangan digabung jadi satu angka "lulus semua". Rekonsiliasinya
+  ada di `docs/RECONCILIATION_OFFICIAL_C.md`.
 - **Rulebook memakai nomor internal (R-xx).** Kolom dasar menyebut jenis regulasi, bukan pasal.
   Verifikasi ke Peraturan BPOM tentang Klaim Kosmetika sebelum materi publik.
 - **Kewajiban halal kosmetik baru 17 Okt 2028** (PP 40/2026). Produk tanpa sertifikat bukan
   pelanggaran; **mengklaim** halal tanpa sertifikat tetap pelanggaran.
+- **Kapabilitas bonus (ditambahkan 6 Nov, setelah video dibekukan).** Lembar fakta ID/EN/Mandarin
+  berasal dari satu kamus kanonik, bukan mesin penerjemah — kualitas terjemahan belum dinilai
+  manusia. Kartu gambar hanya tersedia untuk AY-SR-101 dan butuh Chrome + Tesseract; bila tidak
+  ada, tool gagal tertutup. Usulan aturan yang disetujui **tidak pernah mengubah RULEBOOK
+  otomatis**; penggabungan tetap tinjauan kode manusia. Ketiganya diuji terpisah (32/32) dan
+  tidak dihitung sebagai kasus resmi — lihat Lampiran di `02_test_results.md`.

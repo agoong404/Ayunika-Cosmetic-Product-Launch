@@ -31,8 +31,24 @@ python run_official_cases.py --ulang 50   # 16 utama + 6 cadangan × 50 = 1100 e
 python governance.py verify           # UTUH — rantai hash terverifikasi
 cd ..
 python -m agents.harness              # 40/40 run loop (termasuk kegagalan agent)
+./.venv/Scripts/python.exe -m mcp_server.run_tests   # 88/88 pemeriksaan MCP
 # catatan: C-17 (kartu produk + OCR) butuh binary Tesseract — lihat docs/MULAI_DARI_SINI.md
 ```
+
+**Jalur MCP & situs publik** (lihat `mcp_server/README.md`, `web/README.md`, `deploy/RAILWAY.md`):
+
+```bash
+# MCP lokal lewat stdio — daftar 19 tool, dipakai WorkBuddy lewat ~/.workbuddy-ai/mcp.json
+./.venv/Scripts/python.exe -m mcp_server.smoke_client
+
+# Situs publik (BFF tanpa dependensi; butuh MCP_URL + MCP_TOKEN)
+cd web
+node server/index.js          # http://localhost:8080
+```
+
+Situs hanya menjangkau 5 tool (`list_products`, `get_rulebook`, `run_cycle`,
+`request_approval`, `audit_tail`). `approve_publication` **tidak ditulis** di BFF —
+persetujuan tetap memakai kunci yang hanya dipegang manusia.
 
 ## Struktur
 
@@ -45,17 +61,35 @@ python -m agents.harness              # 40/40 run loop (termasuk kegagalan agent
 | `engine/run_official_cases.py` | Harness 26 kasus Challenge C (16 utama + 6 cadangan dieksekusi, 4 N/A) |
 | `agents/` | Planner, Writer (deterministik + mode model), jembatan WorkBuddy, LLM adapter |
 | `skills/` | Tiga skill WorkBuddy (`lolos-planner`, `lolos-writer`, `lolos-reviewer`) + `sync.py` |
+| `expert/` | Expert WorkBuddy **Ayunika Compliance Team** (4 agent) + `build.py` yang menghasilkan avatar tim |
+| `mcp_server/` | Server MCP, 19 tool stateless di atas `engine/` + `agents/`; transport stdio & HTTPS |
+| `web/` | Situs publik: BFF Node tanpa dependensi + frontend; `approve_publication` sengaja tidak ada |
+| `deploy/` | Dockerfile, entrypoint, nginx, systemd, dan runbook Railway |
 | `dataset_c/` | Dataset Challenge C: brief, lembar produk, rulebook R-01..R-21, riwayat konten disetujui |
-| `submission_templates/` | Dokumen submission 00–07 + 25 kartu bukti `shots/` + cover |
+| `submission_templates/` | Dokumen submission 00–07 + 26 kartu bukti `shots/` + 1 kartu produk `cards/` + cover |
 | `docs/` | Rekonsiliasi kasus resmi, laporan hasil, catatan percobaan |
+| `log.md` | Catatan 24 putaran build, termasuk keputusan desain dan koreksi |
 
 ## Status jujur
 
 - **Terverifikasi:** 1100 eksekusi kasus resmi, hasil konsisten; 73/73 asersi mekanisme;
-  40/40 run loop; rantai audit UTUH.
+  88/88 uji MCP server; 40/40 run loop; rantai audit UTUH.
+- **Live:** MCP service di `mcp-service-ayunika-production.up.railway.app` — `/health` aktif,
+  `/mcp` menolak permintaan tanpa token (fail-closed). Konfigurasi klien: `mcp_server/mcp.example.json`.
 - **Belum diuji:** lapis model dengan provider sungguhan — yang terbukti baru *jalurnya*
   (12 asersi dengan klien palsu + siklus jembatan), bukan kualitas keluaran model nyata.
-- **N/A:** C-15 (multibahasa), C-17 (aset gambar), C-18 (suntingan manusia), C-19, C-20 —
-  butuh kapabilitas di luar skenario yang dipilih. Tidak dilebarkan jadi "lulus".
+- **Belum dideploy:** situs `web/` baru diverifikasi lokal terhadap MCP live.
+- **Cakupan: prototipe untuk dataset Challenge C, bukan produksi.** Mesin membaca
+  `dataset_c/` (kontrak data: `products.csv`, `certificates.csv`, `rulebook_claims.md`,
+  lembar produk). Nomor sertifikat Ayunika **MOCK**; penomoran R-xx adalah nomor
+  internal, bukan pasal hukum; `bpjph_client.py` memakai halaman publik BPJPH yang
+  tidak resmi dan tidak boleh jadi backend produksi tanpa izin. SKU di luar registri
+  sengaja menghasilkan `PERLU_DATA` — bukan lulus. Untuk pemakaian nyata: ganti isi
+  folder data dengan registri terverifikasi, petakan R-xx ke dasar hukum yang sah,
+  uji lapis model dengan provider sungguhan, dan minta tinjauan regulatory. Kami
+  tidak mengklaim akurasi di luar 26 kasus resmi.
+- **N/A:** 4 kasus — C-15 (multibahasa), C-18 (suntingan manusia), C-19, C-20 — butuh
+  kapabilitas di luar skenario yang dipilih. Tidak dilebarkan jadi "lulus".
+  (C-17 aset gambar **sudah PASS** lewat validasi OCR.)
 - Detail lengkap: `submission_templates/01_accountability_sheet.md` dan
   `submission_templates/02_test_results.md` (termasuk 3 kegagalan yang pernah terjadi).

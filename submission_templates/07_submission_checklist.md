@@ -1,7 +1,7 @@
 # Checklist Submission — Lolos · Tencent Cloud Hackathon Indonesia 2026
 
-> **DEADLINE: 1 November 2026** · Form: https://forms.gle/y1aHBH4BsrytXDxdA
-> Status per **31 Oktober 2026, 20:30 WIB**. Yang belum, ditandai jujur — bukan dicentang.
+> **DEADLINE: 7 November 2026** (diundur dari 1 November) · Form: https://forms.gle/y1aHBH4BsrytXDxdA
+> Status per **6 November 2026, 19:45 WIB**. Yang belum, ditandai jujur — bukan dicentang.
 
 ## Jadwal (aktual, bukan rencana)
 
@@ -12,7 +12,9 @@
 | 29 Okt | Uji 20 kasus · screenshot | ✅ sebagian — 45/45 asersi mekanisme |
 | 30 Okt | Pindah ke Challenge C · dataset beautycare · Reviewer 2 lapis | ✅ keputusan diambil, bukan ditunda |
 | 31 Okt | 1100 eksekusi · 27 gambar · dokumen 00–07 · video | ✅ |
-| 1 Nov | **Submit PAGI** | ⬜ |
+| 2–5 Nov | MCP server (19 tool) + situs publik + deploy Railway; repo publik | ✅ |
+| 6 Nov | Sinkronisasi dokumen; 3 kapabilitas bonus (C-15/17/18) + expert tim "Ayunika Compliance Team" (4 agent) | ✅ |
+| 7 Nov | **Submit PAGI** | ⬜ |
 
 ## Item Submission (handbook Bag. 7)
 
@@ -26,23 +28,23 @@
 | 6 | Architecture diagram | ✅ PNG 2960×2600 + SVG + Mermaid — **diregenerasi 31 Okt** agar mencerminkan Reviewer dua lapis + kuota | WAJIB | `diagram/architecture_challenge_c.png` |
 | 7 | Demo video 5–8 menit | ✅ **7:02** — 30 scene dari keluaran nyata, caption terbakar. **Tanpa narasi suara**; bisa ditambahi voice-over | WAJIB | `video/Lolos_Demo.mp4` |
 | 8 | Product sharing (WorkBuddy) | ✅ | WAJIB | `06_product_sharing.md` |
-| 9 | Source code / export + bukti | ⚠️ `README.md` root siap 31 Okt (jalankan cepat + struktur + status jujur); **repo publik belum dibuat** — ikuti catatan `.gitignore` di bawah | WAJIB | `README.md` |
+| 9 | Source code / export + bukti | ✅ **Repo publik:** `github.com/agoong404/Ayunika-Cosmetic-Product-Launch` (11 commit, working tree bersih). `.gitignore` memblokir NIK, state runtime, dan materi panitia | WAJIB | `README.md` |
 | 10 | Cover image 16:9 (380×216) | ✅ **cover.png 1520×864 @2x** (rasio sama), dibuat dari `diagram/build_cover.py` | OPSIONAL | `submission_templates/cover.png` |
-| 11 | Project link (demo live) | ⬜ bonus; jalur API belum disambung ke provider | BONUS | — |
+| 11 | Project link (demo live) | ✅ MCP service live: `mcp-service-ayunika-production.up.railway.app/health` → `{"status":"ok","service":"lolos-mcp"}`; `/mcp` tanpa token ditolak (fail-closed). **Situs web `web/` belum dideploy** — baru diverifikasi lokal | BONUS | `deploy/RAILWAY.md`, `web/README.md` |
 
-## Yang Harus Dikerjakan Malam Ini / Besok Pagi
+## Yang Tersisa Sebelum Submit
 
-1. ~~**Rekam video**~~ ✅ sudah ada `video/Lolos_Demo.mp4` (7:02, 30 scene, caption terbakar).
-   Kalau mau menambah narasi suara, rekam voice-over di atas potongan ini — timecode-nya sudah pas.
-2. **Buat repo publik.** `.gitignore` sudah siap di root dan sudah memblokir:
-   - `dataset_halal/shared/contacts.csv` dan `dataset/shared/contacts.csv` memuat
-     **NIK + nomor telepon** (mock, tapi formatnya nyata) → **jangan dipublikasikan**
-   - `engine/.audit/`, `engine/.cache_bpjph/`, `agents/.wb/` → state runtime
-   - `Tencent_Cloud_Hackathon_Indonesia_2026_Handbook.pdf` → materi panitia
-   - `research/src/*.pdf` → dokumen regulasi pihak ketiga
-   - `dataset/` (dataset panitia) utuh → cek apakah lisensinya melarang redeploy
-3. ~~Cover image~~ ✅ selesai 31 Okt — `submission_templates/cover.png`.
-4. **Submit pagi**, simpan tangkapan konfirmasi.
+1. **Submit 7 Nov pagi**, simpan tangkapan konfirmasi form.
+2. Opsional: rekam voice-over di atas `video/Lolos_Demo.mp4` (7:02, 30 scene).
+   Timecode aktual ada di `video/build.py` — **bukan** tabel 6:30 di storyboard.
+3. Opsional: deploy `web/` ke Railway. `web/.env.example` sudah menunjuk domain MCP
+   yang aktif; `MCP_TOKEN` tetap harus diset sebagai Variable, jangan di-commit.
+
+**Sudah selesai** (dibiarkan tercatat, bukan dihapus): video, cover, repo publik,
+dan sinkronisasi dokumen. `.gitignore` memblokir `dataset_halal/shared/contacts.csv`
+dan `dataset/shared/contacts.csv` (**NIK + nomor telepon**, mock tapi format nyata),
+`engine/.audit/`, `engine/.cache_bpjph/`, `agents/.wb/`, handbook panitia,
+`research/src/*.pdf`, dan seluruh `dataset/` milik panitia.
 
 ## Kriteria Kualitas (rubrik 10×10) — penilaian sendiri
 
@@ -52,21 +54,21 @@
 | Human-Centered Design | ✅ | Approval manusia, bukan otomatis terbit |
 | AI Interaction | ✅ | 3 agent + loop + eskalasi; bukan satu prompt |
 | Technical Execution | ✅ | 1100 eksekusi, hasil jujur termasuk 3 kegagalan |
-| Feasibility | ⚠️ | Jalur produksi ada (API adapter), belum diuji provider nyata |
-| Demo & Storytelling | ⬜ | Video belum ada — ini risiko terbesar |
+| Feasibility | ✅ | MCP server live (19 tool, 88/88 uji) + situs publik nol-LLM; **yang belum diuji tetap** lapis model dengan provider sungguhan |
+| Demo & Storytelling | ✅ | Video 7:02, 30 scene, ada adegan tolak & approval; tanpa narasi suara |
 | Innovation | ✅ | Reviewer dua lapis + penjaga kutipan + kuota vs registri |
-| UX & Accessibility | ⚠️ | Masih CLI; UI belum dibangun |
-| Responsible AI & Ethics | ✅ | 5 aturan terbukti; 0 kegagalan kritis; keterbatasan terbuka |
-| Overall | ⚠️ | Bergantung pada video |
+| UX & Accessibility | ⚠️ | Situs web `web/` ada, tapi belum dideploy; alur utama masih CLI |
+| Responsible AI & Ethics | ✅ | 5 aturan terbukti; gerbang approval di kode; keterbatasan terbuka |
+| Overall | ✅ | 9 item WAJIB lengkap; 1 item BONUS sebagian |
 
 ## Red Flags — Status
 
 1. Blurb ≥10 kata → **aman (7)**
 2. Test results tanpa screenshot / tanpa FAIL → **aman** (27 gambar, 3 FAIL tercatat)
 3. Accountability sheet generik → **aman** (mekanisme + kode, bukan janji)
-4. Video tanpa adegan tolak/approval → **risiko** jika video tidak jadi
+4. Video tanpa adegan tolak/approval → **aman** (Adegan A menolak, Adegan B approval)
 5. Kegagalan disembunyikan → **aman**
-6. Submit mepet tenggat → **risiko**; targetkan 1 Nov pagi
+6. Submit mepet tenggat → **risiko**; targetkan **7 Nov pagi**
 
 ## Setelah Submit
 

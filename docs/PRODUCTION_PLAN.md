@@ -1,7 +1,13 @@
 # Production Plan — Ayunika Content Reviewer
 
-**Status:** rencana, belum dieksekusi
-**Tanggal:** 30 Okt 2026 · **Deadline submission:** 1 Nov 2026 · **Demo Day:** 27 Nov 2026
+**Status:** rencana historis 30 Okt 2026 — sebagian sudah dieksekusi, sebagian tidak
+**Tanggal:** 30 Okt 2026 · **Deadline saat itu:** 1 Nov 2026 (**diundur ke 7 Nov 2026**) · **Demo Day:** 27 Nov 2026
+
+> **Catatan 6 Nov 2026:** dokumen ini dibiarkan sebagai rekaman rencana, bukan diperbarui
+> mundur. Yang benar-benar terjadi ada di `log.md` (Turn 1–24) dan
+> `submission_templates/07_submission_checklist.md`. Di antaranya: repo publik sudah live,
+> MCP server 12 tool terdeploy, situs `web/` dibuat, dan video demo selesai. Fase 1
+> (repo GitHub) **sudah selesai**; jangan mengikuti instruksi "push private" di bawah.
 
 ---
 
