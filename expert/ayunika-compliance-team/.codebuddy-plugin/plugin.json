@@ -1,0 +1,93 @@
+{
+  "name": "ayunika-compliance-team",
+  "version": "1.0.0",
+  "description": "Four-agent compliance team for cosmetic launch content. Generates platform-specific copy, rejects rule breaches with rule numbers and quoted evidence, and remediates until each platform passes the human approval gate.",
+  "author": {
+    "name": "Lolos Team",
+    "email": "lolos@example.com"
+  },
+  "agents": [
+    "./agents/ayunika-team-lead.md",
+    "./agents/ayunika-planner.md",
+    "./agents/ayunika-writer.md",
+    "./agents/ayunika-reviewer.md"
+  ],
+  "expertType": "team",
+  "agentName": "ayunika-team-lead",
+  "teamInfo": {
+    "leadAgent": "ayunika-team-lead",
+    "memberAgents": [
+      "ayunika-planner",
+      "ayunika-writer",
+      "ayunika-reviewer"
+    ]
+  },
+  "displayName": {
+    "en": "Ayunika Compliance Team",
+    "zh": "Ayunika 合规内容团队"
+  },
+  "profession": {
+    "en": "Ayunika Compliance Team",
+    "zh": "Ayunika 合规内容团队"
+  },
+  "displayDescription": {
+    "en": "Four agents review cosmetic launch copy for TikTok, Instagram and marketplace: plan, draft, then verify against R-01..R-21. Every rejection cites its rule number and quotes the exact offending words, and each draft is rewritten until it passes — with publication still locked behind a human approval key.",
+    "zh": "四角色团队生成多平台上市文案并核验合规：违规附规则编号与原文引用，逐稿改到合规，发布由人工持钥把关。"
+  },
+  "avatar": "avatars/team.png",
+  "categoryId": "11-SecurityCompliance",
+  "defaultInitPrompt": {
+    "zh": "为 AY-SR-101 生成 TikTok、Instagram 与电商店铺三个平台的上市文案，并逐个核验合规",
+    "en": "Generate and verify AY-SR-101 launch copy for TikTok, Instagram and marketplace"
+  },
+  "plugin": "ayunika-compliance-team",
+  "tags": [
+    { "en": "Multi-Platform Content", "zh": "多平台内容" },
+    { "en": "Rule Compliance", "zh": "规则合规" },
+    { "en": "Human Approval", "zh": "人工审批" }
+  ],
+  "quickPrompts": [
+    {
+      "zh": "为 AY-SR-101 生成 TikTok、Instagram 与电商店铺三个平台的上市文案，并逐个核验合规",
+      "en": "Generate and verify AY-SR-101 launch copy for TikTok, Instagram and marketplace"
+    },
+    {
+      "zh": "核验这段文案：列出每条违规的规则编号、原文引用和具体改法",
+      "en": "Check this draft: list each violation with its rule number, the quoted words, and a concrete fix"
+    },
+    {
+      "zh": "列出四个 SKU 及各自的 halal 状态，并说明哪个 boleh diklaim halal",
+      "en": "List all four SKUs and their halal status, and say which one may be claimed as halal"
+    }
+  ],
+  "members": [
+    {
+      "id": "ayunika-team-lead",
+      "displayName": { "en": "Rani", "zh": "拉妮" },
+      "profession": { "en": "Compliance Lead", "zh": "合规组长" },
+      "avatar": "avatars/ayunika-team-lead.png",
+      "role": "lead"
+    },
+    {
+      "id": "ayunika-planner",
+      "displayName": { "en": "Bima", "zh": "比玛" },
+      "profession": { "en": "Content Planner", "zh": "内容规划师" },
+      "avatar": "avatars/ayunika-planner.png",
+      "role": "member"
+    },
+    {
+      "id": "ayunika-writer",
+      "displayName": { "en": "Citra", "zh": "琪特拉" },
+      "profession": { "en": "Draft Writer", "zh": "文案撰写员" },
+      "avatar": "avatars/ayunika-writer.png",
+      "role": "member"
+    },
+    {
+      "id": "ayunika-reviewer",
+      "displayName": { "en": "Dimas", "zh": "迪马斯" },
+      "profession": { "en": "Claim Reviewer", "zh": "宣称审查员" },
+      "avatar": "avatars/ayunika-reviewer.png",
+      "role": "member"
+    }
+  ]
+}
