@@ -1,0 +1,76 @@
+{
+  "versi": "1.0",
+  "catatan": "Satu-satunya sumber untuk versi ID/EN/ZH. Angka, kode BPOM, kadar, dan isi BUKAN diterjemahkan — nilainya identik di tiga bahasa. Ini kamus fakta terstruktur, bukan hasil terjemahan model bebas.",
+  "bahasa": ["id", "en", "zh"],
+  "sku": {
+    "AY-SR-101": {
+      "nama": {"id": "Ayunika Bright Serum", "en": "Ayunika Bright Serum", "zh": "Ayunika 亮肤精华"},
+      "token": ["Rp149.000", "Rp129.000", "30ml", "NA18241300123", "5%", "10%", "1%", "100"],
+      "fakta": [
+        {"kode": "F-01", "id": "Membantu mencerahkan kulit.", "en": "Helps brighten the skin.", "zh": "有助于提亮肤色。"},
+        {"kode": "F-02", "id": "Mengandung niacinamide 5% dan vitamin C 10%.", "en": "Contains niacinamide 5% and vitamin C 10%.", "zh": "含 5% 烟酰胺与 10% 维生素 C。"},
+        {"kode": "F-03", "id": "Tekstur ringan, cepat meresap.", "en": "Light texture, absorbs quickly.", "zh": "质地轻盈，易于吸收。"},
+        {"kode": "F-04", "id": "Harga resmi Rp149.000, isi 30 ml.", "en": "Official price Rp149.000, volume 30 ml.", "zh": "官方价格 Rp149.000，容量 30 ml。"},
+        {"kode": "F-05", "id": "Nomor notifikasi BPOM NA18241300123.", "en": "BPOM notification number NA18241300123.", "zh": "BPOM 备案号 NA18241300123。"}
+      ],
+      "larangan": {
+        "id": ["halal", "memutihkan", "menyembuhkan", "instan", "terbaik"],
+        "en": ["halal", "whitening", "heals", "instant", "best"],
+        "zh": ["清真", "美白", "治愈", "速效", "最佳"]
+      },
+      "disclaimer": {
+        "id": "Hasil dapat berbeda pada setiap orang.",
+        "en": "Results may vary for each person.",
+        "zh": "效果因人而异。"
+      }
+    },
+    "AY-BL-102": {
+      "nama": {"id": "Ayunika Glow Body Lotion", "en": "Ayunika Glow Body Lotion", "zh": "Ayunika 焕亮身体乳"},
+      "token": ["Rp89.000", "250ml", "NA18241300456", "ID32110084875141025", "2%", "5%", "8%"],
+      "fakta": [
+        {"kode": "F-01", "id": "Melembapkan kulit kering.", "en": "Moisturises dry skin.", "zh": "滋润干燥肌肤。"},
+        {"kode": "F-02", "id": "Mengandung ceramide NP 2%, shea butter 5%, gliserin 8%.", "en": "Contains ceramide NP 2%, shea butter 5%, glycerin 8%.", "zh": "含 2% 神经酰胺 NP、5% 乳木果油、8% 甘油。"},
+        {"kode": "F-03", "id": "Bersertifikat halal ID32110084875141025.", "en": "Halal certified ID32110084875141025.", "zh": "已获清真认证 ID32110084875141025。"},
+        {"kode": "F-04", "id": "Harga resmi Rp89.000, isi 250 ml.", "en": "Official price Rp89.000, volume 250 ml.", "zh": "官方价格 Rp89.000，容量 250 ml。"},
+        {"kode": "F-05", "id": "Nomor notifikasi BPOM NA18241300456.", "en": "BPOM notification number NA18241300456.", "zh": "BPOM 备案号 NA18241300456。"}
+      ],
+      "larangan": {
+        "id": ["memutihkan", "menyembuhkan", "instan", "terbaik"],
+        "en": ["whitening", "heals", "instant", "best"],
+        "zh": ["美白", "治愈", "速效", "最佳"]
+      },
+      "disclaimer": {"id": "Hasil dapat berbeda pada setiap orang.", "en": "Results may vary for each person.", "zh": "效果因人而异。"}
+    },
+    "AY-FW-103": {
+      "nama": {"id": "Ayunika Gentle Cleanser", "en": "Ayunika Gentle Cleanser", "zh": "Ayunika 温和洁面乳"},
+      "token": ["Rp65.000", "100ml", "NA18241300789", "12%", "2%", "0,5%"],
+      "fakta": [
+        {"kode": "F-01", "id": "Membersihkan wajah dengan lembut.", "en": "Gently cleanses the face.", "zh": "温和清洁面部。"},
+        {"kode": "F-02", "id": "Mengandung amino acid surfactant 12%, panthenol 2%, allantoin 0,5%.", "en": "Contains amino acid surfactant 12%, panthenol 2%, allantoin 0,5%.", "zh": "含 12% 氨基酸表活、2% 泛醇、0,5% 尿囊素。"},
+        {"kode": "F-03", "id": "Harga resmi Rp65.000, isi 100 ml.", "en": "Official price Rp65.000, volume 100 ml.", "zh": "官方价格 Rp65.000，容量 100 ml。"},
+        {"kode": "F-04", "id": "Nomor notifikasi BPOM NA18241300789.", "en": "BPOM notification number NA18241300789.", "zh": "BPOM 备案号 NA18241300789。"}
+      ],
+      "larangan": {
+        "id": ["halal", "memutihkan", "menyembuhkan", "instan"],
+        "en": ["halal", "whitening", "heals", "instant"],
+        "zh": ["清真", "美白", "治愈", "速效"]
+      },
+      "disclaimer": {"id": "Hasil dapat berbeda pada setiap orang.", "en": "Results may vary for each person.", "zh": "效果因人而异。"}
+    },
+    "AY-SC-104": {
+      "nama": {"id": "Ayunika Coffee Scrub", "en": "Ayunika Coffee Scrub", "zh": "Ayunika 咖啡磨砂膏"},
+      "token": ["Rp79.000", "200g", "NA18241200111", "ID32110084866881022"],
+      "fakta": [
+        {"kode": "F-01", "id": "Mengangkat sel kulit mati.", "en": "Removes dead skin cells.", "zh": "去除老废角质。"},
+        {"kode": "F-02", "id": "Harga resmi Rp79.000, isi 200 g.", "en": "Official price Rp79.000, net weight 200 g.", "zh": "官方价格 Rp79.000，净含量 200 g。"},
+        {"kode": "F-03", "id": "Nomor notifikasi BPOM NA18241200111.", "en": "BPOM notification number NA18241200111.", "zh": "BPOM 备案号 NA18241200111。"}
+      ],
+      "larangan": {
+        "id": ["halal", "memutihkan", "menyembuhkan", "instan"],
+        "en": ["halal", "whitening", "heals", "instant"],
+        "zh": ["清真", "美白", "治愈", "速效"]
+      },
+      "disclaimer": {"id": "Hasil dapat berbeda pada setiap orang.", "en": "Results may vary for each person.", "zh": "效果因人而异。"}
+    }
+  }
+}
