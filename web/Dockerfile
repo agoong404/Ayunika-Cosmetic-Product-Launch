@@ -14,6 +14,9 @@ COPY server/ ./server/
 COPY public/ ./public/
 
 ENV NODE_ENV=production
+# Default non-rahasia. Bisa ditimpa lewat Variables platform kapan saja.
+# Hanya MCP_TOKEN yang wajib diisi manual — itu rahasia, tidak boleh di image.
+ENV MCP_URL=https://ayunika-cosmetic-product-launch-production.up.railway.app/mcp
 EXPOSE 8080
 
 # PORT disuntik platform (Railway); BFF membaca process.env.PORT.
