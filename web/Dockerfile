@@ -14,9 +14,12 @@ COPY server/ ./server/
 COPY public/ ./public/
 
 ENV NODE_ENV=production
-# Default non-rahasia. Bisa ditimpa lewat Variables platform kapan saja.
-# Hanya MCP_TOKEN yang wajib diisi manual — itu rahasia, tidak boleh di image.
-ENV MCP_URL=https://ayunika-cosmetic-product-launch-production.up.railway.app/mcp
+
+# MCP_URL TIDAK di-hardcode di sini. Domain layanan bisa berubah (dan pernah
+# berubah), dan nilai yang tertanam di image akan menunjuk host mati tanpa
+# ketahuan. Set sebagai Variable di platform, idealnya dengan referensi:
+#   MCP_URL=https://${{lolos-mcp.RAILWAY_PUBLIC_DOMAIN}}/mcp
+# Tanpa MCP_URL, container menolak start — gagal keras, bukan gagal diam-diam.
 EXPOSE 8080
 
 # PORT disuntik platform (Railway); BFF membaca process.env.PORT.
