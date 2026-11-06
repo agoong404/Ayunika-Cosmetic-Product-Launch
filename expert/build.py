@@ -35,18 +35,26 @@ ROOT = Path(__file__).resolve().parent.parent
 PAKET = ROOT / "expert" / "ayunika-compliance-team"
 SUMBER_AVATAR = PAKET / "avatar-source.jpg"
 
-# Nama pendek, label peran, warna aksen, dan ikon tiap anggota.
+# Nama pendek, label peran, warna aksen, ikon, dan berkas sumber tiap anggota.
 ANGGOTA = [
-    # id,                   nama,   peran,          aksen,    ikon
-    ("ayunika-team-lead",  "Rani",  "TEAM LEAD",    "#D4AF37", "star"),
-    ("ayunika-planner",    "Bima",  "CONTENT PLAN", "#2BB3A3", "clipboard"),
-    ("ayunika-writer",     "Citra", "DRAFT WRITE",  "#4A90D9", "pencil"),
-    ("ayunika-reviewer",   "Dimas", "CLAIM REVIEW", "#E05A5A", "shield"),
+    # id,                   nama,   peran,          aksen,    ikon,     src
+    ("ayunika-team-lead",  "Rani",  "TEAM LEAD",    "#D4AF37", "star",      "src/lead.jpg"),
+    ("ayunika-planner",    "Bima",  "CONTENT PLAN", "#2BB3A3", "clipboard", "src/planner.jpg"),
+    ("ayunika-writer",     "Citra", "DRAFT WRITE",  "#4A90D9", "pencil",    "src/writer.jpg"),
+    ("ayunika-reviewer",   "Dimas", "CLAIM REVIEW", "#E05A5A", "shield",    "src/reviewer.jpg"),
 ]
 
 
 def rgb(hexa: str) -> tuple[int, int, int]:
     return tuple(int(hexa[i:i + 2], 16) for i in (1, 3, 5))
+
+
+def crop_square(img: "Image.Image") -> "Image.Image":
+    """Potong ke persegi di tengah (hindari distorsi saat diubah ukuran)."""
+    w, h = img.size
+    s = min(w, h)
+    left, top = (w - s) // 2, (h - s) // 2
+    return img.crop((left, top, left + s, top + s))
 
 
 def mix_hex(c1: tuple, c2: tuple, t: float) -> tuple[int, int, int]:
@@ -106,13 +114,13 @@ def make_member_avatar(base: "Image.Image", nama: str, peran: str,
     top_c = mix_hex(rgb("#0E2A47"), ac, 0.20)
     bg = gradient(S, S, top_c, "#06121F").convert("RGBA")
 
-    # potret lingkar di tengah
+    # potret lingkar di tengah (dipotong persegi di tengah dulu)
     d_amt = 300
     cx, cy = 256, 232
     m = Image.new("L", (d_amt, d_amt), 0)
     ImageDraw.Draw(m).ellipse((0, 0, d_amt - 1, d_amt - 1), fill=255)
     por = Image.new("RGBA", (d_amt, d_amt))
-    por.paste(base.resize((d_amt, d_amt), Image.LANCZOS), (0, 0))
+    por.paste(crop_square(base).resize((d_amt, d_amt), Image.LANCZOS), (0, 0))
     por.putalpha(m)
     bg.paste(por, (cx - d_amt // 2, cy - d_amt // 2), por)
 
@@ -139,15 +147,46 @@ def make_member_avatar(base: "Image.Image", nama: str, peran: str,
 
 
 # ------------------------------------------------------------------ avatar
+def make_team_icon() -> "Image.Image":
+    """Kartu tim: perisai penjaga biru dengan checklist (bukan foto)."""
+    from PIL import Image, ImageDraw, ImageFont
+
+    S = 512
+    bg = gradient(S, S, "#0C2A4D", "#06121F").convert("RGBA")
+    d = ImageDraw.Draw(bg, "RGBA")
+    cx, cy = 256, 230
+    blue = (74, 144, 217)        # #4A90D9
+    blue_l = (133, 183, 235)     # #85B7EB
+
+    # perisai
+    pts = [(cx, cy - 150), (cx + 120, cy - 95), (cx + 120, cy + 30),
+           (cx, cy + 150), (cx - 120, cy + 30), (cx - 120, cy - 95)]
+    d.polygon(pts, fill=(16, 48, 86, 255), outline=blue_l + (255,), width=10)
+
+    # checklist di dalam perisai: 3 baris + centang pada baris pertama
+    line_y = [cy - 55, cy - 5, cy + 45]
+    for i, yy in enumerate(line_y):
+        d.line((cx - 70, yy, cx + 60, yy), fill=(220, 232, 245, 255), width=7)
+    d.line((cx - 78, cy - 62, cx - 66, cy - 48), fill=blue_l + (255,), width=7, joint="curve")
+    d.line((cx - 66, cy - 48, cx - 50, cy - 66), fill=blue_l + (255,), width=7, joint="curve")
+
+    # pita nama di bawah
+    d.rectangle((0, 408, S, S), fill=(6, 16, 28, 235))
+    d.rectangle((0, 408, S, 416), fill=blue_l + (255,))
+    try:
+        f = ImageFont.truetype("C:/Windows/Fonts/arialbd.ttf", 40)
+    except OSError:
+        f = ImageFont.load_default()
+    d.text((256, 458), "AYUNIKA TEAM", font=f, fill=(240, 246, 252, 255), anchor="mm")
+    return bg.convert("RGB")
+
+
 def generate_avatars() -> list[Path]:
-    """Buat team.png + satu avatar per anggota dari potret sumber."""
-    from PIL import Image, ImageDraw
+    """Buat team.png (ikon) + satu avatar per anggota dari foto sumber masing-masing."""
+    from PIL import Image
 
     AV = PAKET / "avatars"
     AV.mkdir(parents=True, exist_ok=True)
-    if not SUMBER_AVATAR.exists():
-        raise SystemExit(f"Sumber avatar tidak ada: {SUMBER_AVATAR}")
-    base = Image.open(SUMBER_AVATAR).convert("RGB")
 
     def simpan(img, nama):
         p = AV / nama
@@ -155,18 +194,17 @@ def generate_avatars() -> list[Path]:
         return p
 
     hasil = []
-    buatan = []
-    for aid, nama, peran, aksen, ikon in ANGGOTA:
-        img = make_member_avatar(base, nama, peran, aksen, ikon)
-        buatan.append(img)
-        hasil.append(simpan(img, f"{aid}.png"))
+    for aid, nama, peran, aksen, ikon, src in ANGGOTA:
+        src_path = PAKET / "avatars" / src
+        if src_path.exists():
+            base = Image.open(src_path).convert("RGB")
+        elif SUMBER_AVATAR.exists():
+            base = Image.open(SUMBER_AVATAR).convert("RGB")   # fallback
+        else:
+            raise SystemExit(f"Tidak ada sumber avatar untuk {aid}: {src_path}")
+        hasil.append(simpan(make_member_avatar(base, nama, peran, aksen, ikon), f"{aid}.png"))
 
-    # Kartu tim: 2×2 dari keempat avatar anggota (beraksen beda).
-    team = Image.new("RGB", (512, 512), "#06121F")
-    for i, img in enumerate(buatan):
-        team.paste(img.resize((256, 256), Image.LANCZOS), ((i % 2) * 256, (i // 2) * 256))
-    ImageDraw.Draw(team).rectangle((0, 0, 511, 511), outline="#B5D4F4", width=4)
-    hasil.append(simpan(team, "team.png"))
+    hasil.append(simpan(make_team_icon(), "team.png"))
     return hasil
 
 
