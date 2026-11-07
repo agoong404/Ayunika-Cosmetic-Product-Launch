@@ -773,3 +773,32 @@ async function loadAudit() {
     body.innerHTML = h`<p class="statusline error">${esc(e.message)}</p>`;
   }
 }
+
+// =====================================================================
+// THEME — dark/light toggle (persisted to localStorage)
+// =====================================================================
+(function initTema() {
+  const root = document.documentElement;
+  const btn = document.getElementById("theme-toggle");
+  const kunci = "ayunika-theme";
+  const terang = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+
+  function terapkan(tema) {
+    root.setAttribute("data-theme", tema);
+    if (btn) {
+      btn.textContent = tema === "dark" ? "☀️" : "🌙";
+      btn.setAttribute("aria-label", tema === "dark" ? "Beralih ke mode terang" : "Beralih ke mode gelap");
+    }
+  }
+
+  const simpan = localStorage.getItem(kunci);
+  terapkan(simpan || terang);
+
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const berikut = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      localStorage.setItem(kunci, berikut);
+      terapkan(berikut);
+    });
+  }
+})();
