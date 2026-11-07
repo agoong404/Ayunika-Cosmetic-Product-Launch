@@ -1,4 +1,4 @@
-// app.js — Lolos UI internal (SPA hash-routing, tanpa dependensi).
+// app.js — Ayunika Care UI (SPA hash-routing, tanpa dependensi).
 // Terhubung ke BFF: /api/products, /api/sudut, /api/upload-produk (BARU),
 // /api/run-relay (BARU, ganti /api/run), /api/propose, /api/status, /api/rulebook.
 // Endpoint BARU butuh backend-patch/*.route.js ditempel ke web/server/index.js —

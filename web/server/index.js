@@ -1,4 +1,4 @@
-// index.js — BFF situs publik Lolos. Tanpa dependensi (Node >= 20).
+// index.js — BFF situs publik Ayunika Care. Tanpa dependensi (Node >= 20).
 //
 // Tiga aturan yang dipegang berkas ini:
 //
@@ -445,7 +445,7 @@ const server = http.createServer(async (req, res) => {
   try {
     // Tanpa token, tanpa sentuh MCP: dipakai healthcheck Railway.
     if (url.pathname === "/health") {
-      return kirim(res, 200, { status: "ok", service: "lolos-web" });
+      return kirim(res, 200, { status: "ok", service: "ayunika-care-web" });
     }
     if (url.pathname.startsWith("/api/")) {
       return await tanganiApi(req, res, url);
@@ -468,6 +468,6 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`lolos-web di http://localhost:${PORT}`);
+  console.log(`ayunika-care-web di http://localhost:${PORT}`);
   console.log(`MCP: ${MCP_URL}`);
 });
