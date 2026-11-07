@@ -1,4 +1,4 @@
-# Project Description — Lolos
+# Project Description — Ayunika Care
 
 > **Blurb (<10 kata):** Reviewer konten peluncuran kosmetik: tolak, perbaiki, setujui.
 
@@ -9,7 +9,7 @@
 **Target users:** Tim marketing UMKM/UKM kosmetik Indonesia (1–3 orang) yang menulis
 sendiri konten TikTok, Instagram, dan marketplace — tanpa tim regulatory sendiri.
 
-**Lolos** adalah sistem tiga agent (Planner · Writer · Reviewer) yang membantu tim
+**Ayunika Care** adalah sistem tiga agent (Planner · Writer · Reviewer) yang membantu tim
 marketing menulis konten peluncuran produk yang **lolos aturan sebelum terbit**, dibangun
 di Tencent Cloud WorkBuddy untuk Challenge C.
 

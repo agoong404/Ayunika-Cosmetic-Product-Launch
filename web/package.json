@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Situs publik Lolos: console review + usul approval + cek draf.",
+  "description": "Situs publik Ayunika Care: console review + usul approval + cek draf.",
   "scripts": {
     "start": "node server/index.js"
   },

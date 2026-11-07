@@ -1,9 +1,9 @@
-# Lolos — Reviewer Konten Peluncuran Kosmetik
+# Ayunika Care — Reviewer Konten Peluncuran Kosmetik
 
 > **Challenge C — The Creator Agent** · skenario *product launch* (bodycare & beautycare)
 > Tencent Cloud Hackathon Indonesia 2026
 
-**Lolos** adalah sistem tiga agent yang membantu tim marketing UMKM kosmetik menulis
+**Ayunika Care** adalah sistem tiga agent yang membantu tim marketing UMKM kosmetik menulis
 konten peluncuran yang **lolos aturan sebelum terbit**: Planner menyusun kerangka,
 Writer menulis, Reviewer menolak dengan **nomor aturan + kutipan + perbaikan konkret** —
 dan seluruh siklus tercatat di audit log hash-chain yang tidak bisa diubah diam-diam.
@@ -60,7 +60,7 @@ persetujuan tetap memakai kunci yang hanya dipegang manusia.
 | `engine/governance.py` | Audit log append-only hash-chain + gerbang approval (token sekali pakai) |
 | `engine/run_official_cases.py` | Harness 26 kasus Challenge C (16 utama + 6 cadangan dieksekusi, 4 N/A) |
 | `agents/` | Planner, Writer (deterministik + mode model), jembatan WorkBuddy, LLM adapter |
-| `skills/` | Tiga skill WorkBuddy (`lolos-planner`, `lolos-writer`, `lolos-reviewer`) + `sync.py` |
+| `skills/` | Tiga skill WorkBuddy (`ayunika-planner`, `ayunika-writer`, `ayunika-reviewer`) + `sync.py` |
 | `expert/` | Expert WorkBuddy **Ayunika Compliance Team** (4 agent) + `build.py` yang menghasilkan avatar tim |
 | `mcp_server/` | Server MCP, 19 tool stateless di atas `engine/` + `agents/`; transport stdio & HTTPS |
 | `web/` | Situs publik: BFF Node tanpa dependensi + frontend; `approve_publication` sengaja tidak ada |

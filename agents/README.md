@@ -22,7 +22,7 @@ agents/   Planner · Writer                        ← boleh diganti tim
 | `contoh_agent_tim.py` | Cetakan untuk agent rekan tim |
 | `workbuddy.py` | Jembatan WorkBuddy: loop tanpa API key |
 | `WORKBUDDY.md` | Cara memakai jembatan itu |
-| `../.workbuddy-ai/skills/` | Tiga skill WorkBuddy: `lolos-planner` · `lolos-writer` · `lolos-reviewer` |
+| `../.workbuddy-ai/skills/` | Tiga skill WorkBuddy: `ayunika-planner` · `ayunika-writer` · `ayunika-reviewer` |
 
 Reviewer lapis-2 (penilaian model) ada di `engine/layer2.py` + `engine/prompts/reviewer_lapis2_v1.md`,
 karena ia bagian dari peran Reviewer — bukan peran yang boleh diganti.
@@ -132,16 +132,16 @@ supaya tiap peran bisa dipanggil sendiri tanpa menghafal urutan perintah:
 
 | Skill | Peran | Menyerahkan ke |
 |---|---|---|
-| `lolos-planner` | brief → rencana tervalidasi (`agents/.wb/jawaban-plan.json`) | `lolos-writer` |
-| `lolos-writer` | rencana + catatan → draf; mengirim lewat `save draft` | `lolos-reviewer` |
-| `lolos-reviewer` | lapis-1 + lapis-2 → verdict; TOLAK kembali ke Writer | `lolos-writer` / gerbang approval |
+| `ayunika-planner` | brief → rencana tervalidasi (`agents/.wb/jawaban-plan.json`) | `ayunika-writer` |
+| `ayunika-writer` | rencana + catatan → draf; mengirim lewat `save draft` | `ayunika-reviewer` |
+| `ayunika-reviewer` | lapis-1 + lapis-2 → verdict; TOLAK kembali ke Writer | `ayunika-writer` / gerbang approval |
 
 Ketiganya tersambung lewat **state sesi yang sama** (`agents/.wb/session.json`), bukan
 lewat saling memanggil langsung: Planner menulis rencana → Writer membacanya → Reviewer
 membaca draf terakhir. Karena itu `status` selalu menunjukkan di mana rantai berada.
 
 Yang membedakan skill dari sekadar pembungkus CLI: tiap skill membawa batas perannya.
-`lolos-writer` dilarang membuka rulebook; `lolos-reviewer` dibatasi enam aturan lapis-2
+`ayunika-writer` dilarang membuka rulebook; `ayunika-reviewer` dibatasi enam aturan lapis-2
 dan wajib mengutip teks draf. Batas itu tertulis di `SKILL.md`, bukan di kepala orang.
 
 ## Menyambungkan LLM (jalur API)

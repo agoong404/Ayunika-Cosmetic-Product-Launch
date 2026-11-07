@@ -62,7 +62,7 @@ function viewBeranda() {
     ["02", "Bima — Planner", "Rencana per platform: sudut, struktur, fakta boleh & dilarang."],
     ["03", "Citra — Writer", "Menulis draf hanya dari fakta yang diizinkan. Tak pernah lihat rulebook."],
     ["04", "Dimas — Reviewer", "Menilai dua lapis, menolak dengan nomor aturan + kutipan + perbaikan."],
-    ["05", "Gerbang approval", "Lolos ≠ terbit. Kunci persetujuan hanya dipegang manusia."],
+    ["05", "Gerbang approval", "LOLOS ≠ terbit. Kunci persetujuan hanya dipegang manusia."],
   ];
   app.innerHTML = h`
     <section class="view">
@@ -82,6 +82,7 @@ function viewBeranda() {
         </div>
         <div class="btn-row" style="justify-content:center">
           <a class="btn ghost" href="#/agents">Lihat Tim Agent</a>
+          <a class="btn brand" href="https://www.workbuddy.ai/work/launch/?sharecode=b8lJ0ovKiA_XH8kgQ1cEmriNfsRoZUVX1ZfXz3TFRwJjwcwUex90assGDM9Y9MtT&amp;expertname=Ayunika+Compliance+Team&amp;buddy_type=workbuddy-ai" target="_blank" rel="noopener">Buka Tim Ahli di WorkBuddy ↗</a>
         </div>
       </div>
 
@@ -122,6 +123,22 @@ function viewBeranda() {
         Situs ini tidak memegang kunci itu, jadi tidak ada tombol di sini yang bisa menyetujui konten.
         Setiap penolakan dan persetujuan tercatat di rantai hash yang tidak bisa diubah diam-diam.</p>
         <div class="btn-row"><a class="btn ghost" href="#/audit">Lihat jejak audit</a></div>
+      </div>
+
+      <div class="section panel" id="ruang-video">
+        <div class="panel-head"><span class="pill-line"><span class="brand-dot"></span> Segera hadir</span></div>
+        <h2>Ruang video peluncuran</h2>
+        <p class="muted" style="max-width:68ch">Tim akan mengunggah video demo peluncuran produk di sini. Tombol di bawah
+          adalah kerangka (placeholder) — belum aktif sampai fitur unggah video selesai dibuat.</p>
+        <div class="video-frame">
+          <div class="video-placeholder">
+            <div class="video-icon">▶</div>
+            <p class="video-cap">Pratinjau video akan muncul di sini</p>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn ghost" type="button" disabled>Pilih video…</button>
+        </div>
       </div>
     </section>`;
 }
@@ -520,7 +537,7 @@ function renderRelay(data, ctx) {
       body: h`<div class="final">${esc(data.konten_final || "")}</div>
         ${ctx.demo ? "" : h`<div class="gate" id="gate">
           <div class="baris"><strong>Gerbang approval</strong></div>
-          <p class="muted" style="font-size:13px;margin:0 0 10px">Lolos ≠ terbit. Ajukan untuk membuat plan; persetujuan dilakukan manusia dengan kunci approver di luar situs ini.</p>
+          <p class="muted" style="font-size:13px;margin:0 0 10px">LOLOS ≠ terbit. Ajukan untuk membuat plan; persetujuan dilakukan manusia dengan kunci approver di luar situs ini.</p>
           <button class="btn" id="propose-btn">Ajukan approval</button>
           <div id="plan-panel"></div>
         </div>`}`,
@@ -714,7 +731,7 @@ function cekRenderHasil(data) {
     <div class="panel" style="margin-top:16px">
       ${banner}
       ${temuan.length ? renderTemuan(temuan) : ""}
-      ${!tolak ? h`<p class="note-box">Lolos review bukan berarti terbit. Konten harus diajukan dan disetujui manusia dengan kunci approver — tidak ada tombol di sini yang bisa menyetujui.</p>` : ""}
+      ${!tolak ? h`<p class="note-box">Review LOLOS bukan berarti terbit. Konten harus diajukan dan disetujui manusia dengan kunci approver — tidak ada tombol di sini yang bisa menyetujui.</p>` : ""}
     </div>`;
 }
 

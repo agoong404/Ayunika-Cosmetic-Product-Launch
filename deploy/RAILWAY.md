@@ -63,7 +63,7 @@ kunci asli.
 
 Tanpa volume, rantai hash kembali kosong setiap deploy dan `audit_verify`
 kehilangan maknanya. `deploy/entrypoint.sh` menyesuaikan pemilik folder ini
-karena volume ter-mount sebagai root sementara server berjalan sebagai `lolos`.
+karena volume ter-mount sebagai root sementara server berjalan sebagai `ayunika`.
 
 ## 5. Domain, lalu kunci host
 

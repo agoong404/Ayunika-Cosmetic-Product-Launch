@@ -30,7 +30,7 @@ def main(argv: list[str]) -> int:
     berkas = Path(argv[1])
     if not berkas.exists():
         print(f"Rencana tidak ada: {berkas}")
-        print("Jalankan skill `lolos-planner` lebih dulu.")
+        print("Jalankan skill `ayunika-planner` lebih dulu.")
         return 2
 
     root = repo_root()

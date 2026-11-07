@@ -1,16 +1,16 @@
 ---
-name: lolos-reviewer
-description: This skill should be used after a draft has been submitted, when judging it against the Lolos rulebook R-01..R-21 with two layers: deterministic code findings plus model judgment limited to R-04, R-05, R-07, R-08, R-10 and R-12. It requires exact quotes from the draft, records findings through the workbuddy bridge, returns a final verdict, and on TOLAK hands back to lolos-writer while on LOLOS it stops at the human approval gate.
+name: ayunika-reviewer
+description: This skill should be used after a draft has been submitted, when judging it against the Ayunika Care rulebook R-01..R-21 with two layers: deterministic code findings plus model judgment limited to R-04, R-05, R-07, R-08, R-10 and R-12. It requires exact quotes from the draft, records findings through the workbuddy bridge, returns a final verdict, and on TOLAK hands back to ayunika-writer while on LOLOS it stops at the human approval gate.
 agent_created: true
 ---
 
-# Lolos Reviewer
+# Ayunika Reviewer
 
 Agent ketiga. Menilai draf dengan **dua lapis**, lalu memutuskan `TOLAK` atau `LOLOS`.
 Ia satu-satunya agent yang membaca rulebook.
 
 ```
-lolos-planner ──▶ lolos-writer ──▶ lolos-reviewer
+ayunika-planner ──▶ ayunika-writer ──▶ ayunika-reviewer
                       ▲                  │
                       └───── TOLAK ──────┘   (maks 3 iterasi, lalu eskalasi)
 ```
@@ -43,7 +43,7 @@ bergunanya dengan model yang tidak menemukan apa pun.
    python -m agents.workbuddy status
    ```
 
-   Tahap harus `findings`. Bila belum, minta pengguna menjalankan `lolos-writer` dulu.
+   Tahap harus `findings`. Bila belum, minta pengguna menjalankan `ayunika-writer` dulu.
 
 2. Ambil prompt lapis-2 (draf + lembar produk + nada merek):
 
@@ -72,7 +72,7 @@ bergunanya dengan model yang tidak menemukan apa pun.
    ```
 
 7. Bertindak sesuai verdict:
-   - **TOLAK** → serahkan kembali ke **`lolos-writer`** dengan catatan yang tercetak
+   - **TOLAK** → serahkan kembali ke **`ayunika-writer`** dengan catatan yang tercetak
      (iterasi berikutnya). Jangan memperbaiki draf sendiri di sini.
    - **LOLOS** → berhenti di **gerbang persetujuan manusia**. Jangan menerbitkan apa pun;
      publikasi hanya setelah manusia menyetujui `plan_id`.
@@ -83,10 +83,10 @@ Untuk menilai draf apa pun tanpa mengubah sesi (tidak menulis audit kecuali `--l
 
 ```bash
 # lapis-1 saja
-python .workbuddy-ai/skills/lolos-reviewer/scripts/review.py draf.md AY-SR-101 tiktok
+python .workbuddy-ai/skills/ayunika-reviewer/scripts/review.py draf.md AY-SR-101 tiktok
 
 # lapis-1 + lapis-2 dengan berkas temuan
-python .workbuddy-ai/skills/lolos-reviewer/scripts/review.py draf.md AY-SR-101 tiktok \
+python .workbuddy-ai/skills/ayunika-reviewer/scripts/review.py draf.md AY-SR-101 tiktok \
   --findings agents/.wb/temuan-lapis2-1.json
 ```
 

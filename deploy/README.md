@@ -10,8 +10,8 @@ Tiga berkas di folder ini:
 
 | Berkas | Untuk |
 |---|---|
-| `lolos-mcp.service` | systemd, VPS/Cloud |
-| `nginx-lolos-mcp.conf` | reverse proxy + TLS |
+| `ayunika-care-mcp.service` | systemd, VPS/Cloud |
+| `nginx-ayunika-care-mcp.conf` | reverse proxy + TLS |
 | `Dockerfile` | host berbasis kontainer |
 
 ---
@@ -37,11 +37,11 @@ Kalau ini lulus, masalah berikutnya pasti di DNS/TLS/nginx, bukan di kode.
 ```bash
 sudo apt update
 sudo apt install -y python3.12 python3.12-venv nginx certbot python3-certbot-nginx git
-sudo useradd -m -s /bin/bash lolos
-sudo -u lolos git clone <repo> /home/lolos/app
-cd /home/lolos/app
-sudo -u lolos python3.12 -m venv .venv
-sudo -u lolos .venv/bin/pip install -r requirements-mcp.txt
+sudo useradd -m -s /bin/bash ayunika
+sudo -u ayunika git clone <repo> /home/ayunika/app
+cd /home/ayunika/app
+sudo -u ayunika python3.12 -m venv .venv
+sudo -u ayunika .venv/bin/pip install -r requirements-mcp.txt
 ```
 
 Buat dua kunci (jangan pakai contoh):
@@ -51,21 +51,21 @@ python3 -c "import secrets; print(secrets.token_hex(32))"
 python3 -c "import secrets; print(secrets.token_hex(32))"
 ```
 
-Isi ke `deploy/lolos-mcp.service`, lalu:
+Isi ke `deploy/ayunika-care-mcp.service`, lalu:
 
 ```bash
-sudo cp deploy/lolos-mcp.service /etc/systemd/system/
+sudo cp deploy/ayunika-care-mcp.service /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl enable --now lolos-mcp
+sudo systemctl enable --now ayunika-care-mcp
 curl http://127.0.0.1:8000/health
 ```
 
 nginx:
 
 ```bash
-sudo cp deploy/nginx-lolos-mcp.conf /etc/nginx/sites-available/lolos-mcp
-sudo sed -i 's/mcp.contoh.com/mcp.DOMAIN-ANDA.com/' /etc/nginx/sites-available/lolos-mcp
-sudo ln -s /etc/nginx/sites-available/lolos-mcp /etc/nginx/sites-enabled/
+sudo cp deploy/nginx-ayunika-care-mcp.conf /etc/nginx/sites-available/ayunika-care-mcp
+sudo sed -i 's/mcp.contoh.com/mcp.DOMAIN-ANDA.com/' /etc/nginx/sites-available/ayunika-care-mcp
+sudo ln -s /etc/nginx/sites-available/ayunika-care-mcp /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
 sudo certbot --nginx -d mcp.DOMAIN-ANDA.com
 ```
@@ -111,13 +111,13 @@ itu berubah setiap kali tunnel dijalankan ulang, dan harus dimasukkan ke
 ## Opsi 3 — Docker
 
 ```bash
-docker build -f deploy/Dockerfile -t lolos-mcp .
+docker build -f deploy/Dockerfile -t ayunika-care-mcp .
 docker run -p 8000:8000 \
   -e MCP_TOKEN="$MCP_TOKEN" \
   -e MCP_APPROVER_KEYS="$MCP_APPROVER_KEYS" \
   -e MCP_ALLOWED_HOSTS="mcp.contoh.com" \
-  -v lolos-audit:/app/engine/.audit \
-  lolos-mcp
+  -v ayunika-care-audit:/app/engine/.audit \
+  ayunika-care-mcp
 ```
 
 Atau tanpa env: mount JSON registri ke `/app/.approver_keys`

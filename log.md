@@ -1,4 +1,4 @@
-# Lolos — Session Log
+# Ayunika Care — Session Log
 
 > Append-only. One entry per exchange. Newest at the bottom.
 > This file records **what the user asked** and **what the assistant did**, not secrets.

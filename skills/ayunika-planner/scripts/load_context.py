@@ -108,7 +108,7 @@ def main(argv: list[str]) -> int:
     print("\n## Langkah berikutnya\n")
     print("Susun rencana JSON, lalu:")
     print("  python -m agents.workbuddy save plan agents/.wb/jawaban-plan.json")
-    print("Setelah tersimpan, lanjut ke skill `lolos-writer`.")
+    print("Setelah tersimpan, lanjut ke skill `ayunika-writer`.")
     return 0
 
 

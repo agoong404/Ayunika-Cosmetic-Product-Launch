@@ -44,7 +44,7 @@ dipanggil dari backend website. Kami mengakalinya dua kali. **Pertama**, jembata
 (`agents/workbuddy.py`): skrip mencetak prompt, model menjawab, jawabannya disimpan, lalu
 Reviewer menilai — bekerja dan teruji, tapi tiap langkah butuh satu balasan manual.
 **Kedua**, yang akhirnya dipakai produksi: `mcp_server/` membalik arahnya. Alih-alih
-memanggil model WorkBuddy dari luar, kami mengekspos mesin Lolos sebagai 19 tool MCP
+memanggil model WorkBuddy dari luar, kami mengekspos mesin Ayunika Care sebagai 19 tool MCP
 yang justru **dipanggil oleh** WorkBuddy lewat `~/.workbuddy-ai/mcp.json`. Tool bersifat
 stateless, jadi tidak ada `session.json` yang diperebutkan dua klien. Situs publik `web/`
 memakai jalur yang sama lewat BFF, dan `engine/reviewer.py` tetap satu-satunya penilai.

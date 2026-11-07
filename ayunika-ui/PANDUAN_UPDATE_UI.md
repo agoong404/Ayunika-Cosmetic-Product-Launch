@@ -1,4 +1,4 @@
-# Panduan Update UI/UX — Lolos (siap integrasi ke repo)
+# Panduan Update UI/UX — Ayunika Care (siap integrasi ke repo)
 
 > **Dibuat:** 7 November 2026, lewat sesi Claude Code (WorkBuddy) terpisah dari repo.
 > **Revisi:** 7 November 2026 — 4 perbaikan UI (§2.1 baris bertanda **[Revisi]**): tombol CTA

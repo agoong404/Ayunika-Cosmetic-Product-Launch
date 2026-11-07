@@ -1,4 +1,4 @@
-# Checklist Submission — Lolos · Tencent Cloud Hackathon Indonesia 2026
+# Checklist Submission — Ayunika Care · Tencent Cloud Hackathon Indonesia 2026
 
 > **DEADLINE: 7 November 2026** (diundur dari 1 November) · Form: https://forms.gle/y1aHBH4BsrytXDxdA
 > Status per **6 November 2026, 19:45 WIB**. Yang belum, ditandai jujur — bukan dicentang.
@@ -20,13 +20,13 @@
 
 | # | Item | Status | Wajib | Berkas |
 |---|---|---|---|---|
-| 1 | Project title | ✅ **Lolos** | WAJIB | — |
+| 1 | Project title | ✅ **Ayunika Care** | WAJIB | — |
 | 2 | Short blurb (<10 kata) | ✅ 7 kata: "Reviewer konten peluncuran kosmetik: tolak, perbaiki, setujui." | WAJIB | `03` |
 | 3 | Project description (4 bagian) | ✅ | WAJIB | `03_project_description.md` |
 | 4 | Accountability sheet | ✅ 5 aturan + mekanisme + keterbatasan | WAJIB | `01_accountability_sheet.md` |
 | 5 | Test results + screenshot (incl. FAIL) | ✅ 22 PASS/26, 3 kegagalan tercatat, 27 gambar | WAJIB | `02_test_results.md` + `shots/` |
 | 6 | Architecture diagram | ✅ PNG 2960×2600 + SVG + Mermaid — **diregenerasi 31 Okt** agar mencerminkan Reviewer dua lapis + kuota | WAJIB | `diagram/architecture_challenge_c.png` |
-| 7 | Demo video 5–8 menit | ✅ **5:07** (`LolosDemo_v2.mp4`, Remotion, 12 scene, 1080p30, caption Indonesia terbakar, tanpa narasi suara) — cadangan **7:02** (`video/Lolos_Demo.mp4`, 30 scene) | WAJIB | `my-video/out/`, `video/Lolos_Demo.mp4` |
+| 7 | Demo video 5–8 menit | ✅ **5:07** (`AyunikaCareDemo_v2.mp4`, Remotion, 12 scene, 1080p30, caption Indonesia terbakar, tanpa narasi suara) — cadangan **7:02** (`video/AyunikaCare_Demo.mp4`, 30 scene) | WAJIB | `my-video/out/`, `video/AyunikaCare_Demo.mp4` |
 | 8 | Product sharing (WorkBuddy) | ✅ | WAJIB | `06_product_sharing.md` |
 | 9 | Source code / export + bukti | ✅ **Repo publik:** `github.com/agoong404/Ayunika-Cosmetic-Product-Launch` (11 commit, working tree bersih). `.gitignore` memblokir NIK, state runtime, dan materi panitia | WAJIB | `README.md` |
 | 10 | Cover image 16:9 (380×216) | ✅ **cover.png 1520×864 @2x** (rasio sama), dibuat dari `diagram/build_cover.py` | OPSIONAL | `submission_templates/cover.png` |
@@ -35,8 +35,8 @@
 ## Yang Tersisa Sebelum Submit
 
 1. **Submit 7 Nov pagi**, simpan tangkapan konfirmasi form.
-2. Opsional: rekam voice-over di atas `LolosDemo_v2.mp4` (5:18) — subtitle Indonesia
-   sudah tersedia di `my-video/out/LolosDemo_id.srt` (56 entri) sebagai basis narasi.
+2. Opsional: rekam voice-over di atas `AyunikaCareDemo_v2.mp4` (5:18) — subtitle Indonesia
+   sudah tersedia di `my-video/out/AyunikaCareDemo_id.srt` (56 entri) sebagai basis narasi.
 3. Opsional: deploy ulang `web/` bila ada perubahan. `web/.env.example` menunjuk domain MCP
    yang aktif; `MCP_TOKEN` tetap harus diset sebagai Variable, jangan di-commit.
 

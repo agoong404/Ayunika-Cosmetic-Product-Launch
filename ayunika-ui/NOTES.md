@@ -1,4 +1,4 @@
-# Lolos — UI/UX internal (catatan untuk Claude Code)
+# Ayunika Care — UI/UX internal (catatan untuk Claude Code)
 
 > **Status:** internal, **belum** di-merge ke repo GitHub.
 > Dibuat 7 Nov 2026. Tidak menyentuh `agoong404/Ayunika-Cosmetic-Product-Launch`.

@@ -1,4 +1,4 @@
-# mcp_server — Lolos sebagai MCP server
+# mcp_server — Ayunika Care sebagai MCP server
 
 Lapisan tipis di atas `engine/` dan `agents/`. Tidak ada aturan review yang
 ditulis ulang di sini: `engine/reviewer.py` tetap satu-satunya penilai dan

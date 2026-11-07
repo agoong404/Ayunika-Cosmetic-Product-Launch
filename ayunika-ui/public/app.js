@@ -1,4 +1,4 @@
-// app.js — Lolos UI internal (SPA hash-routing, tanpa dependensi).
+// app.js — Ayunika Care UI internal (SPA hash-routing, tanpa dependensi).
 // Terhubung ke BFF: /api/products, /api/sudut, /api/upload-produk (BARU),
 // /api/run-relay (BARU, ganti /api/run), /api/propose, /api/status, /api/rulebook.
 // Endpoint BARU butuh backend-patch/*.route.js ditempel ke web/server/index.js —
@@ -61,7 +61,7 @@ function viewBeranda() {
     ["02", "Bima — Planner", "Rencana per platform: sudut, struktur, fakta boleh & dilarang."],
     ["03", "Citra — Writer", "Menulis draf hanya dari fakta yang diizinkan. Tak pernah lihat rulebook."],
     ["04", "Dimas — Reviewer", "Menilai dua lapis, menolak dengan nomor aturan + kutipan + perbaikan."],
-    ["05", "Gerbang approval", "Lolos ≠ terbit. Kunci persetujuan hanya dipegang manusia."],
+    ["05", "Gerbang approval", "LOLOS ≠ terbit. Kunci persetujuan hanya dipegang manusia."],
   ];
   app.innerHTML = h`
     <section class="view">
@@ -519,7 +519,7 @@ function renderRelay(data, ctx) {
       body: h`<div class="final">${esc(data.konten_final || "")}</div>
         ${ctx.demo ? "" : h`<div class="gate" id="gate">
           <div class="baris"><strong>Gerbang approval</strong></div>
-          <p class="muted" style="font-size:13px;margin:0 0 10px">Lolos ≠ terbit. Ajukan untuk membuat plan; persetujuan dilakukan manusia dengan kunci approver di luar situs ini.</p>
+          <p class="muted" style="font-size:13px;margin:0 0 10px">LOLOS ≠ terbit. Ajukan untuk membuat plan; persetujuan dilakukan manusia dengan kunci approver di luar situs ini.</p>
           <button class="btn" id="propose-btn">Ajukan approval</button>
           <div id="plan-panel"></div>
         </div>`}`,

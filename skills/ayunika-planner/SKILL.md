@@ -1,15 +1,15 @@
 ---
-name: lolos-planner
-description: This skill should be used at the start of a Lolos content cycle, when a campaign brief must be turned into a validated per-platform plan (angle, structure, allowed and forbidden facts, price, certificate status) for one of the SKUs AY-SR-101, AY-BL-102, AY-FW-103, AY-SC-104. It writes agents/.wb/jawaban-plan.json and hands off to lolos-writer; it never writes marketing sentences.
+name: ayunika-planner
+description: This skill should be used at the start of an Ayunika Care content cycle, when a campaign brief must be turned into a validated per-platform plan (angle, structure, allowed and forbidden facts, price, certificate status) for one of the SKUs AY-SR-101, AY-BL-102, AY-FW-103, AY-SC-104. It writes agents/.wb/jawaban-plan.json and hands off to ayunika-writer; it never writes marketing sentences.
 agent_created: true
 ---
 
-# Lolos Planner
+# Ayunika Planner
 
 Agent pertama dari tiga. Rantainya:
 
 ```
-lolos-planner ──▶ lolos-writer ──▶ lolos-reviewer
+ayunika-planner ──▶ ayunika-writer ──▶ ayunika-reviewer
                       ▲                  │
                       └───── TOLAK ──────┘   (maks 3 iterasi, lalu eskalasi)
 ```
@@ -48,7 +48,7 @@ repo (`C:/.Hackathon Project`).
 2. Muat konteks (registri, sertifikat, lembar produk, brief, spesifikasi platform, nada):
 
    ```bash
-   python .workbuddy-ai/skills/lolos-planner/scripts/load_context.py AY-SR-101 tiktok
+   python .workbuddy-ai/skills/ayunika-planner/scripts/load_context.py AY-SR-101 tiktok
    ```
 
 3. Susun rencana JSON sesuai bentuk di bawah.
@@ -59,7 +59,7 @@ repo (`C:/.Hackathon Project`).
    python -m agents.workbuddy save plan agents/.wb/jawaban-plan.json
    ```
 
-6. Serahkan ke skill **`lolos-writer`**.
+6. Serahkan ke skill **`ayunika-writer`**.
 
 ## Bentuk rencana
 
@@ -109,4 +109,4 @@ Contoh kerangka:
 ## Selesai bila
 
 Perintah `save plan` mencetak `PLAN TERSIMPAN`. Setelah itu panggil skill
-**`lolos-writer`** — jangan menulis draf sendiri di sini.
+**`ayunika-writer`** — jangan menulis draf sendiri di sini.

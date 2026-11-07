@@ -1,4 +1,4 @@
-# Storyboard Video Demo — Lolos
+# Storyboard Video Demo — Ayunika Care
 
 > **Wajib ada:** gambaran proyek, kemampuan inti, refleksi build + tooling, dan minimal
 > satu adegan agent **menolak / minta klarifikasi / menunggu approval**.
@@ -34,11 +34,11 @@ refleksi build + tooling = scene 11 · adegan menolak/klarifikasi/menunggu appro
 
 ```bash
 cd my-video
-npx remotion render LolosDemo out/LolosDemo_proxy.mp4 --scale=0.5 --concurrency=4   # review cepat
-npx remotion render LolosDemo out/LolosDemo_v2.mp4 --concurrency=4                  # final 1080p
+npx remotion render AyunikaCareDemo out/AyunikaCareDemo_proxy.mp4 --scale=0.5 --concurrency=4   # review cepat
+npx remotion render AyunikaCareDemo out/AyunikaCareDemo_v2.mp4 --concurrency=4                  # final 1080p
 ```
 
-Subtitle terpisah: `my-video/out/LolosDemo_id.srt` (56 entri, 0:00–5:07).
+Subtitle terpisah: `my-video/out/AyunikaCareDemo_id.srt` (56 entri, 0:00–5:07).
 Untuk v3: ubah detik per scene di `my-video/src/video/timing.json`, fakta di `data.ts`,
 lalu render ulang — tidak ada perubahan komponen yang diperlukan.
 
@@ -46,7 +46,7 @@ lalu render ulang — tidak ada perubahan komponen yang diperlukan.
 
 ## Potongan v1 — 7:02 (cadangan)
 
-> **Potongan lama, tetap disimpan:** `video/Lolos_Demo.mp4` — **7:02**, 1920×1080,
+> **Potongan lama, tetap disimpan:** `video/AyunikaCare_Demo.mp4` — **7:02**, 1920×1080,
 > **30 scene**, dibangun dari keluaran nyata (`video/capture.py` → `video/build.py`).
 > **Tanpa narasi suara**; caption terbakar.
 
@@ -59,7 +59,7 @@ lalu render ulang — tidak ada perubahan komponen yang diperlukan.
 
 | Menit | Segmen | Isi | Yang tampil di layar |
 |---|---|---|---|
-| 0:00–0:40 | Hook & judul | Nama + nilai + challenge & skenario | Slide judul: **Lolos** — "Reviewer konten peluncuran kosmetik" |
+| 0:00–0:40 | Hook & judul | Nama + nilai + challenge & skenario | Slide judul: **Ayunika Care** — "Reviewer konten peluncuran kosmetik" |
 | 0:40–1:30 | Masalah nyata | Brief berisi 4 dari 5 pesan yang melanggar | `dataset_c/briefs/BRF-101...md` — sorot baris ❌ |
 | 1:30–2:10 | Arsitektur | Diagram 40 detik, zoom ke siklus Writer ⇄ Reviewer | `diagram/architecture_challenge_c.png` |
 | 2:10–3:20 | **Adegan A — menolak** | Draf agensi → 8 temuan, tiap temuan ada kutipan + aturan | Terminal: `save draft` menampilkan TOLAK |
@@ -141,13 +141,13 @@ dengan registri. Kami menaruhnya di video justru karena pernah gagal."*
 - [ ] Tutup tab pribadi & notifikasi
 - [ ] Rekam 1080p, 30fps; audio terpisah kalau bisa
 - [ ] Durasi 6:00–6:45 (dalam rentang 5–8 menit)
-- [ ] Ekspor `Lolos_Demo_[Tim].mp4`, upload unlisted, simpan link + file cadangan
+- [ ] Ekspor `AyunikaCare_Demo_[Tim].mp4`, upload unlisted, simpan link + file cadangan
 
 ## Naskah Pembuka (3 kalimat)
 
 > "Tim marketing kosmetik menulis konten dari brief — dan brief itu sendiri sering berisi
 > klaim yang melanggar aturan. Di dataset kami, 4 dari 5 pesan kunci di brief melanggar.
-> Lolos adalah tiga agent yang menolak, menjelaskan alasannya, dan memperbaiki — sebelum
+> Ayunika Care adalah tiga agent yang menolak, menjelaskan alasannya, dan memperbaiki — sebelum
 > konten itu pernah terbit."
 
 ## Yang Sebaiknya TIDAK Direkam

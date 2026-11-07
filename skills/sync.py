@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-NAMA = ("lolos-planner", "lolos-writer", "lolos-reviewer")
+NAMA = ("ayunika-planner", "ayunika-writer", "ayunika-reviewer")
 
 
 def tujuan(pilihan: str) -> list[Path]:
@@ -43,7 +43,7 @@ def normalkan(dst: Path) -> int:
 
 
 def main(argv: list[str]) -> int:
-    ap = argparse.ArgumentParser(description="Sinkronkan skill Lolos ke lokasi WorkBuddy")
+    ap = argparse.ArgumentParser(description="Sinkronkan skill Ayunika Care ke lokasi WorkBuddy")
     ap.add_argument("--tujuan", choices=("semua", "proyek", "user"), default="semua")
     a = ap.parse_args(argv)
 

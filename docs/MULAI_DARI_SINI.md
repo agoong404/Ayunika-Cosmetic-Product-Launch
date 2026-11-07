@@ -16,9 +16,9 @@ Skill ada di `.workbuddy-ai/skills/` (project-level), bukan di folder WorkBuddy:
 
 ```
 .workbuddy-ai/skills/
-├── lolos-planner/SKILL.md
-├── lolos-writer/SKILL.md
-└── lolos-reviewer/SKILL.md
+├── ayunika-planner/SKILL.md
+├── ayunika-writer/SKILL.md
+└── ayunika-reviewer/SKILL.md
 ```
 
 **Langkah:**
@@ -26,9 +26,9 @@ Skill ada di `.workbuddy-ai/skills/` (project-level), bukan di folder WorkBuddy:
 1. Tutup WorkBuddy, buka lagi, lalu buka percakapan baru **di workspace ini**.
    Skill dibaca saat sesi dimulai — sesi yang sedang berjalan tidak memuatnya.
 2. Tanyakan di chat: *"skill apa saja yang tersedia?"*
-   Yang harus muncul: `lolos-planner`, `lolos-writer`, `lolos-reviewer`.
+   Yang harus muncul: `ayunika-planner`, `ayunika-writer`, `ayunika-reviewer`.
 3. Panggil dengan namanya, misalnya:
-   *"pakai skill lolos-planner untuk AY-SR-101 di tiktok"*
+   *"pakai skill ayunika-planner untuk AY-SR-101 di tiktok"*
 
 **Kalau tidak muncul**, salin ke level user lalu restart sekali lagi:
 
@@ -36,18 +36,18 @@ PowerShell:
 
 ```powershell
 New-Item -ItemType Directory -Force "$HOME/.workbuddy-ai/skills" | Out-Null
-Copy-Item -Recurse .workbuddy-ai/skills/lolos-planner,
-  .workbuddy-ai/skills/lolos-writer,
-  .workbuddy-ai/skills/lolos-reviewer "$HOME/.workbuddy-ai/skills/"
+Copy-Item -Recurse .workbuddy-ai/skills/ayunika-planner,
+  .workbuddy-ai/skills/ayunika-writer,
+  .workbuddy-ai/skills/ayunika-reviewer "$HOME/.workbuddy-ai/skills/"
 ```
 
 Git Bash:
 
 ```bash
 mkdir -p ~/.workbuddy-ai/skills
-cp -r .workbuddy-ai/skills/lolos-planner \
-      .workbuddy-ai/skills/lolos-writer \
-      .workbuddy-ai/skills/lolos-reviewer ~/.workbuddy-ai/skills/
+cp -r .workbuddy-ai/skills/ayunika-planner \
+      .workbuddy-ai/skills/ayunika-writer \
+      .workbuddy-ai/skills/ayunika-reviewer ~/.workbuddy-ai/skills/
 ```
 
 > Skill hanya mengatur **cara berpikir** agent (peran, batas, urutan). Perintah yang
@@ -113,7 +113,7 @@ Buat berkas uji, lalu nilai. Hasil di bawah **sudah diverifikasi**.
 # tulis draf uji (satu kalimat cukup)
 python -c "open('.uji.md','w',encoding='utf-8').write('Serum ini dijamin memutihkan dalam 3 hari.')"
 
-python .workbuddy-ai/skills/lolos-reviewer/scripts/review.py .uji.md AY-SR-101 tiktok
+python .workbuddy-ai/skills/ayunika-reviewer/scripts/review.py .uji.md AY-SR-101 tiktok
 ```
 
 | Kalimat | SKU | Hasil yang benar |

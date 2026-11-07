@@ -1,16 +1,16 @@
 ---
-name: lolos-writer
-description: This skill should be used after a Lolos plan exists, when writing or revising a launch draft for TikTok, Instagram, or marketplace from the plan's allowed facts and structure. It reads agents/.wb/jawaban-plan.json plus reviewer notes on iteration 2 and later, writes a plain-text draft, submits it through the workbuddy bridge (which runs the deterministic review), and hands off to lolos-reviewer.
+name: ayunika-writer
+description: This skill should be used after an Ayunika Care plan exists, when writing or revising a launch draft for TikTok, Instagram, or marketplace from the plan's allowed facts and structure. It reads agents/.wb/jawaban-plan.json plus reviewer notes on iteration 2 and later, writes a plain-text draft, submits it through the workbuddy bridge (which runs the deterministic review), and hands off to ayunika-reviewer.
 agent_created: true
 ---
 
-# Lolos Writer
+# Ayunika Writer
 
-Agent kedua dari tiga. Menerima kerangka dari `lolos-planner`, menulis draf, lalu
-menyerahkannya ke `lolos-reviewer`. Bila ditolak, ia kembali dengan catatan spesifik.
+Agent kedua dari tiga. Menerima kerangka dari `ayunika-planner`, menulis draf, lalu
+menyerahkannya ke `ayunika-reviewer`. Bila ditolak, ia kembali dengan catatan spesifik.
 
 ```
-lolos-planner ──▶ lolos-writer ──▶ lolos-reviewer
+ayunika-planner ──▶ ayunika-writer ──▶ ayunika-reviewer
                       ▲                  │
                       └───── TOLAK ──────┘   (maks 3 iterasi, lalu eskalasi)
 ```
@@ -35,12 +35,12 @@ lolos-planner ──▶ lolos-writer ──▶ lolos-reviewer
    python -m agents.workbuddy status
    ```
 
-   Bila belum ada rencana, berhenti dan minta pengguna menjalankan skill `lolos-planner`.
+   Bila belum ada rencana, berhenti dan minta pengguna menjalankan skill `ayunika-planner`.
 
 2. Lihat fakta yang boleh dan batas platform:
 
    ```bash
-   python .workbuddy-ai/skills/lolos-writer/scripts/check_plan.py agents/.wb/jawaban-plan.json
+   python .workbuddy-ai/skills/ayunika-writer/scripts/check_plan.py agents/.wb/jawaban-plan.json
    ```
 
 3. Ambil prompt Writer — pada iterasi 2 dan seterusnya ini sudah memuat catatan Reviewer:
@@ -59,7 +59,7 @@ lolos-planner ──▶ lolos-writer ──▶ lolos-reviewer
    python -m agents.workbuddy save draft agents/.wb/draf-agensi-2.md
    ```
 
-7. Serahkan ke skill **`lolos-reviewer`**, apa pun hasil lapis-1.
+7. Serahkan ke skill **`ayunika-reviewer`**, apa pun hasil lapis-1.
 
 ## Aturan menulis
 
@@ -76,5 +76,5 @@ lolos-planner ──▶ lolos-writer ──▶ lolos-reviewer
 ## Selesai bila
 
 `save draft` mencetak verdict lapis-1 beserta temuannya. Jangan memutuskan sendiri bahwa
-draf sudah layak — keputusan akhir ada di `lolos-reviewer`. Setelah itu panggil skill
-**`lolos-reviewer`**.
+draf sudah layak — keputusan akhir ada di `ayunika-reviewer`. Setelah itu panggil skill
+**`ayunika-reviewer`**.
