@@ -23,6 +23,7 @@ research/src/
 # Demo mp4 + pembangunnya (capture/build/transcript) tidak ikut repo; storyboard
 # di submission_templates/ mendokumentasikan prosesnya.
 video/
+my-video/
 
 # ---- dataset panitia (bukan milik kami untuk dipublikasikan) ----
 dataset/
@@ -33,6 +34,7 @@ trash/
 # ---- sisa build ----
 __pycache__/
 *.pyc
+node_modules/
 submission_templates/shots/_html/
 *.log
 

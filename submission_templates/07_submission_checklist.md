@@ -26,18 +26,18 @@
 | 4 | Accountability sheet | ✅ 5 aturan + mekanisme + keterbatasan | WAJIB | `01_accountability_sheet.md` |
 | 5 | Test results + screenshot (incl. FAIL) | ✅ 22 PASS/26, 3 kegagalan tercatat, 27 gambar | WAJIB | `02_test_results.md` + `shots/` |
 | 6 | Architecture diagram | ✅ PNG 2960×2600 + SVG + Mermaid — **diregenerasi 31 Okt** agar mencerminkan Reviewer dua lapis + kuota | WAJIB | `diagram/architecture_challenge_c.png` |
-| 7 | Demo video 5–8 menit | ✅ **7:02** — 30 scene dari keluaran nyata, caption terbakar. **Tanpa narasi suara**; bisa ditambahi voice-over | WAJIB | `video/Lolos_Demo.mp4` |
+| 7 | Demo video 5–8 menit | ✅ **5:07** (`LolosDemo_v2.mp4`, Remotion, 12 scene, 1080p30, caption Indonesia terbakar, tanpa narasi suara) — cadangan **7:02** (`video/Lolos_Demo.mp4`, 30 scene) | WAJIB | `my-video/out/`, `video/Lolos_Demo.mp4` |
 | 8 | Product sharing (WorkBuddy) | ✅ | WAJIB | `06_product_sharing.md` |
 | 9 | Source code / export + bukti | ✅ **Repo publik:** `github.com/agoong404/Ayunika-Cosmetic-Product-Launch` (11 commit, working tree bersih). `.gitignore` memblokir NIK, state runtime, dan materi panitia | WAJIB | `README.md` |
 | 10 | Cover image 16:9 (380×216) | ✅ **cover.png 1520×864 @2x** (rasio sama), dibuat dari `diagram/build_cover.py` | OPSIONAL | `submission_templates/cover.png` |
-| 11 | Project link (demo live) | ✅ MCP service live: `mcp-service-ayunika-production.up.railway.app/health` → `{"status":"ok","service":"lolos-mcp"}`; `/mcp` tanpa token ditolak (fail-closed). **Situs web `web/` belum dideploy** — baru diverifikasi lokal | BONUS | `deploy/RAILWAY.md`, `web/README.md` |
+| 11 | Project link (demo live) | ✅ **Situs live:** https://ayunika-care.web.id (hero, konsol agent, gerbang review, kartu tim, log audit — 11 state ditangkap untuk video). MCP service: `mcp-service-ayunika-production.up.railway.app/health` → `{"status":"ok","service":"lolos-mcp"}`; `/mcp` tanpa token ditolak (fail-closed) | BONUS | `deploy/RAILWAY.md`, `web/README.md` |
 
 ## Yang Tersisa Sebelum Submit
 
 1. **Submit 7 Nov pagi**, simpan tangkapan konfirmasi form.
-2. Opsional: rekam voice-over di atas `video/Lolos_Demo.mp4` (7:02, 30 scene).
-   Timecode aktual ada di `video/build.py` — **bukan** tabel 6:30 di storyboard.
-3. Opsional: deploy `web/` ke Railway. `web/.env.example` sudah menunjuk domain MCP
+2. Opsional: rekam voice-over di atas `LolosDemo_v2.mp4` (5:18) — subtitle Indonesia
+   sudah tersedia di `my-video/out/LolosDemo_id.srt` (56 entri) sebagai basis narasi.
+3. Opsional: deploy ulang `web/` bila ada perubahan. `web/.env.example` menunjuk domain MCP
    yang aktif; `MCP_TOKEN` tetap harus diset sebagai Variable, jangan di-commit.
 
 **Sudah selesai** (dibiarkan tercatat, bukan dihapus): video, cover, repo publik,
@@ -55,9 +55,9 @@ dan `dataset/shared/contacts.csv` (**NIK + nomor telepon**, mock tapi format nya
 | AI Interaction | ✅ | 3 agent + loop + eskalasi; bukan satu prompt |
 | Technical Execution | ✅ | 1100 eksekusi, hasil jujur termasuk 3 kegagalan |
 | Feasibility | ✅ | MCP server live (19 tool, 88/88 uji) + situs publik nol-LLM; **yang belum diuji tetap** lapis model dengan provider sungguhan |
-| Demo & Storytelling | ✅ | Video 7:02, 30 scene, ada adegan tolak & approval; tanpa narasi suara |
+| Demo & Storytelling | ✅ | Video 5:07 (v2, Remotion) — 12 scene, ada adegan klarifikasi, tolak, dan approval; tanpa narasi suara |
 | Innovation | ✅ | Reviewer dua lapis + penjaga kutipan + kuota vs registri |
-| UX & Accessibility | ⚠️ | Situs web `web/` ada, tapi belum dideploy; alur utama masih CLI |
+| UX & Accessibility | ✅ | Situs live di https://ayunika-care.web.id; alur utama juga bisa lewat CLI/MCP |
 | Responsible AI & Ethics | ✅ | 5 aturan terbukti; gerbang approval di kode; keterbatasan terbuka |
 | Overall | ✅ | 9 item WAJIB lengkap; 1 item BONUS sebagian |
 

@@ -1,0 +1,20 @@
+Tambahkan ke web/package.json (satu-satunya dependency baru; BFF sebelumnya nol dependensi):
+
+  "dependencies": {
+    "pdf-parse": "^2.4.5"
+  }
+
+PENTING — perbedaan versi:
+  pdf-parse v1.x: API fungsi lama `const data = await pdfParse(buffer); data.text`
+  pdf-parse v2.x: API class baru:
+    const parser = new PDFParse({ data: buffer });
+    const { text } = await parser.getText();
+    await parser.destroy();
+
+Kode di upload-produk.route.js SUDAH memakai API v2 (class-based) dan SUDAH diuji nyata
+terhadap 4 PDF di dataset_c/product_profile_pdf/ — jangan diubah ke gaya v1 tanpa menguji ulang
+(lihat backend-patch/test-pdf-extract.mjs).
+
+Jalankan:
+  cd web
+  npm install pdf-parse

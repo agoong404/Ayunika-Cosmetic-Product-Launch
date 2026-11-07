@@ -1,14 +1,14 @@
 # Dockerfile untuk layanan web (BFF + frontend). Konteks build = folder web/.
 #
-# Sengaja tanpa `npm install`: package.json tidak punya dependensi. Kalau nanti
-# ditambah, buka dua baris di bawah.
+# pdf-parse dipakai untuk fitur unggah Lembar Produk (PDF → SKU).
+# Diimpor dinamis di server — kalau npm install gagal, rute upload
+# mengembalikan 501, bukan menjebol server.
 FROM node:22-alpine
 
 WORKDIR /app
 
-COPY package.json ./
-# COPY package-lock.json ./
-# RUN npm install --omit=dev
+COPY package.json package-lock.json ./
+RUN npm install --omit=dev
 
 COPY server/ ./server/
 COPY public/ ./public/

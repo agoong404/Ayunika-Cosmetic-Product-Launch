@@ -4,131 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lolos — periksa konten peluncuran sebelum terbit</title>
-<link rel="stylesheet" href="/styles.css">
+<meta name="description" content="Tim empat agent yang memeriksa konten peluncuran kosmetik terhadap aturan BPOM & halal: tolak, perbaiki, setujui.">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
 <header class="topbar">
-  <div class="wrap">
-    <span class="brand">Lolos</span>
-    <span class="tag">reviewer konten peluncuran kosmetik</span>
+  <div class="wrap bar">
+    <a class="brand" href="#/">
+      <span class="brand-dot" aria-hidden="true"></span>
+      Lolos
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#/" data-route="/">Beranda</a>
+      <a href="#/agents" data-route="/agents">Tim Agent</a>
+      <a href="#/console" data-route="/console">Coba Review</a>
+      <a href="#/cek" data-route="/cek">Cek Draf</a>
+      <a href="#/audit" data-route="/audit">Audit</a>
+    </nav>
   </div>
 </header>
 
-<main class="wrap">
-
-  <section class="hero">
-    <h1>Periksa konten peluncuran sebelum terbit.</h1>
-    <p class="lead">
-      Setiap draf dinilai terhadap aturan klaim kosmetik BPOM dan jaminan halal.
-      Yang melanggar ditolak dengan nomor aturan, kutipan persis dari draf, dan
-      perbaikan yang konkret — bukan sekadar "kurang sesuai".
-    </p>
-    <div class="verdicts">
-      <span class="chip ok">LOLOS</span>
-      <span class="chip no">TOLAK</span>
-      <span class="chip wait">PERLU_DATA</span>
-    </div>
-    <p class="note">
-      Setiap temuan menyertakan teks aturan aslinya dari rulebook, kutipan persis
-      dari draf, dan perbaikan yang diminta. Tanpa model: semua kalimat di sini
-      bisa dilacak ke aturan tertulis.
-    </p>
-    <p class="note">
-      15 dari 21 aturan diperiksa deterministik di server ini. Enam aturan yang
-      butuh penilaian bahasa — nada, klaim tak terverifikasi, testimoni,
-      before-after, penyebutan kompetitor — dijalankan di alur WorkBuddy.
-    </p>
-  </section>
-
-  <section class="panel">
-    <h2>Console review</h2>
-
-    <div class="controls">
-      <label>SKU
-        <select id="sku"></select>
-      </label>
-      <label>Platform
-        <select id="platform">
-          <option value="tiktok">tiktok</option>
-          <option value="instagram">instagram</option>
-          <option value="marketplace">marketplace</option>
-        </select>
-      </label>
-    </div>
-
-    <div class="chat">
-      <div class="chat-log" id="chat-log">
-        <div class="msg bot">Mau fokus ke mana? Pilih salah satu — hanya empat ini yang bisa dipakai.</div>
-      </div>
-      <div class="saran" id="saran"></div>
-      <form id="form-chat" class="chat-input">
-        <input id="chat-input" type="text" maxlength="200"
-               placeholder="atau tulis sendiri — akan ditolak bila bukan pilihan">
-        <button type="submit" class="ghost" id="tombol-kirim">Kirim</button>
-      </form>
-    </div>
-
-    <p id="pesan" class="pesan" role="status"></p>
-    <div id="hasil"></div>
-  </section>
-
-  <section class="panel">
-    <h2>Bukti penolakan — gerbang sebelum terbit</h2>
-    <p class="lead">
-      Inilah intinya: <strong>setiap draf ditolak dulu kalau melanggar aturan,
-      sebelum sempat jadi kasus yang disetujui</strong>. Tempel draf Anda — atau
-      pakai contoh pelanggaran di bawah — lalu lihat aturan mana yang menyebabkan
-      penolakan, lengkap dengan kutipan persis dan perbaikannya.
-    </p>
-    <div class="controls">
-      <label>SKU
-        <select id="sku-review"></select>
-      </label>
-      <label>Platform
-        <select id="platform-review">
-          <option value="tiktok">tiktok</option>
-          <option value="instagram">instagram</option>
-          <option value="marketplace">marketplace</option>
-        </select>
-      </label>
-    </div>
-    <textarea id="review-input" rows="4" maxlength="5000"
-      placeholder="Tempel draf di sini…"></textarea>
-    <div class="baris" style="margin-top:12px">
-      <button id="tombol-review" type="button">Periksa draf</button>
-      <button id="tombol-contoh" type="button" class="ghost">Muat contoh pelanggaran</button>
-    </div>
-    <p id="pesan-review" class="pesan" role="status"></p>
-    <div id="hasil-review"></div>
-  </section>
-
-  <section class="panel">
-    <h2 id="tim-ahli-head">Tim Ahli — empat agen</h2>
-    <p class="lead" id="tim-ahli-ringkas"></p>
-    <div class="kartu-grid" id="kartu-tim"></div>
-  </section>
-
-  <section class="panel muted-panel">
-    <h2>Kenapa ada gerbang approval</h2>
-    <p>
-      Sistem ini tidak pernah menerbitkan apa pun. Setelah sebuah draf lolos, ia
-      hanya bisa diajukan — dan persetujuan dilakukan manusia dengan kunci
-      approver di luar situs ini. Situs ini tidak memegang kunci tersebut, jadi
-      tidak ada tombol di sini yang bisa menyetujui konten.
-    </p>
-    <p class="note">
-      Setiap penolakan dan persetujuan tercatat di rantai hash yang tidak bisa
-      diubah diam-diam.
-    </p>
-  </section>
-
-</main>
+<main id="app" class="wrap"><!-- view dirender di sini --></main>
 
 <footer class="wrap">
-  <span>Lolos · Challenge C · Tencent Cloud Hackathon Indonesia 2026</span>
+  <span>Lolos · Challenge C — The Creator Agent · Tencent Cloud Hackathon Indonesia 2026</span>
 </footer>
 
-<script src="/app.js" type="module"></script>
+<script src="app.js" type="module"></script>
 </body>
 </html>

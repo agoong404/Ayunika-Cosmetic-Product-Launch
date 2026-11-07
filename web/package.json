@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Situs publik Lolos: console review + usul approval. Tanpa dependensi.",
+  "description": "Situs publik Lolos: console review + usul approval + cek draf.",
   "scripts": {
-    "start": "node server/index.js",
-    "build:team": "node scripts/build-team.js"
+    "start": "node server/index.js"
+  },
+  "dependencies": {
+    "pdf-parse": "^2.4.5"
   },
   "engines": {
     "node": ">=20"
