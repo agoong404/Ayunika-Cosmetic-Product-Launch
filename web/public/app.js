@@ -773,8 +773,8 @@ function viewVideo() {
           </video>
         </div>
         <p class="muted" style="font-size:13px;margin:12px 0 0">
-          Video demo disimpan di lokal (folder <code>video/</code>, sudah di-gitignore) dan dilayani oleh BFF
-          lewat rute <code>/video/*</code>.</p>
+          Video demo diikutsertakan di <code>web/public/media/</code> dan dilayani oleh BFF lewat rute
+          <code>/video/*</code> (mendukung seeking lewat HTTP Range).</p>
       </div>
     </section>`;
 }

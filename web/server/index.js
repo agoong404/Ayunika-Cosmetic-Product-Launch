@@ -423,11 +423,11 @@ async function tanganiApi(req, res, url) {
   return kirim(res, 404, { error: "tidak ada" });
 }
 
-// Video demo dilayani dari folder `video/` di AKAR repo (di luar web/public),
-// supaya file besar tidak ikut ke git. Folder ini sudah masuk .gitignore.
-// Di Railway (produksi) berkas ini TIDAK ikut repo → rute akan 404 kecuali
-// video di-mount dari volume/CND terpisah.
-const VIDEO_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..", "video");
+// Video demo dilayani dari `web/public/media/` (di dalam root statis) supaya
+// ikut ke repo dan otomatis live di Railway. Berkas 65 MB sengaja di-commit
+// agar rute /video/* langsung jalan tanpa CDN/volume eksternal. (Folder
+// `video/` di AKAR repo tetap di-gitignore sebagai arsip lokal sumber.)
+const VIDEO_DIR = resolve(PUBLIK, "media");
 
 async function layaniVideo(req, res, pathname) {
   const nama = decodeURIComponent(pathname.replace(/^\/video\//, ""));
