@@ -5,9 +5,11 @@ agents/.wb/
 agents/.env
 .env
 
-# ---- catatan internal, bukan bagian submission ----
-# skill di .workbuddy-ai/skills/ TETAP ikut (itu bagian dari proyek)
-.workbuddy-ai/memory/
+# ---- data lokal WorkBuddy: jangan ikut repo ----
+# Seluruh .workbuddy-ai bersifat lokal (memory + hasil sync skill).
+# Sumber skill ada di skills/ (top-level); skills/sync.py menyalin ke sini,
+# jadi mengabaikan folder ini tidak memutus alur sync.
+.workbuddy-ai/
 
 # ---- data yang memuat data pribadi (NIK + nomor telepon) ----
 # mock, tapi formatnya nyata. Jangan pernah masuk repo publik.
@@ -48,3 +50,16 @@ submission_templates/shots/_html/
 # rahasia sebesar kunci aslinya, tetap tidak masuk repo: isinya berubah tiap
 # rotasi dan bukan bagian submission.
 .approver_keys
+
+# ---- folder & file submission/docs/media: tidak diikutkan ke repo ----
+diagram/
+docs/
+research/
+submission_templates/
+
+# file dokumentasi spesifik (sisa folder tetap ikut)
+deploy/README.md
+deploy/RAILWAY.md
+web/README.md
+ayunika-ui/NOTES.md
+ayunika-ui/PANDUAN_UPDATE_UI.md
