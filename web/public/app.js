@@ -46,6 +46,7 @@ function router() {
     case "/console": return viewConsole();
     case "/cek": return viewCek();
     case "/audit": return viewAudit();
+    case "/video": return viewVideo();
     case "/":
     default: return viewBeranda();
   }
@@ -123,22 +124,6 @@ function viewBeranda() {
         Situs ini tidak memegang kunci itu, jadi tidak ada tombol di sini yang bisa menyetujui konten.
         Setiap penolakan dan persetujuan tercatat di rantai hash yang tidak bisa diubah diam-diam.</p>
         <div class="btn-row"><a class="btn ghost" href="#/audit">Lihat jejak audit</a></div>
-      </div>
-
-      <div class="section panel" id="ruang-video">
-        <div class="panel-head"><span class="pill-line"><span class="brand-dot"></span> Segera hadir</span></div>
-        <h2>Ruang video peluncuran</h2>
-        <p class="muted" style="max-width:68ch">Tim akan mengunggah video demo peluncuran produk di sini. Tombol di bawah
-          adalah kerangka (placeholder) — belum aktif sampai fitur unggah video selesai dibuat.</p>
-        <div class="video-frame">
-          <div class="video-placeholder">
-            <div class="video-icon">▶</div>
-            <p class="video-cap">Pratinjau video akan muncul di sini</p>
-          </div>
-        </div>
-        <div class="btn-row">
-          <button class="btn ghost" type="button" disabled>Pilih video…</button>
-        </div>
       </div>
     </section>`;
 }
@@ -765,6 +750,33 @@ async function viewAudit() {
   const load = () => loadAudit();
   document.getElementById("refresh").addEventListener("click", load);
   load();
+}
+
+// =====================================================================
+// VIEW — VIDEO
+// =====================================================================
+function viewVideo() {
+  app.innerHTML = h`
+    <section class="view">
+      <div class="hero" style="padding-bottom:0">
+        <span class="pill-line"><span class="brand-dot"></span> Demo peluncuran</span>
+        <h1>Lihat Ayunika Care beraksi.</h1>
+        <p class="lead">Tonton bagaimana siklus review berjalan end-to-end — dari draf masuk, melewati
+          gerbang approval, hingga tercatat di jejak audit.</p>
+      </div>
+      <div class="panel" id="ruang-video">
+        <h3>Video demo Ayunika Care</h3>
+        <div class="video-frame">
+          <video controls preload="metadata" src="/video/AyunikaCareDemo_Final.mp4"
+            style="display:block;width:100%;height:auto;border:0">
+            Browser Anda tidak mendukung pemutar video.
+          </video>
+        </div>
+        <p class="muted" style="font-size:13px;margin:12px 0 0">
+          Video demo disimpan di lokal (folder <code>video/</code>, sudah di-gitignore) dan dilayani oleh BFF
+          lewat rute <code>/video/*</code>.</p>
+      </div>
+    </section>`;
 }
 
 async function loadAudit() {

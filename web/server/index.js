@@ -11,7 +11,8 @@
 //     diekspos: menunjukkan penolakan sebelum draf jadi kasus yang disetujui.
 //  3. Batas per IP di memori. Cukup untuk satu proses demo; hilang saat restart.
 import http from "node:http";
-import { readFile } from "node:fs/promises";
+import { createReadStream } from "node:fs";
+import { readFile, stat as statFile } from "node:fs/promises";
 import { dirname, extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -37,6 +38,8 @@ const MIME = {
   ".svg": "image/svg+xml",
   ".png": "image/png",
   ".ico": "image/x-icon",
+  ".mp4": "video/mp4",
+  ".webm": "video/webm",
 };
 
 const BATAS = {
@@ -420,6 +423,63 @@ async function tanganiApi(req, res, url) {
   return kirim(res, 404, { error: "tidak ada" });
 }
 
+// Video demo dilayani dari folder `video/` di AKAR repo (di luar web/public),
+// supaya file besar tidak ikut ke git. Folder ini sudah masuk .gitignore.
+// Di Railway (produksi) berkas ini TIDAK ikut repo → rute akan 404 kecuali
+// video di-mount dari volume/CND terpisah.
+const VIDEO_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..", "video");
+
+async function layaniVideo(req, res, pathname) {
+  const nama = decodeURIComponent(pathname.replace(/^\/video\//, ""));
+  if (!nama || nama.includes("..") || nama.startsWith("/") || nama.includes("\\")) {
+    res.writeHead(400, { "content-type": "text/plain; charset=utf-8" });
+    return res.end("permintaan tidak valid");
+  }
+  const penuh = resolve(VIDEO_DIR, nama);
+  if (penuh !== VIDEO_DIR && !penuh.startsWith(VIDEO_DIR + sep)) {
+    res.writeHead(403, { "content-type": "text/plain; charset=utf-8" });
+    return res.end("terlarang");
+  }
+  let info;
+  try {
+    info = await statFile(penuh);
+  } catch {
+    res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
+    return res.end("video tidak ditemukan");
+  }
+  const total = info.size;
+  const tipe = MIME[extname(penuh)] || "application/octet-stream";
+  const rentang = req.headers.range;
+  if (rentang) {
+    const m = /bytes=(\d*)-(\d*)/.exec(rentang);
+    if (m) {
+      let [_, awal, akhir] = m;
+      awal = awal ? parseInt(awal, 10) : 0;
+      akhir = akhir ? parseInt(akhir, 10) : total - 1;
+      if (Number.isNaN(awal) || Number.isNaN(akhir) || awal > akhir || akhir >= total) {
+        res.writeHead(416, { "content-range": `bytes */${total}` });
+        return res.end();
+      }
+      const panjang = akhir - awal + 1;
+      res.writeHead(206, {
+        "content-type": tipe,
+        "content-length": panjang,
+        "content-range": `bytes ${awal}-${akhir}/${total}`,
+        "accept-ranges": "bytes",
+        "cache-control": "no-cache",
+      });
+      return createReadStream(penuh, { start: awal, end: akhir }).pipe(res);
+    }
+  }
+  res.writeHead(200, {
+    "content-type": tipe,
+    "content-length": total,
+    "accept-ranges": "bytes",
+    "cache-control": "no-cache",
+  });
+  return createReadStream(penuh).pipe(res);
+}
+
 async function layaniStatis(res, pathname) {
   const rel = pathname === "/" ? "index.html" : pathname;
   const penuh = resolve(PUBLIK, rel.startsWith("/") ? "." + rel : rel);
@@ -453,6 +513,9 @@ const server = http.createServer(async (req, res) => {
     if (req.method !== "GET" && req.method !== "HEAD") {
       res.writeHead(405, { allow: "GET, HEAD" });
       return res.end();
+    }
+    if (url.pathname.startsWith("/video/")) {
+      return await layaniVideo(req, res, url.pathname);
     }
     return await layaniStatis(res, url.pathname);
   } catch (e) {
