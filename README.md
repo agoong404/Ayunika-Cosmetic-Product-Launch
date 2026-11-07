@@ -78,7 +78,7 @@ persetujuan tetap memakai kunci yang hanya dipegang manusia.
   `/mcp` menolak permintaan tanpa token (fail-closed). Konfigurasi klien: `mcp_server/mcp.example.json`.
 - **Belum diuji:** lapis model dengan provider sungguhan — yang terbukti baru *jalurnya*
   (12 asersi dengan klien palsu + siklus jembatan), bukan kualitas keluaran model nyata.
-- **Belum dideploy:** situs `web/` baru diverifikasi lokal terhadap MCP live.
+- **Sudah dideploy:** kode rebrand (commit `3e89e56`) sudah di-push ke `main`; situs `web/` jalan di demo `:8080` dan otomatis ter-deploy ulang dari repo bila Railway terhubung. Engine MCP tetap live dengan namespace `lolos` (tidak berubah).
 - **Cakupan: prototipe untuk dataset Challenge C, bukan produksi.** Mesin membaca
   `dataset_c/` (kontrak data: `products.csv`, `certificates.csv`, `rulebook_claims.md`,
   lembar produk). Nomor sertifikat Ayunika **MOCK**; penomoran R-xx adalah nomor
